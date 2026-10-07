@@ -99,7 +99,83 @@ button:hover{
   gap:12px;
   margin-top:15px;
 }
+<!-- =========================================
+     COMPETITIVE EXAMS
+========================================= -->
 
+<div class="box">
+
+  <div class="title">
+    🎯 Competitive Exams
+  </div>
+
+  <label>
+    Select Competitive Exam
+  </label>
+
+  <select id="competitiveExam"
+          onchange="competitiveExamChanged()">
+
+    <option value="">
+      Select Exam
+    </option>
+
+    <option value="army">
+      🪖 Army
+    </option>
+
+    <option value="forest">
+      🌲 Forest
+    </option>
+
+    <option value="railway">
+      🚆 Railway
+    </option>
+
+    <option value="police">
+      👮 Police
+    </option>
+
+    <option value="ssc">
+      🏛️ SSC / Government
+    </option>
+
+    <option value="iti">
+      🔧 ITI
+    </option>
+
+    <option value="banking">
+      🏦 Banking
+    </option>
+
+  </select>
+
+
+  <div id="competitiveLevelBox"
+       class="hidden">
+
+    <label>
+      Select Exam / Recruitment
+    </label>
+
+    <select id="competitiveLevel"
+            onchange="competitiveLevelChanged()">
+
+      <option value="">
+        Select Exam / Recruitment
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <div id="competitiveInfo"
+       class="selected-info hidden">
+
+  </div>
+
+</div>
 .subject{
   background:#173566;
   border:1px solid #315c9a;
