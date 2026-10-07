@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQ MASTER - Login</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #071e17, #07111f);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .box {
+      width: 100%;
+      max-width: 430px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 24px;
+      padding: 28px 22px;
+      backdrop-filter: blur(12px);
+    }
+
+    .logo {
+      text-align: center;
+      font-size: 42px;
+      margin-bottom: 5px;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 5px 0;
+      font-size: 30px;
+    }
+
+    .tagline {
+      text-align: center;
+      color: #aaa;
+      margin-bottom: 28px;
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      margin: 8px 0;
+      border-radius: 12px;
+      border: 1px solid #444;
+      background: #111;
+      color: white;
+      font-size: 16px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 12px;
+      border: 0;
+      border-radius: 12px;
+      background: #00c878;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #263238;
+    }
+
+    .message {
+      text-align: center;
+      margin-top: 18px;
+      min-height: 24px;
+      color: #00e6a0;
+    }
+
+    .error {
+      color: #ff7070;
+    }
+
+    .switch {
+      text-align: center;
+      margin-top: 22px;
+      color: #aaa;
+    }
+
+    .switch span {
+      color: #00e6a0;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #signupBox {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <div class="logo">📚🧠</div>
+  <h1>MCQ MASTER</h1>
+  <div class="tagline">LEARN • PRACTICE • SUCCEED</div>
+
+  <!-- LOGIN -->
+  <div id="loginBox">
+
+    <h2>Student Login</h2>
+
+    <input
+      type="email"
+      id="loginEmail"
+      placeholder="Email"
+      autocomplete="email"
+    >
+
+    <input
+      type="password"
+      id="loginPassword"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
+
+    <button onclick="loginUser()">
+      Login
+    </button>
+
+    <button class="secondary" onclick="forgotPassword()">
+      Forgot Password?
+    </button>
+
+    <div class="switch">
+      New Student?
+      <span onclick="showSignup()">Create Account</span>
+    </div>
+
+  </div>
+
+
+  <!-- SIGNUP -->
+  <div id="signupBox">
+
+    <h2>Create Student Account</h2>
+
+    <input
+      type="text"
+      id="signupName"
+      placeholder="Full Name"
+    >
+
+    <input
+      type="email"
+      id="signupEmail"
+      placeholder="Email"
+      autocomplete="email"
+    >
+
+    <input
+      type="password"
+      id="signupPassword"
+      placeholder="Create Password"
+      autocomplete="new-password"
+    >
+
+    <button onclick="signupUser()">
+      Create Account
+    </button>
+
+    <div class="switch">
+      Already have an account?
+      <span onclick="showLogin()">Login</span>
+    </div>
+
+  </div>
+
+  <div id="message" class="message"></div>
+
+</div>
+
+
+<script>
+
+  // ==============================
+  // SUPABASE CONNECTION
+  // ==============================
+
+  const SUPABASE_URL =
+    "https://sssuikjzkurnwntthflx.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_pmLD97XYDiVBTxu5Ouedtw_r4uL4is9";
+
+
+  const { createClient } =
+    supabase;
+
+  const db =
+    createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+  // ==============================
+  // MESSAGE
+  // ==============================
+
+  function showMessage(text, error = false) {
+
+    const box =
+      document.getElementById("message");
+
+    box.textContent = text;
+
+    box.className =
+      error ? "message error" : "message";
+
+  }
+
+
+  // ==============================
+  // SHOW LOGIN
+  // ==============================
+
+  function showLogin() {
+
+    document.getElementById("loginBox").style.display =
+      "block";
+
+    document.getElementById("signupBox").style.display =
+      "none";
+
+    showMessage("");
+
+  }
+
+
+  // ==============================
+  // SHOW SIGNUP
+  // ==============================
+
+  function showSignup() {
+
+    document.getElementById("loginBox").style.display =
+      "none";
+
+    document.getElementById("signupBox").style.display =
+      "block";
+
+    showMessage("");
+
+  }
+
+
+  // ==============================
+  // SIGN UP
+  // ==============================
+
+  async function signupUser() {
+
+    const name =
+      document.getElementById("signupName").value.trim();
+
+    const email =
+      document.getElementById("signupEmail").value.trim();
+
+    const password =
+      document.getElementById("signupPassword").value;
+
+
+    if (!name || !email || !password) {
+
+      showMessage(
+        "Please fill all details.",
+        true
+      );
+
+      return;
+    }
+
+
+    if (password.length < 6) {
+
+      showMessage(
+        "Password must be at least 6 characters.",
+        true
+      );
+
+      return;
+    }
+
+
+    showMessage("Creating account...");
+
+
+    const { data, error } =
+      await db.auth.signUp({
+
+        email: email,
+
+        password: password,
+
+        options: {
+
+          data: {
+            full_name: name
+          }
+
+        }
+
+      });
+
+
+    if (error) {
+
+      showMessage(
+        error.message,
+        true
+      );
+
+      return;
+    }
+
+
+    if (data.user) {
+
+      showMessage(
+        "Account created successfully! Check your email for verification."
+      );
+
+    }
+
+  }
+
+
+  // ==============================
+  // LOGIN
+  // ==============================
+
+  async function loginUser() {
+
+    const email =
+      document.getElementById("loginEmail").value.trim();
+
+    const password =
+      document.getElementById("loginPassword").value;
+
+
+    if (!email || !password) {
+
+      showMessage(
+        "Please enter email and password.",
+        true
+      );
+
+      return;
+    }
+
+
+    showMessage("Logging in...");
+
+
+    const { data, error } =
+      await db.auth.signInWithPassword({
+
+        email: email,
+
+        password: password
+
+      });
+
+
+    if (error) {
+
+      showMessage(
+        error.message,
+        true
+      );
+
+      return;
+    }
+
+
+    showMessage("Login successful!");
+
+
+    setTimeout(() => {
+
+      window.location.href =
+        "index.html";
+
+    }, 800);
+
+  }
+
+
+  // ==============================
+  // FORGOT PASSWORD
+  // ==============================
+
+  async function forgotPassword() {
+
+    const email =
+      document.getElementById("loginEmail").value.trim();
+
+
+    if (!email) {
+
+      showMessage(
+        "Enter your email first.",
+        true
+      );
+
+      return;
+    }
+
+
+    const { error } =
+      await db.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo:
+            window.location.origin +
+            window.location.pathname
+        }
+      );
+
+
+    if (error) {
+
+      showMessage(
+        error.message,
+        true
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      "Password reset email sent."
+    );
+
+  }
+
+</script>
+
+</body>
+</html>
