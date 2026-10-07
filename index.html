@@ -541,7 +541,183 @@ lang
 
 }
 
+/* =========================================
+   COMPETITIVE EXAM DATABASE
+========================================= */
 
+const competitiveData = {
+
+  army: {
+    name: "Army",
+    exams: [
+      "Agniveer GD",
+      "Agniveer Technical",
+      "Agniveer Clerk / Store Keeper"
+    ]
+  },
+
+  forest: {
+    name: "Forest",
+    exams: [
+      "Forest Guard",
+      "Vanrakshak",
+      "Forest Officer"
+    ]
+  },
+
+  railway: {
+    name: "Railway",
+    exams: [
+      "RRB Group D",
+      "RRB NTPC",
+      "RRB ALP",
+      "Railway Technician"
+    ]
+  },
+
+  police: {
+    name: "Police",
+    exams: [
+      "Police Constable",
+      "Police SI",
+      "State Police"
+    ]
+  },
+
+  ssc: {
+    name: "SSC / Government",
+    exams: [
+      "SSC GD",
+      "SSC CHSL",
+      "SSC CGL",
+      "SSC MTS"
+    ]
+  },
+
+  iti: {
+    name: "ITI",
+    exams: [
+      "Electrician",
+      "Fitter",
+      "Welder",
+      "COPA",
+      "Mechanic"
+    ]
+  },
+
+  banking: {
+    name: "Banking",
+    exams: [
+      "IBPS",
+      "SBI",
+      "RBI"
+    ]
+  }
+
+};
+
+
+/* =========================================
+   COMPETITIVE EXAM CHANGE
+========================================= */
+
+function competitiveExamChanged(){
+
+  const exam =
+    document.getElementById("competitiveExam").value;
+
+  const levelBox =
+    document.getElementById("competitiveLevelBox");
+
+  const level =
+    document.getElementById("competitiveLevel");
+
+  const info =
+    document.getElementById("competitiveInfo");
+
+
+  level.innerHTML =
+    '<option value="">Select Exam / Recruitment</option>';
+
+  info.classList.add("hidden");
+
+
+  if(!exam){
+
+    levelBox.classList.add("hidden");
+
+    return;
+  }
+
+
+  competitiveData[exam].exams.forEach(function(item){
+
+    const option =
+      document.createElement("option");
+
+    option.value = item;
+    option.textContent = item;
+
+    level.appendChild(option);
+
+  });
+
+
+  levelBox.classList.remove("hidden");
+
+}
+
+
+/* =========================================
+   COMPETITIVE LEVEL CHANGE
+========================================= */
+
+function competitiveLevelChanged(){
+
+  const exam =
+    document.getElementById("competitiveExam").value;
+
+  const level =
+    document.getElementById("competitiveLevel").value;
+
+  const info =
+    document.getElementById("competitiveInfo");
+
+
+  if(!level){
+
+    info.classList.add("hidden");
+
+    return;
+  }
+
+
+  info.innerHTML =
+
+    "<b>Selected:</b><br>" +
+
+    "🎯 Exam: " +
+    competitiveData[exam].name +
+
+    "<br>📋 Recruitment: " +
+    level +
+
+    "<br><br>📚 Next: Subject → Topic → MCQ";
+
+
+  info.classList.remove("hidden");
+
+  localStorage.setItem(
+    "competitiveExam",
+    exam
+  );
+
+  localStorage.setItem(
+    "competitiveLevel",
+    level
+  );
+
+}
 /* =========================================
    EDUCATION DATABASE
 ========================================= */
