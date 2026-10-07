@@ -7,42 +7,75 @@
 
 <style>
 *{box-sizing:border-box}
+
 body{
   margin:0;
   font-family:Arial,sans-serif;
   background:#07152f;
   color:white;
 }
+
 .header{
   padding:25px 18px;
   text-align:center;
   background:linear-gradient(135deg,#063b91,#07152f);
 }
+
 .logo{
   font-size:42px;
 }
+
 h1{
   margin:5px 0;
   font-size:30px;
 }
+
 .tagline{
   color:#ffd21c;
   font-size:14px;
 }
+
 .container{
   padding:18px;
   max-width:700px;
   margin:auto;
 }
+
 .section-title{
   font-size:22px;
   margin:20px 0 12px;
 }
+
+.language-box{
+  background:#102750;
+  border:1px solid #244b85;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.language-title{
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+select{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  border:1px solid #416aa5;
+  background:#07152f;
+  color:white;
+  font-size:16px;
+}
+
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
 }
+
 .card{
   background:#102750;
   border:1px solid #244b85;
@@ -52,14 +85,17 @@ h1{
   font-size:17px;
   cursor:pointer;
 }
+
 .card:hover{
   background:#174487;
 }
+
 .icon{
   font-size:32px;
   display:block;
   margin-bottom:8px;
 }
+
 button{
   width:100%;
   padding:15px;
@@ -71,6 +107,7 @@ button{
   font-weight:bold;
   margin-top:15px;
 }
+
 .footer{
   text-align:center;
   padding:25px;
@@ -85,12 +122,70 @@ button{
 <div class="header">
   <div class="logo">📚🧠</div>
   <h1>MCQ MASTER</h1>
-  <div class="tagline">LEARN • PRACTICE • SUCCEED</div>
+  <div class="tagline" id="tagline">
+    LEARN • PRACTICE • SUCCEED
+  </div>
 </div>
 
 <div class="container">
 
-  <div class="section-title">🎓 Education & Exams</div>
+  <!-- APP LANGUAGE -->
+
+  <div class="language-box">
+
+    <div class="language-title" id="appLanguageTitle">
+      🌐 App Language
+    </div>
+
+    <select id="appLanguage" onchange="changeAppLanguage()">
+
+      <option value="hi">हिंदी</option>
+      <option value="en">English</option>
+      <option value="mr">मराठी</option>
+      <option value="gu">ગુજરાતી</option>
+      <option value="bn">বাংলা</option>
+      <option value="ta">தமிழ்</option>
+      <option value="te">తెలుగు</option>
+      <option value="kn">ಕನ್ನಡ</option>
+      <option value="pa">ਪੰਜਾਬੀ</option>
+      <option value="ur">اردو</option>
+
+    </select>
+
+  </div>
+
+
+  <!-- MCQ QUESTION LANGUAGE -->
+
+  <div class="language-box">
+
+    <div class="language-title" id="questionLanguageTitle">
+      📝 MCQ Question Language
+    </div>
+
+    <select id="questionLanguage" onchange="saveQuestionLanguage()">
+
+      <option value="hi">हिंदी</option>
+      <option value="en">English</option>
+      <option value="mr">मराठी</option>
+      <option value="gu">ગુજરાતી</option>
+      <option value="bn">বাংলা</option>
+      <option value="ta">தமிழ்</option>
+      <option value="te">తెలుగు</option>
+      <option value="kn">ಕನ್ನಡ</option>
+      <option value="pa">ਪੰਜਾਬੀ</option>
+      <option value="ur">اردو</option>
+
+    </select>
+
+  </div>
+
+
+  <!-- EDUCATION -->
+
+  <div class="section-title" id="educationTitle">
+    🎓 Education & Exams
+  </div>
 
   <div class="grid">
 
@@ -136,37 +231,286 @@ button{
 
   </div>
 
-  <div class="section-title">📝 Practice</div>
 
-  <button onclick="startTest()">
+  <!-- PRACTICE -->
+
+  <div class="section-title" id="practiceTitle">
+    📝 Practice
+  </div>
+
+  <button onclick="startTest()" id="mockButton">
     ⏱️ 1 Hour Mock Test
   </button>
 
 </div>
+
 
 <div class="footer">
   © 2026 MCQ MASTER<br>
   All-in-One Education & Competitive Exam App
 </div>
 
+
 <script>
 
-function openCategory(category){
-  alert(
-    category +
-    " section जल्द ही उपलब्ध होगा। यहां Subject → Topic → MCQ होंगे।"
-  );
+/* =========================
+   APP LANGUAGE DATA
+========================= */
+
+const translations = {
+
+  hi:{
+    app:"🌐 ऐप भाषा",
+    question:"📝 MCQ प्रश्न भाषा",
+    education:"🎓 शिक्षा और परीक्षाएँ",
+    practice:"📝 अभ्यास",
+    mock:"⏱️ 1 घंटे का मॉक टेस्ट",
+    tagline:"सीखें • अभ्यास करें • सफलता पाएं"
+  },
+
+  en:{
+    app:"🌐 App Language",
+    question:"📝 MCQ Question Language",
+    education:"🎓 Education & Exams",
+    practice:"📝 Practice",
+    mock:"⏱️ 1 Hour Mock Test",
+    tagline:"LEARN • PRACTICE • SUCCEED"
+  },
+
+  mr:{
+    app:"🌐 अ‍ॅप भाषा",
+    question:"📝 MCQ प्रश्न भाषा",
+    education:"🎓 शिक्षण आणि परीक्षा",
+    practice:"📝 सराव",
+    mock:"⏱️ 1 तासाची मॉक टेस्ट",
+    tagline:"शिका • सराव करा • यश मिळवा"
+  },
+
+  gu:{
+    app:"🌐 એપ ભાષા",
+    question:"📝 MCQ પ્રશ્ન ભાષા",
+    education:"🎓 શિક્ષણ અને પરીક્ષાઓ",
+    practice:"📝 પ્રેક્ટિસ",
+    mock:"⏱️ 1 કલાકની મોક ટેસ્ટ",
+    tagline:"શીખો • પ્રેક્ટિસ કરો • સફળ થાઓ"
+  },
+
+  bn:{
+    app:"🌐 অ্যাপের ভাষা",
+    question:"📝 MCQ প্রশ্নের ভাষা",
+    education:"🎓 শিক্ষা ও পরীক্ষা",
+    practice:"📝 অনুশীলন",
+    mock:"⏱️ ১ ঘণ্টার মক টেস্ট",
+    tagline:"শিখুন • অনুশীলন করুন • সফল হন"
+  },
+
+  ta:{
+    app:"🌐 பயன்பாட்டு மொழி",
+    question:"📝 MCQ கேள்வி மொழி",
+    education:"🎓 கல்வி மற்றும் தேர்வுகள்",
+    practice:"📝 பயிற்சி",
+    mock:"⏱️ 1 மணி நேர Mock Test",
+    tagline:"கற்றுக்கொள் • பயிற்சி செய் • வெற்றி பெறு"
+  },
+
+  te:{
+    app:"🌐 యాప్ భాష",
+    question:"📝 MCQ ప్రశ్నల భాష",
+    education:"🎓 విద్య మరియు పరీక్షలు",
+    practice:"📝 ప్రాక్టీస్",
+    mock:"⏱️ 1 గంట Mock Test",
+    tagline:"నేర్చుకోండి • సాధన చేయండి • విజయం సాధించండి"
+  },
+
+  kn:{
+    app:"🌐 ಅಪ್ಲಿಕೇಶನ್ ಭಾಷೆ",
+    question:"📝 MCQ ಪ್ರಶ್ನೆಗಳ ಭಾಷೆ",
+    education:"🎓 ಶಿಕ್ಷಣ ಮತ್ತು ಪರೀಕ್ಷೆಗಳು",
+    practice:"📝 ಅಭ್ಯಾಸ",
+    mock:"⏱️ 1 ಗಂಟೆಯ Mock Test",
+    tagline:"ಕಲಿಯಿರಿ • ಅಭ್ಯಾಸ ಮಾಡಿ • ಯಶಸ್ವಿಯಾಗಿರಿ"
+  },
+
+  pa:{
+    app:"🌐 ਐਪ ਭਾਸ਼ਾ",
+    question:"📝 MCQ ਸਵਾਲਾਂ ਦੀ ਭਾਸ਼ਾ",
+    education:"🎓 ਸਿੱਖਿਆ ਅਤੇ ਪ੍ਰੀਖਿਆਵਾਂ",
+    practice:"📝 ਅਭਿਆਸ",
+    mock:"⏱️ 1 ਘੰਟੇ ਦਾ Mock Test",
+    tagline:"ਸਿੱਖੋ • ਅਭਿਆਸ ਕਰੋ • ਸਫਲ ਹੋਵੋ"
+  },
+
+  ur:{
+    app:"🌐 ایپ کی زبان",
+    question:"📝 MCQ سوالات کی زبان",
+    education:"🎓 تعلیم اور امتحانات",
+    practice:"📝 مشق",
+    mock:"⏱️ 1 گھنٹے کا Mock Test",
+    tagline:"سیکھیں • مشق کریں • کامیاب ہوں"
+  }
+
+};
+
+
+/* =========================
+   APP LANGUAGE
+========================= */
+
+function changeAppLanguage(){
+
+  const lang =
+    document.getElementById("appLanguage").value;
+
+  localStorage.setItem("appLanguage",lang);
+
+  updateAppLanguage();
+
 }
 
-function startTest(){
-  alert(
-    "1 Hour Mock Test\n\n" +
-    "60 मिनट का Timer\n" +
-    "MCQ Questions\n" +
-    "Correct / Wrong Answer\n" +
-    "Final Score"
-  );
+
+function updateAppLanguage(){
+
+  const lang =
+    localStorage.getItem("appLanguage") || "hi";
+
+  const t = translations[lang];
+
+  document.getElementById("appLanguageTitle").innerText =
+    t.app;
+
+  document.getElementById("questionLanguageTitle").innerText =
+    t.question;
+
+  document.getElementById("educationTitle").innerText =
+    t.education;
+
+  document.getElementById("practiceTitle").innerText =
+    t.practice;
+
+  document.getElementById("mockButton").innerText =
+    t.mock;
+
+  document.getElementById("tagline").innerText =
+    t.tagline;
+
+  document.documentElement.lang = lang;
+
 }
+
+
+/* =========================
+   MCQ QUESTION LANGUAGE
+========================= */
+
+function saveQuestionLanguage(){
+
+  const lang =
+    document.getElementById("questionLanguage").value;
+
+  localStorage.setItem(
+    "questionLanguage",
+    lang
+  );
+
+  alert(
+    "MCQ Question Language saved successfully!"
+  );
+
+}
+
+
+/* =========================
+   LOAD SAVED SETTINGS
+========================= */
+
+function loadLanguages(){
+
+  const appLang =
+    localStorage.getItem("appLanguage") || "hi";
+
+  const questionLang =
+    localStorage.getItem("questionLanguage") || "hi";
+
+  document.getElementById("appLanguage").value =
+    appLang;
+
+  document.getElementById("questionLanguage").value =
+    questionLang;
+
+  updateAppLanguage();
+
+}
+
+
+/* =========================
+   CATEGORY
+========================= */
+
+function openCategory(category){
+
+  const lang =
+    localStorage.getItem("appLanguage") || "hi";
+
+  if(lang === "hi"){
+
+    alert(
+      category +
+      " section जल्द ही उपलब्ध होगा।\n\n" +
+      "यहां Subject → Topic → MCQ होंगे।"
+    );
+
+  }else{
+
+    alert(
+      category +
+      " section will be available soon.\n\n" +
+      "Subject → Topic → MCQ"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   MOCK TEST
+========================= */
+
+function startTest(){
+
+  const lang =
+    localStorage.getItem("appLanguage") || "hi";
+
+  if(lang === "hi"){
+
+    alert(
+      "1 Hour Mock Test\n\n" +
+      "60 मिनट का Timer\n" +
+      "MCQ Questions\n" +
+      "Correct / Wrong Answer\n" +
+      "Final Score"
+    );
+
+  }else{
+
+    alert(
+      "1 Hour Mock Test\n\n" +
+      "60 Minutes Timer\n" +
+      "MCQ Questions\n" +
+      "Correct / Wrong Answer\n" +
+      "Final Score"
+    );
+
+  }
+
+}
+
+
+/* =========================
+   START APP
+========================= */
+
+loadLanguages();
 
 </script>
 
