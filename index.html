@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>MCQ MASTER</title>
 
@@ -86,7 +86,6 @@ button{
   font-size:18px;
   font-weight:bold;
   margin-top:15px;
-  cursor:pointer;
 }
 
 button:hover{
@@ -99,83 +98,7 @@ button:hover{
   gap:12px;
   margin-top:15px;
 }
-<!-- =========================================
-     COMPETITIVE EXAMS
-========================================= -->
 
-<div class="box">
-
-  <div class="title">
-    🎯 Competitive Exams
-  </div>
-
-  <label>
-    Select Competitive Exam
-  </label>
-
-  <select id="competitiveExam"
-          onchange="competitiveExamChanged()">
-
-    <option value="">
-      Select Exam
-    </option>
-
-    <option value="army">
-      🪖 Army
-    </option>
-
-    <option value="forest">
-      🌲 Forest
-    </option>
-
-    <option value="railway">
-      🚆 Railway
-    </option>
-
-    <option value="police">
-      👮 Police
-    </option>
-
-    <option value="ssc">
-      🏛️ SSC / Government
-    </option>
-
-    <option value="iti">
-      🔧 ITI
-    </option>
-
-    <option value="banking">
-      🏦 Banking
-    </option>
-
-  </select>
-
-
-  <div id="competitiveLevelBox"
-       class="hidden">
-
-    <label>
-      Select Exam / Recruitment
-    </label>
-
-    <select id="competitiveLevel"
-            onchange="competitiveLevelChanged()">
-
-      <option value="">
-        Select Exam / Recruitment
-      </option>
-
-    </select>
-
-  </div>
-
-
-  <div id="competitiveInfo"
-       class="selected-info hidden">
-
-  </div>
-
-</div>
 .subject{
   background:#173566;
   border:1px solid #315c9a;
@@ -183,17 +106,16 @@ button:hover{
   padding:18px 8px;
   text-align:center;
   cursor:pointer;
-  font-size:16px;
-}
-
-.subject:hover{
-  background:#20508d;
 }
 
 .subject-icon{
   font-size:30px;
   display:block;
   margin-bottom:7px;
+}
+
+.subject:hover{
+  background:#20508d;
 }
 
 .hidden{
@@ -215,23 +137,24 @@ button:hover{
   font-size:13px;
 }
 
-.back{
-  background:#244b85;
-  color:white;
-}
-
 </style>
 </head>
 
+
 <body>
+
 
 <!-- HEADER -->
 
 <div class="header">
 
-  <div class="logo">📚🧠</div>
+  <div class="logo">
+    📚🧠
+  </div>
 
-  <h1>MCQ MASTER</h1>
+  <h1>
+    MCQ MASTER
+  </h1>
 
   <div class="tagline" id="tagline">
     सीखें • अभ्यास करें • सफलता पाएं
@@ -251,11 +174,14 @@ button:hover{
     🌐 Language Settings
   </div>
 
+
   <label>
     App Language
   </label>
 
-  <select id="appLanguage" onchange="changeAppLanguage()">
+  <select
+    id="appLanguage"
+    onchange="changeAppLanguage()">
 
     <option value="hi">हिंदी</option>
     <option value="en">English</option>
@@ -275,8 +201,9 @@ button:hover{
     MCQ Question Language
   </label>
 
-  <select id="questionLanguage"
-          onchange="saveQuestionLanguage()">
+  <select
+    id="questionLanguage"
+    onchange="saveQuestionLanguage()">
 
     <option value="hi">हिंदी</option>
     <option value="en">English</option>
@@ -294,7 +221,8 @@ button:hover{
 </div>
 
 
-<!-- EDUCATION SELECTION -->
+
+<!-- EDUCATION -->
 
 <div class="box">
 
@@ -303,14 +231,13 @@ button:hover{
   </div>
 
 
-  <!-- STATE -->
-
   <label>
     State
   </label>
 
-  <select id="state"
-          onchange="stateChanged()">
+  <select
+    id="state"
+    onchange="stateChanged()">
 
     <option value="">
       Select State
@@ -371,16 +298,17 @@ button:hover{
   </select>
 
 
-  <!-- BOARD -->
-
-  <div id="boardBox" class="hidden">
+  <div
+    id="boardBox"
+    class="hidden">
 
     <label>
       Board
     </label>
 
-    <select id="board"
-            onchange="boardChanged()">
+    <select
+      id="board"
+      onchange="boardChanged()">
 
       <option value="">
         Select Board
@@ -391,16 +319,17 @@ button:hover{
   </div>
 
 
-  <!-- CLASS -->
-
-  <div id="classBox" class="hidden">
+  <div
+    id="classBox"
+    class="hidden">
 
     <label>
       Class
     </label>
 
-    <select id="class"
-            onchange="classChanged()">
+    <select
+      id="class"
+      onchange="classChanged()">
 
       <option value="">
         Select Class
@@ -413,35 +342,135 @@ button:hover{
 </div>
 
 
+
+<!-- COMPETITIVE EXAMS -->
+
+<div class="box">
+
+  <div class="title">
+    🎯 Competitive Exams
+  </div>
+
+
+  <label>
+    Select Competitive Exam
+  </label>
+
+  <select
+    id="competitiveExam"
+    onchange="competitiveExamChanged()">
+
+    <option value="">
+      Select Exam
+    </option>
+
+    <option value="army">
+      🪖 Army
+    </option>
+
+    <option value="forest">
+      🌲 Forest
+    </option>
+
+    <option value="railway">
+      🚆 Railway
+    </option>
+
+    <option value="police">
+      👮 Police
+    </option>
+
+    <option value="ssc">
+      🏛️ SSC / Government
+    </option>
+
+    <option value="iti">
+      🔧 ITI
+    </option>
+
+    <option value="banking">
+      🏦 Banking
+    </option>
+
+  </select>
+
+
+  <div
+    id="competitiveLevelBox"
+    class="hidden">
+
+    <label>
+      Select Exam / Level
+    </label>
+
+    <select
+      id="competitiveLevel"
+      onchange="competitiveLevelChanged()">
+
+      <option value="">
+        Select Exam / Level
+      </option>
+
+    </select>
+
+  </div>
+
+
+  <div
+    id="competitiveInfo"
+    class="selected-info hidden">
+  </div>
+
+
+  <button
+    id="competitiveButton"
+    class="hidden"
+    onclick="continueCompetitive()">
+
+    Continue → Subject & Topic
+
+  </button>
+
+</div>
+
+
+
 <!-- SUBJECTS -->
 
-<div id="subjectsBox"
-     class="box hidden">
+<div
+  id="subjectsBox"
+  class="box hidden">
 
   <div class="title">
     📚 Subjects
   </div>
 
-  <div id="selectedInfo"
-       class="selected-info">
 
+  <div
+    id="selectedInfo"
+    class="selected-info">
   </div>
 
-  <div id="subjects"
-       class="subject-grid">
 
+  <div
+    id="subjects"
+    class="subject-grid">
   </div>
 
 </div>
 
 
+
 <!-- NEXT -->
 
-<div id="nextBox"
-     class="box hidden">
+<div
+  id="nextBox"
+  class="box hidden">
 
   <button onclick="continueToTopics()">
+
     Continue → Chapter & Topic
+
   </button>
 
 </div>
@@ -450,11 +479,14 @@ button:hover{
 </div>
 
 
+
 <!-- FOOTER -->
 
 <div class="footer">
 
-© 2026 MCQ MASTER<br>
+© 2026 MCQ MASTER
+
+<br>
 
 All-in-One Education & Competitive Exam App
 
@@ -464,11 +496,12 @@ All-in-One Education & Competitive Exam App
 
 <script>
 
-/* =========================================
-   LANGUAGE
-========================================= */
 
-const translations = {
+/* =====================================
+   LANGUAGE
+===================================== */
+
+const translations={
 
 hi:{
 tagline:"सीखें • अभ्यास करें • सफलता पाएं"
@@ -513,9 +546,10 @@ tagline:"سیکھیں • مشق کریں • کامیاب ہوں"
 };
 
 
+
 function changeAppLanguage(){
 
-const lang =
+const lang=
 document.getElementById("appLanguage").value;
 
 localStorage.setItem(
@@ -523,15 +557,16 @@ localStorage.setItem(
 lang
 );
 
-document.getElementById("tagline").innerText =
+document.getElementById("tagline").innerText=
 translations[lang].tagline;
 
 }
 
 
+
 function saveQuestionLanguage(){
 
-const lang =
+const lang=
 document.getElementById("questionLanguage").value;
 
 localStorage.setItem(
@@ -541,188 +576,14 @@ lang
 
 }
 
-/* =========================================
-   COMPETITIVE EXAM DATABASE
-========================================= */
-
-const competitiveData = {
-
-  army: {
-    name: "Army",
-    exams: [
-      "Agniveer GD",
-      "Agniveer Technical",
-      "Agniveer Clerk / Store Keeper"
-    ]
-  },
-
-  forest: {
-    name: "Forest",
-    exams: [
-      "Forest Guard",
-      "Vanrakshak",
-      "Forest Officer"
-    ]
-  },
-
-  railway: {
-    name: "Railway",
-    exams: [
-      "RRB Group D",
-      "RRB NTPC",
-      "RRB ALP",
-      "Railway Technician"
-    ]
-  },
-
-  police: {
-    name: "Police",
-    exams: [
-      "Police Constable",
-      "Police SI",
-      "State Police"
-    ]
-  },
-
-  ssc: {
-    name: "SSC / Government",
-    exams: [
-      "SSC GD",
-      "SSC CHSL",
-      "SSC CGL",
-      "SSC MTS"
-    ]
-  },
-
-  iti: {
-    name: "ITI",
-    exams: [
-      "Electrician",
-      "Fitter",
-      "Welder",
-      "COPA",
-      "Mechanic"
-    ]
-  },
-
-  banking: {
-    name: "Banking",
-    exams: [
-      "IBPS",
-      "SBI",
-      "RBI"
-    ]
-  }
-
-};
 
 
-/* =========================================
-   COMPETITIVE EXAM CHANGE
-========================================= */
-
-function competitiveExamChanged(){
-
-  const exam =
-    document.getElementById("competitiveExam").value;
-
-  const levelBox =
-    document.getElementById("competitiveLevelBox");
-
-  const level =
-    document.getElementById("competitiveLevel");
-
-  const info =
-    document.getElementById("competitiveInfo");
-
-
-  level.innerHTML =
-    '<option value="">Select Exam / Recruitment</option>';
-
-  info.classList.add("hidden");
-
-
-  if(!exam){
-
-    levelBox.classList.add("hidden");
-
-    return;
-  }
-
-
-  competitiveData[exam].exams.forEach(function(item){
-
-    const option =
-      document.createElement("option");
-
-    option.value = item;
-    option.textContent = item;
-
-    level.appendChild(option);
-
-  });
-
-
-  levelBox.classList.remove("hidden");
-
-}
-
-
-/* =========================================
-   COMPETITIVE LEVEL CHANGE
-========================================= */
-
-function competitiveLevelChanged(){
-
-  const exam =
-    document.getElementById("competitiveExam").value;
-
-  const level =
-    document.getElementById("competitiveLevel").value;
-
-  const info =
-    document.getElementById("competitiveInfo");
-
-
-  if(!level){
-
-    info.classList.add("hidden");
-
-    return;
-  }
-
-
-  info.innerHTML =
-
-    "<b>Selected:</b><br>" +
-
-    "🎯 Exam: " +
-    competitiveData[exam].name +
-
-    "<br>📋 Recruitment: " +
-    level +
-
-    "<br><br>📚 Next: Subject → Topic → MCQ";
-
-
-  info.classList.remove("hidden");
-
-  localStorage.setItem(
-    "competitiveExam",
-    exam
-  );
-
-  localStorage.setItem(
-    "competitiveLevel",
-    level
-  );
-
-}
-/* =========================================
+/* =====================================
    EDUCATION DATABASE
-========================================= */
+===================================== */
 
-const educationData = {
+const educationData={
+
 
 maharashtra:{
 
@@ -758,6 +619,7 @@ subjects12:[
 },
 
 
+
 madhya_pradesh:{
 
 boards:[
@@ -787,6 +649,7 @@ subjects12:[
 ]
 
 },
+
 
 
 uttar_pradesh:{
@@ -820,6 +683,7 @@ subjects12:[
 },
 
 
+
 rajasthan:{
 
 boards:[
@@ -849,6 +713,7 @@ subjects12:[
 ]
 
 },
+
 
 
 gujarat:{
@@ -883,6 +748,7 @@ subjects12:[
 },
 
 
+
 bihar:{
 
 boards:[
@@ -912,6 +778,7 @@ subjects12:[
 ]
 
 },
+
 
 
 west_bengal:{
@@ -947,6 +814,7 @@ subjects12:[
 },
 
 
+
 tamil_nadu:{
 
 boards:[
@@ -976,6 +844,7 @@ subjects12:[
 ]
 
 },
+
 
 
 karnataka:{
@@ -1009,6 +878,7 @@ subjects12:[
 },
 
 
+
 telangana:{
 
 boards:[
@@ -1038,6 +908,7 @@ subjects12:[
 ]
 
 },
+
 
 
 andhra_pradesh:{
@@ -1071,6 +942,7 @@ subjects12:[
 },
 
 
+
 punjab:{
 
 boards:[
@@ -1101,6 +973,7 @@ subjects12:[
 ]
 
 },
+
 
 
 delhi:{
@@ -1136,47 +1009,46 @@ subjects12:[
 };
 
 
-/* =========================================
-   STATE CHANGE
-========================================= */
+
+/* =====================================
+   STATE
+===================================== */
 
 function stateChanged(){
 
-const state =
+const state=
 document.getElementById("state").value;
 
-const boardBox =
+const boardBox=
 document.getElementById("boardBox");
 
-const board =
+const board=
 document.getElementById("board");
 
-const classBox =
+const classBox=
 document.getElementById("classBox");
 
-const classSelect =
+const classSelect=
 document.getElementById("class");
 
-const subjectsBox =
-document.getElementById("subjectsBox");
 
-const nextBox =
-document.getElementById("nextBox");
-
-
-board.innerHTML =
+board.innerHTML=
 '<option value="">Select Board</option>';
 
-classSelect.innerHTML =
+classSelect.innerHTML=
 '<option value="">Select Class</option>';
 
-subjectsBox.classList.add("hidden");
-nextBox.classList.add("hidden");
+document.getElementById("subjectsBox")
+.classList.add("hidden");
+
+document.getElementById("nextBox")
+.classList.add("hidden");
 
 
 if(!state){
 
 boardBox.classList.add("hidden");
+
 classBox.classList.add("hidden");
 
 return;
@@ -1184,16 +1056,17 @@ return;
 }
 
 
-const data =
+const data=
 educationData[state];
 
 
 data.boards.forEach(function(item){
 
-const option =
+const option=
 document.createElement("option");
 
 option.value=item;
+
 option.textContent=item;
 
 board.appendChild(option);
@@ -1203,6 +1076,7 @@ board.appendChild(option);
 
 boardBox.classList.remove("hidden");
 
+
 localStorage.setItem(
 "selectedState",
 state
@@ -1211,26 +1085,29 @@ state
 }
 
 
-/* =========================================
-   BOARD CHANGE
-========================================= */
+
+/* =====================================
+   BOARD
+===================================== */
 
 function boardChanged(){
 
-const state =
+const state=
 document.getElementById("state").value;
 
-const board =
+const board=
 document.getElementById("board").value;
 
-const classBox =
+const classBox=
 document.getElementById("classBox");
 
-const classSelect =
+const classSelect=
 document.getElementById("class");
 
-classSelect.innerHTML =
+
+classSelect.innerHTML=
 '<option value="">Select Class</option>';
+
 
 if(!board){
 
@@ -1243,10 +1120,11 @@ return;
 
 educationData[state].classes.forEach(function(item){
 
-const option =
+const option=
 document.createElement("option");
 
 option.value=item;
+
 option.textContent=item;
 
 classSelect.appendChild(option);
@@ -1256,6 +1134,7 @@ classSelect.appendChild(option);
 
 classBox.classList.remove("hidden");
 
+
 localStorage.setItem(
 "selectedBoard",
 board
@@ -1264,31 +1143,32 @@ board
 }
 
 
-/* =========================================
-   CLASS CHANGE
-========================================= */
+
+/* =====================================
+   CLASS
+===================================== */
 
 function classChanged(){
 
-const state =
+const state=
 document.getElementById("state").value;
 
-const board =
+const board=
 document.getElementById("board").value;
 
-const selectedClass =
+const selectedClass=
 document.getElementById("class").value;
 
-const subjectsBox =
+const subjectsBox=
 document.getElementById("subjectsBox");
 
-const subjects =
+const subjects=
 document.getElementById("subjects");
 
-const nextBox =
+const nextBox=
 document.getElementById("nextBox");
 
-const selectedInfo =
+const selectedInfo=
 document.getElementById("selectedInfo");
 
 
@@ -1298,6 +1178,7 @@ subjects.innerHTML="";
 if(!selectedClass){
 
 subjectsBox.classList.add("hidden");
+
 nextBox.classList.add("hidden");
 
 return;
@@ -1310,25 +1191,26 @@ let subjectList=[];
 
 if(selectedClass==="10th"){
 
-subjectList =
+subjectList=
 educationData[state].subjects10;
 
 }
 
 else if(selectedClass==="12th"){
 
-subjectList =
+subjectList=
 educationData[state].subjects12;
 
 }
 
 
-subjectList.forEach(function(subject,index){
+subjectList.forEach(function(subject){
 
-const div =
+const div=
 document.createElement("div");
 
 div.className="subject";
+
 
 div.innerHTML=`
 
@@ -1340,26 +1222,33 @@ ${subject}
 
 `;
 
+
 div.onclick=function(){
 
 selectSubject(subject);
 
 };
 
+
 subjects.appendChild(div);
 
 });
 
 
-selectedInfo.innerHTML =
+selectedInfo.innerHTML=
 
-"<b>Selected:</b><br>" +
+"<b>Selected:</b><br>"+
 
-"🇮🇳 State: " + stateName(state) + "<br>" +
+"🇮🇳 State: "+
+stateName(state)+
+"<br>"+
 
-"🏫 Board: " + board + "<br>" +
+"🏫 Board: "+
+board+
+"<br>"+
 
-"🎓 Class: " + selectedClass;
+"🎓 Class: "+
+selectedClass;
 
 
 subjectsBox.classList.remove("hidden");
@@ -1375,9 +1264,10 @@ selectedClass
 }
 
 
-/* =========================================
-   SUBJECT SELECT
-========================================= */
+
+/* =====================================
+   SUBJECT
+===================================== */
 
 let selectedSubject="";
 
@@ -1386,126 +1276,583 @@ function selectSubject(subject){
 
 selectedSubject=subject;
 
+
 localStorage.setItem(
 "selectedSubject",
 subject
 );
 
 
-const info =
+const info=
 document.getElementById("selectedInfo");
 
-info.innerHTML +=
 
-"<br>📚 Subject: <b>" +
-subject +
+info.innerHTML+=
+
+"<br>📚 Subject: <b>"+
+subject+
 "</b>";
 
 }
 
 
-/* =========================================
+
+/* =====================================
    SUBJECT ICON
-========================================= */
+===================================== */
 
 function getSubjectIcon(subject){
 
-if(subject.includes("Math")){
+if(subject.includes("Math"))
 return "🔢";
-}
+
 
 if(
 subject.includes("Science") ||
 subject.includes("Physics") ||
 subject.includes("Chemistry") ||
 subject.includes("Biology")
-){
+)
 return "🔬";
-}
 
-if(
-subject.includes("History")
-){
+
+if(subject.includes("History"))
 return "🏛️";
-}
 
-if(
-subject.includes("Geography")
-){
+
+if(subject.includes("Geography"))
 return "🌍";
-}
 
-if(
-subject.includes("English")
-){
+
+if(subject.includes("English"))
 return "🇬🇧";
-}
 
-if(
-subject.includes("Hindi")
-){
+
+if(subject.includes("Hindi"))
 return "🇮🇳";
-}
 
-if(
-subject.includes("Marathi")
-){
+
+if(subject.includes("Marathi"))
 return "🟠";
-}
 
-if(
-subject.includes("Gujarati")
-){
+
+if(subject.includes("Gujarati"))
 return "🟡";
-}
+
 
 return "📚";
 
 }
 
 
-/* =========================================
+
+/* =====================================
    STATE NAME
-========================================= */
+===================================== */
 
 function stateName(state){
 
 const names={
 
 maharashtra:"Maharashtra",
+
 madhya_pradesh:"Madhya Pradesh",
+
 uttar_pradesh:"Uttar Pradesh",
+
 rajasthan:"Rajasthan",
+
 gujarat:"Gujarat",
+
 bihar:"Bihar",
+
 west_bengal:"West Bengal",
+
 tamil_nadu:"Tamil Nadu",
+
 karnataka:"Karnataka",
+
 telangana:"Telangana",
+
 andhra_pradesh:"Andhra Pradesh",
+
 punjab:"Punjab",
+
 delhi:"Delhi"
 
 };
+
 
 return names[state] || state;
 
 }
 
 
-/* =========================================
-   CONTINUE
-========================================= */
+
+/* =====================================
+   COMPETITIVE EXAM DATABASE
+===================================== */
+
+const competitiveData={
+
+
+army:{
+
+name:"Army",
+
+levels:[
+
+"Agniveer GD",
+
+"Agniveer Technical",
+
+"Agniveer Clerk / SKT"
+
+],
+
+subjects:[
+
+"General Knowledge",
+
+"General Science",
+
+"Mathematics",
+
+"Reasoning",
+
+"English"
+
+]
+
+},
+
+
+
+forest:{
+
+name:"Forest",
+
+levels:[
+
+"Forest Guard / Vanrakshak",
+
+"Forest Officer"
+
+],
+
+subjects:[
+
+"General Knowledge",
+
+"General Science",
+
+"Environment",
+
+"Forest & Wildlife",
+
+"Reasoning",
+
+"Mathematics"
+
+]
+
+},
+
+
+
+railway:{
+
+name:"Railway",
+
+levels:[
+
+"RRB Group D",
+
+"RRB NTPC",
+
+"RRB ALP",
+
+"RRB Technician"
+
+],
+
+subjects:[
+
+"Mathematics",
+
+"General Intelligence & Reasoning",
+
+"General Science",
+
+"General Awareness",
+
+"Current Affairs"
+
+]
+
+},
+
+
+
+police:{
+
+name:"Police",
+
+levels:[
+
+"Police Constable",
+
+"Police Sub-Inspector",
+
+"State Police"
+
+],
+
+subjects:[
+
+"General Knowledge",
+
+"Current Affairs",
+
+"Reasoning",
+
+"Mathematics",
+
+"Indian Constitution",
+
+"General Science"
+
+]
+
+},
+
+
+
+ssc:{
+
+name:"SSC / Government",
+
+levels:[
+
+"SSC GD",
+
+"SSC CHSL",
+
+"SSC CGL",
+
+"SSC MTS"
+
+],
+
+subjects:[
+
+"General Intelligence",
+
+"Reasoning",
+
+"Quantitative Aptitude",
+
+"English",
+
+"General Awareness",
+
+"Current Affairs"
+
+]
+
+},
+
+
+
+iti:{
+
+name:"ITI",
+
+levels:[
+
+"Electrician",
+
+"Fitter",
+
+"Welder",
+
+"COPA",
+
+"Mechanic"
+
+],
+
+subjects:[
+
+"Trade Theory",
+
+"Trade Practical",
+
+"Engineering Drawing",
+
+"Workshop Calculation",
+
+"Employability Skills"
+
+]
+
+},
+
+
+
+banking:{
+
+name:"Banking",
+
+levels:[
+
+"IBPS",
+
+"SBI",
+
+"RBI"
+
+],
+
+subjects:[
+
+"Reasoning",
+
+"Quantitative Aptitude",
+
+"English",
+
+"General Awareness",
+
+"Banking Awareness",
+
+"Current Affairs"
+
+]
+
+}
+
+};
+
+
+
+let selectedCompetitiveExam="";
+
+let selectedCompetitiveLevel="";
+
+
+
+/* =====================================
+   COMPETITIVE EXAM CHANGE
+===================================== */
+
+function competitiveExamChanged(){
+
+selectedCompetitiveExam=
+document.getElementById(
+"competitiveExam"
+).value;
+
+
+const levelBox=
+document.getElementById(
+"competitiveLevelBox"
+);
+
+const level=
+document.getElementById(
+"competitiveLevel"
+);
+
+const info=
+document.getElementById(
+"competitiveInfo"
+);
+
+const button=
+document.getElementById(
+"competitiveButton"
+);
+
+
+level.innerHTML=
+'<option value="">Select Exam / Level</option>';
+
+info.classList.add("hidden");
+
+button.classList.add("hidden");
+
+
+if(!selectedCompetitiveExam){
+
+levelBox.classList.add("hidden");
+
+return;
+
+}
+
+
+const data=
+competitiveData[
+selectedCompetitiveExam
+];
+
+
+data.levels.forEach(function(item){
+
+const option=
+document.createElement("option");
+
+option.value=item;
+
+option.textContent=item;
+
+level.appendChild(option);
+
+});
+
+
+levelBox.classList.remove("hidden");
+
+
+localStorage.setItem(
+"competitiveExam",
+selectedCompetitiveExam
+);
+
+}
+
+
+
+/* =====================================
+   COMPETITIVE LEVEL
+===================================== */
+
+function competitiveLevelChanged(){
+
+selectedCompetitiveLevel=
+document.getElementById(
+"competitiveLevel"
+).value;
+
+
+const info=
+document.getElementById(
+"competitiveInfo"
+);
+
+const button=
+document.getElementById(
+"competitiveButton"
+);
+
+
+if(!selectedCompetitiveLevel){
+
+info.classList.add("hidden");
+
+button.classList.add("hidden");
+
+return;
+
+}
+
+
+const data=
+competitiveData[
+selectedCompetitiveExam
+];
+
+
+info.innerHTML=
+
+"<b>Selected:</b><br>"+
+
+"🎯 Exam: "+
+data.name+
+"<br>"+
+
+"📋 Level: "+
+selectedCompetitiveLevel+
+"<br>"+
+
+"📚 Subjects: "+
+data.subjects.join(", ");
+
+
+info.classList.remove("hidden");
+
+button.classList.remove("hidden");
+
+
+localStorage.setItem(
+"competitiveLevel",
+selectedCompetitiveLevel
+);
+
+}
+
+
+
+/* =====================================
+   COMPETITIVE CONTINUE
+===================================== */
+
+function continueCompetitive(){
+
+if(
+!selectedCompetitiveExam ||
+!selectedCompetitiveLevel
+){
+
+alert(
+"Please Competitive Exam और Level select करें।"
+);
+
+return;
+
+}
+
+
+const data=
+competitiveData[
+selectedCompetitiveExam
+];
+
+
+alert(
+
+"Competitive Exam Ready!\\n\\n"+
+
+"Exam: "+
+data.name+
+"\\n"+
+
+"Level: "+
+selectedCompetitiveLevel+
+"\\n\\n"+
+
+"अब Subject → Topic → MCQ बनाया जाएगा।"
+
+);
+
+}
+
+
+
+/* =====================================
+   EDUCATION CONTINUE
+===================================== */
 
 function continueToTopics(){
 
-const state =
+const state=
 document.getElementById("state").value;
 
-const board =
+const board=
 document.getElementById("board").value;
 
-const selectedClass =
+const selectedClass=
 document.getElementById("class").value;
 
 
@@ -1522,15 +1869,23 @@ return;
 
 alert(
 
-"Next Step Ready!\n\n" +
+"Next Step Ready!\\n\\n"+
 
-"State: " + stateName(state) + "\n" +
+"State: "+
+stateName(state)+
+"\\n"+
 
-"Board: " + board + "\n" +
+"Board: "+
+board+
+"\\n"+
 
-"Class: " + selectedClass + "\n" +
+"Class: "+
+selectedClass+
+"\\n"+
 
-"Subject: " + selectedSubject + "\n\n" +
+"Subject: "+
+selectedSubject+
+"\\n\\n"+
 
 "अब Chapter → Topic → MCQ बनाया जाएगा।"
 
@@ -1539,31 +1894,49 @@ alert(
 }
 
 
-/* =========================================
-   LOAD SAVED LANGUAGE
-========================================= */
+
+/* =====================================
+   LOAD SETTINGS
+===================================== */
 
 function loadSettings(){
 
-const appLang =
-localStorage.getItem("appLanguage") || "hi";
+const appLang=
+localStorage.getItem(
+"appLanguage"
+) || "hi";
 
-const questionLang =
-localStorage.getItem("questionLanguage") || "hi";
 
-document.getElementById("appLanguage").value =
+const questionLang=
+localStorage.getItem(
+"questionLanguage"
+) || "hi";
+
+
+document.getElementById(
+"appLanguage"
+).value=
 appLang;
 
-document.getElementById("questionLanguage").value =
+
+document.getElementById(
+"questionLanguage"
+).value=
 questionLang;
 
-document.getElementById("tagline").innerText =
-translations[appLang].tagline;
+
+document.getElementById(
+"tagline"
+).innerText=
+translations[
+appLang
+].tagline;
 
 }
 
 
 loadSettings();
+
 
 </script>
 
