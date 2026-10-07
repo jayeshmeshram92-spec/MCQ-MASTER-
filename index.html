@@ -3,10 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>MCQ MASTER</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
@@ -41,12 +45,7 @@ h1{
   margin:auto;
 }
 
-.section-title{
-  font-size:22px;
-  margin:20px 0 12px;
-}
-
-.language-box{
+.box{
   background:#102750;
   border:1px solid #244b85;
   border-radius:16px;
@@ -54,10 +53,17 @@ h1{
   margin-bottom:18px;
 }
 
-.language-title{
-  font-size:18px;
+.title{
+  font-size:20px;
   font-weight:bold;
-  margin-bottom:10px;
+  margin-bottom:12px;
+}
+
+label{
+  display:block;
+  margin-top:12px;
+  margin-bottom:7px;
+  color:#dce8ff;
 }
 
 select{
@@ -70,32 +76,6 @@ select{
   font-size:16px;
 }
 
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.card{
-  background:#102750;
-  border:1px solid #244b85;
-  border-radius:16px;
-  padding:20px 10px;
-  text-align:center;
-  font-size:17px;
-  cursor:pointer;
-}
-
-.card:hover{
-  background:#174487;
-}
-
-.icon{
-  font-size:32px;
-  display:block;
-  margin-bottom:8px;
-}
-
 button{
   width:100%;
   padding:15px;
@@ -106,6 +86,50 @@ button{
   font-size:18px;
   font-weight:bold;
   margin-top:15px;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:.9;
+}
+
+.subject-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:15px;
+}
+
+.subject{
+  background:#173566;
+  border:1px solid #315c9a;
+  border-radius:14px;
+  padding:18px 8px;
+  text-align:center;
+  cursor:pointer;
+  font-size:16px;
+}
+
+.subject:hover{
+  background:#20508d;
+}
+
+.subject-icon{
+  font-size:30px;
+  display:block;
+  margin-bottom:7px;
+}
+
+.hidden{
+  display:none;
+}
+
+.selected-info{
+  background:#09214a;
+  border-left:4px solid #ffd21c;
+  padding:14px;
+  border-radius:8px;
+  line-height:1.7;
 }
 
 .footer{
@@ -114,403 +138,1180 @@ button{
   color:#9eb1d0;
   font-size:13px;
 }
+
+.back{
+  background:#244b85;
+  color:white;
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- HEADER -->
+
 <div class="header">
+
   <div class="logo">📚🧠</div>
+
   <h1>MCQ MASTER</h1>
+
   <div class="tagline" id="tagline">
-    LEARN • PRACTICE • SUCCEED
+    सीखें • अभ्यास करें • सफलता पाएं
   </div>
+
 </div>
+
 
 <div class="container">
 
-  <!-- APP LANGUAGE -->
 
-  <div class="language-box">
+<!-- LANGUAGE -->
 
-    <div class="language-title" id="appLanguageTitle">
-      🌐 App Language
-    </div>
+<div class="box">
 
-    <select id="appLanguage" onchange="changeAppLanguage()">
+  <div class="title">
+    🌐 Language Settings
+  </div>
 
-      <option value="hi">हिंदी</option>
-      <option value="en">English</option>
-      <option value="mr">मराठी</option>
-      <option value="gu">ગુજરાતી</option>
-      <option value="bn">বাংলা</option>
-      <option value="ta">தமிழ்</option>
-      <option value="te">తెలుగు</option>
-      <option value="kn">ಕನ್ನಡ</option>
-      <option value="pa">ਪੰਜਾਬੀ</option>
-      <option value="ur">اردو</option>
+  <label>
+    App Language
+  </label>
+
+  <select id="appLanguage" onchange="changeAppLanguage()">
+
+    <option value="hi">हिंदी</option>
+    <option value="en">English</option>
+    <option value="mr">मराठी</option>
+    <option value="gu">ગુજરાતી</option>
+    <option value="bn">বাংলা</option>
+    <option value="ta">தமிழ்</option>
+    <option value="te">తెలుగు</option>
+    <option value="kn">ಕನ್ನಡ</option>
+    <option value="pa">ਪੰਜਾਬੀ</option>
+    <option value="ur">اردو</option>
+
+  </select>
+
+
+  <label>
+    MCQ Question Language
+  </label>
+
+  <select id="questionLanguage"
+          onchange="saveQuestionLanguage()">
+
+    <option value="hi">हिंदी</option>
+    <option value="en">English</option>
+    <option value="mr">मराठी</option>
+    <option value="gu">ગુજરાતી</option>
+    <option value="bn">বাংলা</option>
+    <option value="ta">தமிழ்</option>
+    <option value="te">తెలుగు</option>
+    <option value="kn">ಕನ್ನಡ</option>
+    <option value="pa">ਪੰਜਾਬੀ</option>
+    <option value="ur">اردو</option>
+
+  </select>
+
+</div>
+
+
+<!-- EDUCATION SELECTION -->
+
+<div class="box">
+
+  <div class="title">
+    🇮🇳 Education Selection
+  </div>
+
+
+  <!-- STATE -->
+
+  <label>
+    State
+  </label>
+
+  <select id="state"
+          onchange="stateChanged()">
+
+    <option value="">
+      Select State
+    </option>
+
+    <option value="maharashtra">
+      Maharashtra
+    </option>
+
+    <option value="madhya_pradesh">
+      Madhya Pradesh
+    </option>
+
+    <option value="uttar_pradesh">
+      Uttar Pradesh
+    </option>
+
+    <option value="rajasthan">
+      Rajasthan
+    </option>
+
+    <option value="gujarat">
+      Gujarat
+    </option>
+
+    <option value="bihar">
+      Bihar
+    </option>
+
+    <option value="west_bengal">
+      West Bengal
+    </option>
+
+    <option value="tamil_nadu">
+      Tamil Nadu
+    </option>
+
+    <option value="karnataka">
+      Karnataka
+    </option>
+
+    <option value="telangana">
+      Telangana
+    </option>
+
+    <option value="andhra_pradesh">
+      Andhra Pradesh
+    </option>
+
+    <option value="punjab">
+      Punjab
+    </option>
+
+    <option value="delhi">
+      Delhi
+    </option>
+
+  </select>
+
+
+  <!-- BOARD -->
+
+  <div id="boardBox" class="hidden">
+
+    <label>
+      Board
+    </label>
+
+    <select id="board"
+            onchange="boardChanged()">
+
+      <option value="">
+        Select Board
+      </option>
 
     </select>
 
   </div>
 
 
-  <!-- MCQ QUESTION LANGUAGE -->
+  <!-- CLASS -->
 
-  <div class="language-box">
+  <div id="classBox" class="hidden">
 
-    <div class="language-title" id="questionLanguageTitle">
-      📝 MCQ Question Language
-    </div>
+    <label>
+      Class
+    </label>
 
-    <select id="questionLanguage" onchange="saveQuestionLanguage()">
+    <select id="class"
+            onchange="classChanged()">
 
-      <option value="hi">हिंदी</option>
-      <option value="en">English</option>
-      <option value="mr">मराठी</option>
-      <option value="gu">ગુજરાતી</option>
-      <option value="bn">বাংলা</option>
-      <option value="ta">தமிழ்</option>
-      <option value="te">తెలుగు</option>
-      <option value="kn">ಕನ್ನಡ</option>
-      <option value="pa">ਪੰਜਾਬੀ</option>
-      <option value="ur">اردو</option>
+      <option value="">
+        Select Class
+      </option>
 
     </select>
 
   </div>
 
+</div>
 
-  <!-- EDUCATION -->
 
-  <div class="section-title" id="educationTitle">
-    🎓 Education & Exams
+<!-- SUBJECTS -->
+
+<div id="subjectsBox"
+     class="box hidden">
+
+  <div class="title">
+    📚 Subjects
   </div>
 
-  <div class="grid">
-
-    <div class="card" onclick="openCategory('10th')">
-      <span class="icon">🎓</span>
-      10th
-    </div>
-
-    <div class="card" onclick="openCategory('12th')">
-      <span class="icon">📖</span>
-      12th
-    </div>
-
-    <div class="card" onclick="openCategory('ITI')">
-      <span class="icon">🔧</span>
-      ITI
-    </div>
-
-    <div class="card" onclick="openCategory('Army')">
-      <span class="icon">🪖</span>
-      Army
-    </div>
-
-    <div class="card" onclick="openCategory('Railway')">
-      <span class="icon">🚆</span>
-      Railway
-    </div>
-
-    <div class="card" onclick="openCategory('Forest')">
-      <span class="icon">🌲</span>
-      Forest
-    </div>
-
-    <div class="card" onclick="openCategory('Police')">
-      <span class="icon">👮</span>
-      Police
-    </div>
-
-    <div class="card" onclick="openCategory('SSC')">
-      <span class="icon">🏛️</span>
-      SSC / Govt
-    </div>
+  <div id="selectedInfo"
+       class="selected-info">
 
   </div>
 
+  <div id="subjects"
+       class="subject-grid">
 
-  <!-- PRACTICE -->
-
-  <div class="section-title" id="practiceTitle">
-    📝 Practice
   </div>
 
-  <button onclick="startTest()" id="mockButton">
-    ⏱️ 1 Hour Mock Test
+</div>
+
+
+<!-- NEXT -->
+
+<div id="nextBox"
+     class="box hidden">
+
+  <button onclick="continueToTopics()">
+    Continue → Chapter & Topic
   </button>
 
 </div>
 
 
-<div class="footer">
-  © 2026 MCQ MASTER<br>
-  All-in-One Education & Competitive Exam App
 </div>
+
+
+<!-- FOOTER -->
+
+<div class="footer">
+
+© 2026 MCQ MASTER<br>
+
+All-in-One Education & Competitive Exam App
+
+</div>
+
 
 
 <script>
 
-/* =========================
-   APP LANGUAGE DATA
-========================= */
+/* =========================================
+   LANGUAGE
+========================================= */
 
 const translations = {
 
-  hi:{
-    app:"🌐 ऐप भाषा",
-    question:"📝 MCQ प्रश्न भाषा",
-    education:"🎓 शिक्षा और परीक्षाएँ",
-    practice:"📝 अभ्यास",
-    mock:"⏱️ 1 घंटे का मॉक टेस्ट",
-    tagline:"सीखें • अभ्यास करें • सफलता पाएं"
-  },
+hi:{
+tagline:"सीखें • अभ्यास करें • सफलता पाएं"
+},
 
-  en:{
-    app:"🌐 App Language",
-    question:"📝 MCQ Question Language",
-    education:"🎓 Education & Exams",
-    practice:"📝 Practice",
-    mock:"⏱️ 1 Hour Mock Test",
-    tagline:"LEARN • PRACTICE • SUCCEED"
-  },
+en:{
+tagline:"LEARN • PRACTICE • SUCCEED"
+},
 
-  mr:{
-    app:"🌐 अ‍ॅप भाषा",
-    question:"📝 MCQ प्रश्न भाषा",
-    education:"🎓 शिक्षण आणि परीक्षा",
-    practice:"📝 सराव",
-    mock:"⏱️ 1 तासाची मॉक टेस्ट",
-    tagline:"शिका • सराव करा • यश मिळवा"
-  },
+mr:{
+tagline:"शिका • सराव करा • यश मिळवा"
+},
 
-  gu:{
-    app:"🌐 એપ ભાષા",
-    question:"📝 MCQ પ્રશ્ન ભાષા",
-    education:"🎓 શિક્ષણ અને પરીક્ષાઓ",
-    practice:"📝 પ્રેક્ટિસ",
-    mock:"⏱️ 1 કલાકની મોક ટેસ્ટ",
-    tagline:"શીખો • પ્રેક્ટિસ કરો • સફળ થાઓ"
-  },
+gu:{
+tagline:"શીખો • પ્રેક્ટિસ કરો • સફળ થાઓ"
+},
 
-  bn:{
-    app:"🌐 অ্যাপের ভাষা",
-    question:"📝 MCQ প্রশ্নের ভাষা",
-    education:"🎓 শিক্ষা ও পরীক্ষা",
-    practice:"📝 অনুশীলন",
-    mock:"⏱️ ১ ঘণ্টার মক টেস্ট",
-    tagline:"শিখুন • অনুশীলন করুন • সফল হন"
-  },
+bn:{
+tagline:"শিখুন • অনুশীলন করুন • সফল হন"
+},
 
-  ta:{
-    app:"🌐 பயன்பாட்டு மொழி",
-    question:"📝 MCQ கேள்வி மொழி",
-    education:"🎓 கல்வி மற்றும் தேர்வுகள்",
-    practice:"📝 பயிற்சி",
-    mock:"⏱️ 1 மணி நேர Mock Test",
-    tagline:"கற்றுக்கொள் • பயிற்சி செய் • வெற்றி பெறு"
-  },
+ta:{
+tagline:"கற்றுக்கொள் • பயிற்சி செய் • வெற்றி பெறு"
+},
 
-  te:{
-    app:"🌐 యాప్ భాష",
-    question:"📝 MCQ ప్రశ్నల భాష",
-    education:"🎓 విద్య మరియు పరీక్షలు",
-    practice:"📝 ప్రాక్టీస్",
-    mock:"⏱️ 1 గంట Mock Test",
-    tagline:"నేర్చుకోండి • సాధన చేయండి • విజయం సాధించండి"
-  },
+te:{
+tagline:"నేర్చుకోండి • సాధన చేయండి • విజయం సాధించండి"
+},
 
-  kn:{
-    app:"🌐 ಅಪ್ಲಿಕೇಶನ್ ಭಾಷೆ",
-    question:"📝 MCQ ಪ್ರಶ್ನೆಗಳ ಭಾಷೆ",
-    education:"🎓 ಶಿಕ್ಷಣ ಮತ್ತು ಪರೀಕ್ಷೆಗಳು",
-    practice:"📝 ಅಭ್ಯಾಸ",
-    mock:"⏱️ 1 ಗಂಟೆಯ Mock Test",
-    tagline:"ಕಲಿಯಿರಿ • ಅಭ್ಯಾಸ ಮಾಡಿ • ಯಶಸ್ವಿಯಾಗಿರಿ"
-  },
+kn:{
+tagline:"ಕಲಿಯಿರಿ • ಅಭ್ಯಾಸ ಮಾಡಿ • ಯಶಸ್ವಿಯಾಗಿರಿ"
+},
 
-  pa:{
-    app:"🌐 ਐਪ ਭਾਸ਼ਾ",
-    question:"📝 MCQ ਸਵਾਲਾਂ ਦੀ ਭਾਸ਼ਾ",
-    education:"🎓 ਸਿੱਖਿਆ ਅਤੇ ਪ੍ਰੀਖਿਆਵਾਂ",
-    practice:"📝 ਅਭਿਆਸ",
-    mock:"⏱️ 1 ਘੰਟੇ ਦਾ Mock Test",
-    tagline:"ਸਿੱਖੋ • ਅਭਿਆਸ ਕਰੋ • ਸਫਲ ਹੋਵੋ"
-  },
+pa:{
+tagline:"ਸਿੱਖੋ • ਅਭਿਆਸ ਕਰੋ • ਸਫਲ ਹੋਵੋ"
+},
 
-  ur:{
-    app:"🌐 ایپ کی زبان",
-    question:"📝 MCQ سوالات کی زبان",
-    education:"🎓 تعلیم اور امتحانات",
-    practice:"📝 مشق",
-    mock:"⏱️ 1 گھنٹے کا Mock Test",
-    tagline:"سیکھیں • مشق کریں • کامیاب ہوں"
-  }
+ur:{
+tagline:"سیکھیں • مشق کریں • کامیاب ہوں"
+}
 
 };
 
 
-/* =========================
-   APP LANGUAGE
-========================= */
-
 function changeAppLanguage(){
 
-  const lang =
-    document.getElementById("appLanguage").value;
+const lang =
+document.getElementById("appLanguage").value;
 
-  localStorage.setItem("appLanguage",lang);
+localStorage.setItem(
+"appLanguage",
+lang
+);
 
-  updateAppLanguage();
-
-}
-
-
-function updateAppLanguage(){
-
-  const lang =
-    localStorage.getItem("appLanguage") || "hi";
-
-  const t = translations[lang];
-
-  document.getElementById("appLanguageTitle").innerText =
-    t.app;
-
-  document.getElementById("questionLanguageTitle").innerText =
-    t.question;
-
-  document.getElementById("educationTitle").innerText =
-    t.education;
-
-  document.getElementById("practiceTitle").innerText =
-    t.practice;
-
-  document.getElementById("mockButton").innerText =
-    t.mock;
-
-  document.getElementById("tagline").innerText =
-    t.tagline;
-
-  document.documentElement.lang = lang;
+document.getElementById("tagline").innerText =
+translations[lang].tagline;
 
 }
 
-
-/* =========================
-   MCQ QUESTION LANGUAGE
-========================= */
 
 function saveQuestionLanguage(){
 
-  const lang =
-    document.getElementById("questionLanguage").value;
+const lang =
+document.getElementById("questionLanguage").value;
 
-  localStorage.setItem(
-    "questionLanguage",
-    lang
-  );
-
-  alert(
-    "MCQ Question Language saved successfully!"
-  );
+localStorage.setItem(
+"questionLanguage",
+lang
+);
 
 }
 
 
-/* =========================
-   LOAD SAVED SETTINGS
-========================= */
+/* =========================================
+   EDUCATION DATABASE
+========================================= */
 
-function loadLanguages(){
+const educationData = {
 
-  const appLang =
-    localStorage.getItem("appLanguage") || "hi";
+maharashtra:{
 
-  const questionLang =
-    localStorage.getItem("questionLanguage") || "hi";
+boards:[
+"Maharashtra State Board"
+],
 
-  document.getElementById("appLanguage").value =
-    appLang;
+classes:[
+"10th",
+"12th"
+],
 
-  document.getElementById("questionLanguage").value =
-    questionLang;
+subjects10:[
+"Mathematics",
+"Science",
+"Marathi",
+"Hindi",
+"English",
+"History",
+"Geography"
+],
 
-  updateAppLanguage();
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Marathi",
+"Hindi",
+"English"
+]
+
+},
+
+
+madhya_pradesh:{
+
+boards:[
+"MP Board"
+],
+
+classes:[
+"10th",
+"12th"
+],
+
+subjects10:[
+"Mathematics",
+"Science",
+"Hindi",
+"English",
+"Social Science"
+],
+
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Hindi",
+"English"
+]
+
+},
+
+
+uttar_pradesh:{
+
+boards:[
+"UP Board"
+],
+
+classes:[
+"10th",
+"12th"
+],
+
+subjects10:[
+"Mathematics",
+"Science",
+"Hindi",
+"English",
+"Social Science"
+],
+
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Hindi",
+"English"
+]
+
+},
+
+
+rajasthan:{
+
+boards:[
+"RBSE"
+],
+
+classes:[
+"10th",
+"12th"
+],
+
+subjects10:[
+"Mathematics",
+"Science",
+"Hindi",
+"English",
+"Social Science"
+],
+
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Hindi",
+"English"
+]
+
+},
+
+
+gujarat:{
+
+boards:[
+"GSEB"
+],
+
+classes:[
+"10th",
+"12th"
+],
+
+subjects10:[
+"Mathematics",
+"Science",
+"Gujarati",
+"Hindi",
+"English",
+"Social Science"
+],
+
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Gujarati",
+"English"
+]
+
+},
+
+
+bihar:{
+
+boards:[
+"Bihar Board"
+],
+
+classes:[
+"10th",
+"12th"
+],
+
+subjects10:[
+"Mathematics",
+"Science",
+"Hindi",
+"English",
+"Social Science"
+],
+
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Hindi",
+"English"
+]
+
+},
+
+
+west_bengal:{
+
+boards:[
+"West Bengal Board"
+],
+
+classes:[
+"10th",
+"12th"
+],
+
+subjects10:[
+"Mathematics",
+"Physical Science",
+"Life Science",
+"Bengali",
+"English",
+"History",
+"Geography"
+],
+
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Bengali",
+"English"
+]
+
+},
+
+
+tamil_nadu:{
+
+boards:[
+"Tamil Nadu State Board"
+],
+
+classes:[
+"10th",
+"12th"
+],
+
+subjects10:[
+"Mathematics",
+"Science",
+"Tamil",
+"English",
+"Social Science"
+],
+
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Tamil",
+"English"
+]
+
+},
+
+
+karnataka:{
+
+boards:[
+"Karnataka State Board"
+],
+
+classes:[
+"10th",
+"12th"
+],
+
+subjects10:[
+"Mathematics",
+"Science",
+"Kannada",
+"English",
+"Social Science"
+],
+
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Kannada",
+"English"
+]
+
+},
+
+
+telangana:{
+
+boards:[
+"Telangana State Board"
+],
+
+classes:[
+"10th",
+"12th"
+],
+
+subjects10:[
+"Mathematics",
+"Science",
+"Telugu",
+"English",
+"Social Science"
+],
+
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Telugu",
+"English"
+]
+
+},
+
+
+andhra_pradesh:{
+
+boards:[
+"Andhra Pradesh Board"
+],
+
+classes:[
+"10th",
+"12th"
+],
+
+subjects10:[
+"Mathematics",
+"Science",
+"Telugu",
+"English",
+"Social Science"
+],
+
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Telugu",
+"English"
+]
+
+},
+
+
+punjab:{
+
+boards:[
+"Punjab School Education Board"
+],
+
+classes:[
+"10th",
+"12th"
+],
+
+subjects10:[
+"Mathematics",
+"Science",
+"Punjabi",
+"Hindi",
+"English",
+"Social Science"
+],
+
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Punjabi",
+"English"
+]
+
+},
+
+
+delhi:{
+
+boards:[
+"CBSE"
+],
+
+classes:[
+"10th",
+"12th"
+],
+
+subjects10:[
+"Mathematics",
+"Science",
+"Hindi",
+"English",
+"Social Science"
+],
+
+subjects12:[
+"Mathematics",
+"Physics",
+"Chemistry",
+"Biology",
+"Hindi",
+"English"
+]
+
+}
+
+};
+
+
+/* =========================================
+   STATE CHANGE
+========================================= */
+
+function stateChanged(){
+
+const state =
+document.getElementById("state").value;
+
+const boardBox =
+document.getElementById("boardBox");
+
+const board =
+document.getElementById("board");
+
+const classBox =
+document.getElementById("classBox");
+
+const classSelect =
+document.getElementById("class");
+
+const subjectsBox =
+document.getElementById("subjectsBox");
+
+const nextBox =
+document.getElementById("nextBox");
+
+
+board.innerHTML =
+'<option value="">Select Board</option>';
+
+classSelect.innerHTML =
+'<option value="">Select Class</option>';
+
+subjectsBox.classList.add("hidden");
+nextBox.classList.add("hidden");
+
+
+if(!state){
+
+boardBox.classList.add("hidden");
+classBox.classList.add("hidden");
+
+return;
 
 }
 
 
-/* =========================
-   CATEGORY
-========================= */
+const data =
+educationData[state];
 
-function openCategory(category){
 
-  const lang =
-    localStorage.getItem("appLanguage") || "hi";
+data.boards.forEach(function(item){
 
-  if(lang === "hi"){
+const option =
+document.createElement("option");
 
-    alert(
-      category +
-      " section जल्द ही उपलब्ध होगा।\n\n" +
-      "यहां Subject → Topic → MCQ होंगे।"
-    );
+option.value=item;
+option.textContent=item;
 
-  }else{
+board.appendChild(option);
 
-    alert(
-      category +
-      " section will be available soon.\n\n" +
-      "Subject → Topic → MCQ"
-    );
+});
 
-  }
+
+boardBox.classList.remove("hidden");
+
+localStorage.setItem(
+"selectedState",
+state
+);
 
 }
 
 
-/* =========================
-   MOCK TEST
-========================= */
+/* =========================================
+   BOARD CHANGE
+========================================= */
 
-function startTest(){
+function boardChanged(){
 
-  const lang =
-    localStorage.getItem("appLanguage") || "hi";
+const state =
+document.getElementById("state").value;
 
-  if(lang === "hi"){
+const board =
+document.getElementById("board").value;
 
-    alert(
-      "1 Hour Mock Test\n\n" +
-      "60 मिनट का Timer\n" +
-      "MCQ Questions\n" +
-      "Correct / Wrong Answer\n" +
-      "Final Score"
-    );
+const classBox =
+document.getElementById("classBox");
 
-  }else{
+const classSelect =
+document.getElementById("class");
 
-    alert(
-      "1 Hour Mock Test\n\n" +
-      "60 Minutes Timer\n" +
-      "MCQ Questions\n" +
-      "Correct / Wrong Answer\n" +
-      "Final Score"
-    );
+classSelect.innerHTML =
+'<option value="">Select Class</option>';
 
-  }
+if(!board){
+
+classBox.classList.add("hidden");
+
+return;
 
 }
 
 
-/* =========================
-   START APP
-========================= */
+educationData[state].classes.forEach(function(item){
 
-loadLanguages();
+const option =
+document.createElement("option");
+
+option.value=item;
+option.textContent=item;
+
+classSelect.appendChild(option);
+
+});
+
+
+classBox.classList.remove("hidden");
+
+localStorage.setItem(
+"selectedBoard",
+board
+);
+
+}
+
+
+/* =========================================
+   CLASS CHANGE
+========================================= */
+
+function classChanged(){
+
+const state =
+document.getElementById("state").value;
+
+const board =
+document.getElementById("board").value;
+
+const selectedClass =
+document.getElementById("class").value;
+
+const subjectsBox =
+document.getElementById("subjectsBox");
+
+const subjects =
+document.getElementById("subjects");
+
+const nextBox =
+document.getElementById("nextBox");
+
+const selectedInfo =
+document.getElementById("selectedInfo");
+
+
+subjects.innerHTML="";
+
+
+if(!selectedClass){
+
+subjectsBox.classList.add("hidden");
+nextBox.classList.add("hidden");
+
+return;
+
+}
+
+
+let subjectList=[];
+
+
+if(selectedClass==="10th"){
+
+subjectList =
+educationData[state].subjects10;
+
+}
+
+else if(selectedClass==="12th"){
+
+subjectList =
+educationData[state].subjects12;
+
+}
+
+
+subjectList.forEach(function(subject,index){
+
+const div =
+document.createElement("div");
+
+div.className="subject";
+
+div.innerHTML=`
+
+<span class="subject-icon">
+${getSubjectIcon(subject)}
+</span>
+
+${subject}
+
+`;
+
+div.onclick=function(){
+
+selectSubject(subject);
+
+};
+
+subjects.appendChild(div);
+
+});
+
+
+selectedInfo.innerHTML =
+
+"<b>Selected:</b><br>" +
+
+"🇮🇳 State: " + stateName(state) + "<br>" +
+
+"🏫 Board: " + board + "<br>" +
+
+"🎓 Class: " + selectedClass;
+
+
+subjectsBox.classList.remove("hidden");
+
+nextBox.classList.remove("hidden");
+
+
+localStorage.setItem(
+"selectedClass",
+selectedClass
+);
+
+}
+
+
+/* =========================================
+   SUBJECT SELECT
+========================================= */
+
+let selectedSubject="";
+
+
+function selectSubject(subject){
+
+selectedSubject=subject;
+
+localStorage.setItem(
+"selectedSubject",
+subject
+);
+
+
+const info =
+document.getElementById("selectedInfo");
+
+info.innerHTML +=
+
+"<br>📚 Subject: <b>" +
+subject +
+"</b>";
+
+}
+
+
+/* =========================================
+   SUBJECT ICON
+========================================= */
+
+function getSubjectIcon(subject){
+
+if(subject.includes("Math")){
+return "🔢";
+}
+
+if(
+subject.includes("Science") ||
+subject.includes("Physics") ||
+subject.includes("Chemistry") ||
+subject.includes("Biology")
+){
+return "🔬";
+}
+
+if(
+subject.includes("History")
+){
+return "🏛️";
+}
+
+if(
+subject.includes("Geography")
+){
+return "🌍";
+}
+
+if(
+subject.includes("English")
+){
+return "🇬🇧";
+}
+
+if(
+subject.includes("Hindi")
+){
+return "🇮🇳";
+}
+
+if(
+subject.includes("Marathi")
+){
+return "🟠";
+}
+
+if(
+subject.includes("Gujarati")
+){
+return "🟡";
+}
+
+return "📚";
+
+}
+
+
+/* =========================================
+   STATE NAME
+========================================= */
+
+function stateName(state){
+
+const names={
+
+maharashtra:"Maharashtra",
+madhya_pradesh:"Madhya Pradesh",
+uttar_pradesh:"Uttar Pradesh",
+rajasthan:"Rajasthan",
+gujarat:"Gujarat",
+bihar:"Bihar",
+west_bengal:"West Bengal",
+tamil_nadu:"Tamil Nadu",
+karnataka:"Karnataka",
+telangana:"Telangana",
+andhra_pradesh:"Andhra Pradesh",
+punjab:"Punjab",
+delhi:"Delhi"
+
+};
+
+return names[state] || state;
+
+}
+
+
+/* =========================================
+   CONTINUE
+========================================= */
+
+function continueToTopics(){
+
+const state =
+document.getElementById("state").value;
+
+const board =
+document.getElementById("board").value;
+
+const selectedClass =
+document.getElementById("class").value;
+
+
+if(!selectedSubject){
+
+alert(
+"Please select a Subject first."
+);
+
+return;
+
+}
+
+
+alert(
+
+"Next Step Ready!\n\n" +
+
+"State: " + stateName(state) + "\n" +
+
+"Board: " + board + "\n" +
+
+"Class: " + selectedClass + "\n" +
+
+"Subject: " + selectedSubject + "\n\n" +
+
+"अब Chapter → Topic → MCQ बनाया जाएगा।"
+
+);
+
+}
+
+
+/* =========================================
+   LOAD SAVED LANGUAGE
+========================================= */
+
+function loadSettings(){
+
+const appLang =
+localStorage.getItem("appLanguage") || "hi";
+
+const questionLang =
+localStorage.getItem("questionLanguage") || "hi";
+
+document.getElementById("appLanguage").value =
+appLang;
+
+document.getElementById("questionLanguage").value =
+questionLang;
+
+document.getElementById("tagline").innerText =
+translations[appLang].tagline;
+
+}
+
+
+loadSettings();
 
 </script>
 
