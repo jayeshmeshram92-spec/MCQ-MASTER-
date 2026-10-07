@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCQ MASTER</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#07152f;
+  color:white;
+}
+.header{
+  padding:25px 18px;
+  text-align:center;
+  background:linear-gradient(135deg,#063b91,#07152f);
+}
+.logo{
+  font-size:42px;
+}
+h1{
+  margin:5px 0;
+  font-size:30px;
+}
+.tagline{
+  color:#ffd21c;
+  font-size:14px;
+}
+.container{
+  padding:18px;
+  max-width:700px;
+  margin:auto;
+}
+.section-title{
+  font-size:22px;
+  margin:20px 0 12px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.card{
+  background:#102750;
+  border:1px solid #244b85;
+  border-radius:16px;
+  padding:20px 10px;
+  text-align:center;
+  font-size:17px;
+  cursor:pointer;
+}
+.card:hover{
+  background:#174487;
+}
+.icon{
+  font-size:32px;
+  display:block;
+  margin-bottom:8px;
+}
+button{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:12px;
+  background:#ffd21c;
+  color:#07152f;
+  font-size:18px;
+  font-weight:bold;
+  margin-top:15px;
+}
+.footer{
+  text-align:center;
+  padding:25px;
+  color:#9eb1d0;
+  font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <div class="logo">📚🧠</div>
+  <h1>MCQ MASTER</h1>
+  <div class="tagline">LEARN • PRACTICE • SUCCEED</div>
+</div>
+
+<div class="container">
+
+  <div class="section-title">🎓 Education & Exams</div>
+
+  <div class="grid">
+
+    <div class="card" onclick="openCategory('10th')">
+      <span class="icon">🎓</span>
+      10th
+    </div>
+
+    <div class="card" onclick="openCategory('12th')">
+      <span class="icon">📖</span>
+      12th
+    </div>
+
+    <div class="card" onclick="openCategory('ITI')">
+      <span class="icon">🔧</span>
+      ITI
+    </div>
+
+    <div class="card" onclick="openCategory('Army')">
+      <span class="icon">🪖</span>
+      Army
+    </div>
+
+    <div class="card" onclick="openCategory('Railway')">
+      <span class="icon">🚆</span>
+      Railway
+    </div>
+
+    <div class="card" onclick="openCategory('Forest')">
+      <span class="icon">🌲</span>
+      Forest
+    </div>
+
+    <div class="card" onclick="openCategory('Police')">
+      <span class="icon">👮</span>
+      Police
+    </div>
+
+    <div class="card" onclick="openCategory('SSC')">
+      <span class="icon">🏛️</span>
+      SSC / Govt
+    </div>
+
+  </div>
+
+  <div class="section-title">📝 Practice</div>
+
+  <button onclick="startTest()">
+    ⏱️ 1 Hour Mock Test
+  </button>
+
+</div>
+
+<div class="footer">
+  © 2026 MCQ MASTER<br>
+  All-in-One Education & Competitive Exam App
+</div>
+
+<script>
+
+function openCategory(category){
+  alert(
+    category +
+    " section जल्द ही उपलब्ध होगा। यहां Subject → Topic → MCQ होंगे।"
+  );
+}
+
+function startTest(){
+  alert(
+    "1 Hour Mock Test\n\n" +
+    "60 मिनट का Timer\n" +
+    "MCQ Questions\n" +
+    "Correct / Wrong Answer\n" +
+    "Final Score"
+  );
+}
+
+</script>
+
+</body>
+</html>
