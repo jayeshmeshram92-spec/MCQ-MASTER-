@@ -1,204 +1,199 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07152e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>MCQ MASTER</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
+:root{--bg:#07152e;--card:#102750;--card2:#0b2044;--line:#3974c7;--text:#fff;--muted:#b9d5f7;--blue:#2f80ed;--green:#20a464;--red:#d64545}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#07152e;color:#fff}
-.header{background:#102750;padding:22px 15px;text-align:center;border-bottom:1px solid #3974c7}
-.logo{font-size:30px;font-weight:bold}.tagline{color:#a9c9f5;margin-top:7px}
-.container{max-width:850px;margin:auto;padding:15px}
-.profile,.card{background:#102750;border:1px solid #3974c7;border-radius:18px;padding:18px;margin-bottom:15px}
-.profile{text-align:center;background:#142f60}.profileName{font-size:21px;font-weight:bold}
-.profileEmail{color:#a9c9f5;margin-top:5px}.logout{margin-top:12px;background:#d64545;color:white;border:0;padding:10px 20px;border-radius:9px;font-weight:bold}
-.card h2{margin-top:0}.sectionTitle{font-size:26px;margin:0 0 16px}
-label{display:block;margin-top:12px;margin-bottom:5px;color:#b9d5f7}
-select{width:100%;padding:13px;border-radius:10px;border:1px solid #4774aa;background:#081a38;color:white;font-size:16px}
-button{cursor:pointer}.mainBtn{width:100%;padding:14px;margin-top:15px;background:#2f80ed;color:white;border:0;border-radius:10px;font-size:16px;font-weight:bold}
-.green{background:#20a464!important}.secondary{background:#315f9f!important}.danger{background:#d64545!important}
-.status{text-align:center;padding:15px;color:#9fc8f4}.hidden{display:none!important}
-.mcqTop{display:flex;justify-content:space-between;gap:10px;align-items:center;color:#b9d5f7;font-size:14px}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;-webkit-text-size-adjust:100%;overflow-x:hidden}
+button,select{font:inherit}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.header{background:linear-gradient(135deg,#12346c,#07152e);padding:24px 16px;text-align:center;border-bottom:1px solid var(--line)}
+.logo{font-size:30px;font-weight:800} .tagline{margin-top:6px;color:#a9c9f5}
+.container{width:min(900px,100%);margin:auto;padding:14px}
+.profile,.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.profile{text-align:center;background:#142f60}
+.profileName{font-size:21px;font-weight:800} .profileEmail{color:var(--muted);margin-top:4px;word-break:break-all}
+.logout,.danger{background:var(--red)!important;color:#fff!important}
+.nav{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.nav button{padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:#fff;font-weight:700}
+.nav button.active{background:var(--blue)}
+h2{margin:0 0 16px} .sectionTitle{font-size:25px}
+label{display:block;margin:12px 0 6px;color:var(--muted);font-weight:600}
+select{width:100%;padding:14px;border-radius:11px;border:1px solid #4774aa;background:#081a38;color:#fff;font-size:16px;outline:none}
+select:focus{border-color:#7eb4ff;box-shadow:0 0 0 3px rgba(47,128,237,.18)}
+.mainBtn{width:100%;padding:14px 16px;margin-top:14px;background:var(--blue);color:#fff;border:0;border-radius:11px;font-weight:800}
+.mainBtn:disabled{opacity:.45;cursor:not-allowed}
+.green{background:var(--green)!important} .secondary{background:#315f9f!important}
+.status{padding:12px;text-align:center;color:var(--muted)}
+.notice{padding:12px;border-radius:10px;background:#0b2044;border:1px solid #315f9f;color:#b9d5f7;margin-top:12px;font-size:14px;line-height:1.5}
+.hidden{display:none!important}
+.mcqTop{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-weight:700;font-size:14px}
 .progress{height:9px;background:#081a38;border-radius:10px;overflow:hidden;margin:12px 0 18px}
-.progress>div{height:100%;background:#2f80ed;width:0}
-.question{font-size:22px;line-height:1.4;font-weight:bold;margin:18px 0}
-.option{display:block;width:100%;text-align:left;padding:14px;margin:10px 0;border-radius:11px;border:1px solid #4774aa;background:#081a38;color:white;font-size:16px}
-.option.selected{border-color:#fff;background:#214b88}.option.correct{background:#176b42;border-color:#45d890}
-.option.wrong{background:#8b2e35;border-color:#ff7b84}.option:disabled{cursor:default;opacity:.95}
-.testActions{display:flex;gap:10px}.testActions button{flex:1}
-.resultScore{text-align:center;font-size:54px;font-weight:bold;margin:10px 0}.resultText{text-align:center;color:#b9d5f7;font-size:18px}
-.statGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}
-.stat{background:#0b2044;border:1px solid #315f9f;border-radius:12px;padding:14px;text-align:center}.stat b{display:block;font-size:24px}
-.historyItem{background:#0b2044;border:1px solid #315f9f;border-radius:12px;padding:14px;margin:10px 0}
-.historyItem .small{color:#9fc8f4;font-size:13px;margin-top:5px}
-.reviewItem{background:#0b2044;border:1px solid #315f9f;border-radius:12px;padding:14px;margin:10px 0}
-.reviewQ{font-weight:bold;line-height:1.4}.right{color:#55df9a}.wrongText{color:#ff8a92}
-.nav{display:flex;gap:8px;margin-bottom:15px}.nav button{flex:1;padding:11px;border:1px solid #3974c7;border-radius:10px;background:#102750;color:#fff;font-weight:bold}
-.nav button.active{background:#2f80ed}
-footer{text-align:center;padding:25px;color:#7595bd}
-@media(max-width:520px){.logo{font-size:25px}.question{font-size:19px}.statGrid{grid-template-columns:1fr}.testActions{flex-direction:column}}
+.progress>div{height:100%;background:var(--blue);width:0;transition:width .2s}
+.question{font-size:22px;line-height:1.45;font-weight:800;margin:18px 0}
+.option{display:block;width:100%;text-align:left;padding:14px;margin:10px 0;border-radius:11px;border:1px solid #4774aa;background:#081a38;color:#fff;font-size:16px}
+.option.selected{border-color:#fff;background:#214b88}
+.option:active{transform:scale(.995)}
+.testActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.resultScore{text-align:center;font-size:56px;font-weight:900;margin:8px 0}
+.resultText{text-align:center;color:var(--muted);font-size:17px}
+.statGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin:16px 0}
+.stat{background:var(--card2);border:1px solid #315f9f;border-radius:12px;padding:12px;text-align:center}
+.stat b{display:block;font-size:23px;margin-top:4px}
+.reviewItem,.historyItem{background:var(--card2);border:1px solid #315f9f;border-radius:12px;padding:14px;margin:10px 0;line-height:1.5}
+.reviewQ{font-weight:800} .right{color:#55df9a} .wrongText{color:#ff8a92}
+.small{color:#9fc8f4;font-size:13px;margin-top:5px}
+footer{text-align:center;padding:24px;color:#7595bd;font-size:13px}
+@media(max-width:560px){.statGrid{grid-template-columns:repeat(2,1fr)}.question{font-size:19px}.testActions{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
 <div class="container">
+  <div id="studentProfile" class="profile">
+    <div class="profileName">👤 <span id="studentName">Student</span></div>
+    <div class="profileEmail" id="studentEmail"></div>
+    <button class="mainBtn logout" onclick="studentLogout()">🚪 Logout</button>
+  </div>
 
-<div id="studentProfile" class="profile">
-  <div class="profileName">👤 <span id="studentName">Student</span></div>
-  <div class="profileEmail"><span id="studentEmail"></span></div>
-  <button class="logout" onclick="studentLogout()">🚪 Logout</button>
-</div>
+  <div class="header">
+    <div class="logo">📚🧠 MCQ MASTER</div>
+    <div class="tagline">All India Education & Competitive Exam Platform</div>
+  </div>
 
-<div class="header">
-  <div class="logo">📚🧠 MCQ MASTER</div>
-  <div class="tagline">All India Education & Competitive Exam Platform</div>
-</div>
+  <div class="nav">
+    <button id="navHome" class="active" onclick="showSection('home')">🏠 Home</button>
+    <button id="navHistory" onclick="showSection('history')">📊 History</button>
+  </div>
 
-<div class="nav">
-  <button id="navHome" class="active" onclick="showSection('home')">🏠 Home</button>
-  <button id="navHistory" onclick="showSection('history')">📊 History</button>
-</div>
+  <section id="homeSection">
+    <div class="card">
+      <h2>🌐 Language Settings</h2>
+      <label for="appLanguage">App Language</label>
+      <select id="appLanguage" onchange="saveSettings()">
+        <option>English</option><option>हिन्दी</option><option>मराठी</option>
+      </select>
+      <label for="questionLanguage">MCQ Question Language</label>
+      <select id="questionLanguage">
+        <option>English</option>
+      </select>
+      <div class="notice">MCQ question bank in this final build is verified English content. App-language selection is saved to the student profile.</div>
+    </div>
 
-<div id="homeSection">
+    <div class="card">
+      <h2>🎓 Education</h2>
+      <label>State</label>
+      <select id="state" onchange="loadBoards()">
+        <option value="">Select State</option>
+        <option>Maharashtra</option><option>Madhya Pradesh</option><option>Gujarat</option><option>Rajasthan</option>
+        <option>Uttar Pradesh</option><option>Bihar</option><option>Delhi</option><option>West Bengal</option>
+        <option>Tamil Nadu</option><option>Telangana</option><option>Andhra Pradesh</option><option>Karnataka</option>
+        <option>Punjab</option><option>Haryana</option><option>Odisha</option><option>Jharkhand</option>
+        <option>Chhattisgarh</option><option>Uttarakhand</option><option>Himachal Pradesh</option><option>Goa</option>
+        <option>Kerala</option><option>Assam</option><option>Jammu and Kashmir</option>
+      </select>
+      <label>Board</label>
+      <select id="board" onchange="loadClasses()"><option value="">Select Board</option></select>
+      <label>Class</label>
+      <select id="className" onchange="loadSubjects()"><option value="">Select Class</option></select>
+      <label>Subject</label>
+      <select id="subject" onchange="loadTopics()"><option value="">Select Subject</option></select>
+      <label>Chapter / Topic</label>
+      <select id="topic"><option value="All Chapters / Topics">All Chapters / Topics</option></select>
+      <button class="mainBtn" onclick="startEducationMCQ()">▶️ Start Education MCQ — 50 Questions</button>
+      <div class="notice">Every test contains exactly 50 non-duplicate questions. A topic selection changes the randomized practice order; it never reduces the test below 50 questions.</div>
+    </div>
 
-<div class="card">
-<h2>🌐 Language Settings</h2>
-<label>App Language</label>
-<select id="appLanguage" onchange="saveSettings()">
-<option>English</option><option>हिन्दी</option><option>मराठी</option><option>ગુજરાતી</option><option>বাংলা</option><option>தமிழ்</option><option>తెలుగు</option><option>ಕನ್ನಡ</option><option>ਪੰਜਾਬੀ</option><option>اردو</option>
-</select>
-<label>MCQ Question Language</label>
-<select id="questionLanguage" onchange="saveSettings()">
-<option>English</option><option>हिन्दी</option><option>मराठी</option><option>ગુજરાતી</option><option>বাংলা</option><option>தமிழ்</option><option>తెలుగు</option><option>ಕನ್ನಡ</option><option>ਪੰਜਾਬੀ</option><option>اردو</option>
-</select>
-</div>
+    <div class="card">
+      <h2>🏆 Competitive Exams</h2>
+      <label>Exam Category</label>
+      <select id="examCategory" onchange="loadCompetitiveExams()">
+        <option value="">Select Category</option>
+        <option>Army</option><option>Railway</option><option>Police</option><option>Forest</option>
+        <option>SSC / Government</option><option>Banking</option><option>ITI</option>
+      </select>
+      <label>Exam / Recruitment</label>
+      <select id="competitiveExam"><option value="">Select Exam</option></select>
+      <label>Subject</label>
+      <select id="competitiveSubject">
+        <option value="">Select Subject</option>
+        <option>General Knowledge</option><option>General Science</option><option>Mathematics</option>
+        <option>Reasoning</option><option>English</option><option>Current Affairs / General Awareness</option>
+      </select>
+      <label>Practice Set</label>
+      <select id="competitiveTopic">
+        <option>Practice Set 1</option><option>Practice Set 2</option><option>Practice Set 3</option>
+        <option>Previous Year Style</option>
+      </select>
+      <button class="mainBtn green" onclick="startCompetitiveMCQ()">🏆 Start Competitive MCQ — 50 Questions</button>
+      <div class="notice">Current Affairs is labelled as General Awareness in this build because a live current-affairs feed must be updated from a verified source; this prevents fake or stale “current” questions from being presented as live news.</div>
+    </div>
+    <div id="status" class="status">Checking student account…</div>
+  </section>
 
-<div class="card">
-<h2>🎓 Education</h2>
-<label>State</label>
-<select id="state" onchange="loadBoards()">
-<option value="">Select State</option>
-<option>Maharashtra</option><option>Madhya Pradesh</option><option>Gujarat</option><option>Rajasthan</option><option>Uttar Pradesh</option><option>Bihar</option><option>Delhi</option><option>West Bengal</option><option>Tamil Nadu</option><option>Telangana</option><option>Andhra Pradesh</option><option>Karnataka</option><option>Punjab</option><option>Haryana</option><option>Odisha</option><option>Jharkhand</option><option>Chhattisgarh</option><option>Uttarakhand</option><option>Himachal Pradesh</option><option>Goa</option><option>Kerala</option><option>Assam</option><option>Jammu and Kashmir</option>
-</select>
-<label>Board</label><select id="board" onchange="loadClasses()"><option value="">Select Board</option></select>
-<label>Class</label><select id="className" onchange="loadSubjects()"><option value="">Select Class</option></select>
-<label>Subject</label><select id="subject" onchange="loadTopics()"><option value="">Select Subject</option></select>
-<label>Chapter / Topic</label><select id="topic"><option>All Chapters / Topics</option></select>
-<button class="mainBtn" onclick="startEducationMCQ()">▶️ Start Education MCQ</button>
-</div>
+  <section id="testSection" class="hidden">
+    <div class="card">
+      <div class="mcqTop"><span id="testTitle">MCQ Test</span><span id="questionCounter">Question 1/50</span></div>
+      <div class="progress"><div id="progressBar"></div></div>
+      <div id="questionText" class="question"></div>
+      <div id="optionsBox"></div>
+      <div class="testActions">
+        <button id="prevBtn" class="mainBtn secondary" onclick="previousQuestion()">⬅️ Previous</button>
+        <button id="nextBtn" class="mainBtn" onclick="nextQuestion()">Next ➡️</button>
+      </div>
+      <button id="submitBtn" class="mainBtn green hidden" onclick="submitTest()">✅ Submit Test</button>
+      <button class="mainBtn secondary" onclick="exitTest()">↩️ Exit Test</button>
+    </div>
+  </section>
 
-<div class="card">
-<h2>🏆 Competitive Exams</h2>
-<label>Exam Category</label>
-<select id="examCategory" onchange="loadCompetitiveExams()">
-<option value="">Select Category</option><option>Army</option><option>Railway</option><option>Police</option><option>Forest</option><option>SSC / Government</option><option>Banking</option><option>ITI</option>
-</select>
-<label>Exam / Recruitment</label><select id="competitiveExam"><option value="">Select Exam</option></select>
-<label>Subject</label><select id="competitiveSubject"><option>General Knowledge</option><option>General Science</option><option>Mathematics</option><option>Reasoning</option><option>Current Affairs</option><option>English</option></select>
-<label>Topic</label><select id="competitiveTopic"><option>All Topics</option><option>Practice Set 1</option><option>Practice Set 2</option><option>Previous Year Questions</option></select>
-<button class="mainBtn green" onclick="startCompetitiveMCQ()">🏆 Start Competitive MCQ</button>
-</div>
+  <section id="resultSection" class="hidden">
+    <div class="card">
+      <h2 class="sectionTitle">🏆 Test Result</h2>
+      <div id="resultScore" class="resultScore">0%</div>
+      <div id="resultText" class="resultText"></div>
+      <div class="statGrid">
+        <div class="stat">Correct<b id="correctCount">0</b></div>
+        <div class="stat">Wrong<b id="wrongCount">0</b></div>
+        <div class="stat">Unanswered<b id="unansweredCount">0</b></div>
+        <div class="stat">Total<b id="totalCount">50</b></div>
+      </div>
+      <button class="mainBtn" onclick="showReview()">📝 Review Answers</button>
+      <button class="mainBtn green" onclick="backToHome()">🏠 Back to Home</button>
+    </div>
+    <div id="reviewBox" class="card hidden"><h2>📝 Answer Review</h2><div id="reviewList"></div></div>
+  </section>
 
-<div id="status" class="status">Loading student profile...</div>
+  <section id="historySection" class="hidden">
+    <div class="card">
+      <h2 class="sectionTitle">📊 Test History</h2>
+      <div id="historyList"></div>
+      <button class="mainBtn danger" onclick="clearHistory()">🗑️ Clear History</button>
+      <button class="mainBtn secondary" onclick="showSection('home')">🏠 Back to Home</button>
+    </div>
+  </section>
 </div>
-
-<div id="testSection" class="hidden">
-<div class="card">
-<div class="mcqTop"><span id="testTitle">MCQ Test</span><span id="questionCounter">Question 1/50</span></div>
-<div class="progress"><div id="progressBar"></div></div>
-<div id="questionText" class="question"></div>
-<div id="optionsBox"></div>
-<div class="testActions">
-<button id="prevBtn" class="mainBtn secondary" onclick="previousQuestion()">⬅️ Previous</button>
-<button id="nextBtn" class="mainBtn" onclick="nextQuestion()">Next ➡️</button>
-</div>
-<button id="submitBtn" class="mainBtn green hidden" onclick="submitTest()">✅ Submit Test</button>
-<button class="mainBtn secondary" onclick="exitTest()">↩️ Exit Test</button>
-</div>
-</div>
-
-<div id="resultSection" class="hidden">
-<div class="card">
-<h2 class="sectionTitle">🏆 Test Result</h2>
-<div id="resultScore" class="resultScore">0%</div>
-<div id="resultText" class="resultText"></div>
-<div class="statGrid">
-<div class="stat">Correct<b id="correctCount">0</b></div>
-<div class="stat">Wrong<b id="wrongCount">0</b></div>
-<div class="stat">Unanswered<b id="unansweredCount">0</b></div>
-</div>
-<div class="status">Total Questions: <b id="totalCount">50</b></div>
-<button class="mainBtn" onclick="showReview()">📝 Review Answers</button>
-<button class="mainBtn green" onclick="backToHome()">🏠 Back to Home</button>
-</div>
-<div id="reviewBox" class="card hidden"><h2>📝 Answer Review</h2><div id="reviewList"></div></div>
-</div>
-
-<div id="historySection" class="hidden">
-<div class="card">
-<h2 class="sectionTitle">📊 Test History</h2>
-<div id="historyList"></div>
-<button class="mainBtn danger" onclick="clearHistory()">🗑️ Clear History</button>
-<button class="mainBtn secondary" onclick="showSection('home')">🏠 Back to Home</button>
-</div>
-</div>
-
-</div>
-<footer>© 2026 MCQ MASTER<br>Education • Practice • Competitive Exams</footer>
+<footer>© 2026 MCQ MASTER • 50-question test engine</footer>
 
 <script>
 const SUPABASE_URL="https://sssuikjzkurnwntthflx.supabase.co";
 const SUPABASE_KEY="sb_publishable_pmLD97XYDiVBTxu5Ouedtw_r4uL4is9";
-const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-let currentUser=null;
-let testState={questions:[],index:0,answers:[],meta:null,submitted:false};
-
-const questionBank={
- education:{
-  "Class 10|Science|Chapter 1":[
-   ["Which gas is released during photosynthesis?","Oxygen","Nitrogen","Carbon dioxide","Hydrogen",0],
-   ["The basic unit of life is called?","Tissue","Cell","Organ","Nucleus",1],
-   ["Which part of the cell controls its activities?","Cell wall","Cytoplasm","Nucleus","Vacuole",2],
-   ["What is the chemical formula of water?","CO2","H2O","O2","NaCl",1],
-   ["Which organ pumps blood through the human body?","Lungs","Kidney","Heart","Liver",2],
-   ["Plants prepare food mainly in the?","Roots","Leaves","Stem","Flower",1],
-   ["Which of these is a renewable source of energy?","Coal","Petrol","Solar energy","Natural gas",2],
-   ["The process of conversion of food into energy is called?","Respiration","Transpiration","Photosynthesis","Digestion",0],
-   ["Which blood cells help fight infections?","Red blood cells","White blood cells","Platelets","Plasma",1],
-   ["The SI unit of force is?","Joule","Watt","Newton","Pascal",2]
-  ]
- },
- competitive:{
-  "Army|GD|General Knowledge":[
-   ["What is the capital of India?","Mumbai","New Delhi","Kolkata","Chennai",1],
-   ["Who is known as the Father of the Indian Constitution?","Mahatma Gandhi","B. R. Ambedkar","Jawaharlal Nehru","Sardar Patel",1],
-   ["How many states are there in India?","26","27","28","29",2],
-   ["Which is the largest Indian state by area?","Maharashtra","Rajasthan","Madhya Pradesh","Gujarat",1],
-   ["What is the national animal of India?","Lion","Tiger","Elephant","Leopard",1],
-   ["Which planet is known as the Red Planet?","Venus","Mars","Jupiter","Mercury",1],
-   ["Who wrote the Indian national anthem?","Rabindranath Tagore","Bankim Chandra Chattopadhyay","Premchand","Sarojini Naidu",0],
-   ["What is the currency of India?","Dollar","Rupee","Pound","Yen",1],
-   ["Which ocean lies south of India?","Atlantic Ocean","Indian Ocean","Pacific Ocean","Arctic Ocean",1],
-   ["The highest civilian award of India is?","Padma Shri","Padma Bhushan","Bharat Ratna","Param Vir Chakra",2]
-  ]
- }
+const db=window.supabase?.createClient(SUPABASE_URL,SUPABASE_KEY);
+const QUESTION_BANK={"Mathematics":[["What is 15% of 200?","20","25","30","35",2],["What is the HCF of 24 and 36?","6","12","18","24",1],["What is the LCM of 8 and 12?","16","20","24","48",2],["If x + 7 = 19, what is x?","10","11","12","13",2],["What is 3/4 of 80?","40","50","60","70",2],["What is the square of 15?","125","200","225","250",2],["What is the cube of 4?","16","32","64","128",2],["A number divided by 5 gives 12. What is the number?","50","55","60","65",2],["What is the average of 10, 20 and 30?","15","20","25","30",1],["A shirt marked ₹800 is sold at 10% discount. Selling price?","₹700","₹720","₹740","₹760",1],["What is the simple interest on ₹1000 at 10% per year for 2 years?","₹100","₹150","₹200","₹250",2],["If 5 pens cost ₹60, what is the cost of 8 pens?","₹84","₹90","₹96","₹100",2],["The ratio 18:24 in simplest form is?","2:3","3:4","4:5","5:6",1],["What is 0.75 as a fraction?","1/2","2/3","3/4","4/5",2],["What is the perimeter of a square with side 9 cm?","18 cm","27 cm","36 cm","81 cm",2],["Area of a rectangle 12 cm by 5 cm is?","17 cm²","34 cm²","60 cm²","120 cm²",2],["What is the circumference of a circle with radius 7 cm using 22/7?","22 cm","44 cm","88 cm","154 cm",1],["If 2x = 18, x equals?","7","8","9","10",2],["What is 25²?","525","600","625","650",2],["What is the next prime number after 29?","30","31","33","35",1],["A train travels 120 km in 2 hours. Speed?","40 km/h","50 km/h","60 km/h","80 km/h",2],["If a:b = 2:5 and a = 14, b = ?","28","30","35","40",2],["What is 7 × 8 − 10?","46","48","54","56",0],["What is 144 ÷ 12?","10","11","12","14",2],["What is 2.5 + 3.75?","5.25","6.00","6.25","6.50",2],["If 30% of a number is 45, the number is?","120","135","150","180",2],["A shopkeeper buys an item for ₹500 and sells it for ₹600. Profit percent?","10%","15%","20%","25%",2],["What is the median of 3, 5, 7, 9, 11?","5","7","8","9",1],["What is 1/5 + 2/5?","2/5","3/5","3/10","4/5",1],["If 4 workers finish a job in 12 days, at the same rate 8 workers take?","3 days","6 days","12 days","24 days",1],["What is the value of 5! ?","25","60","100","120",3],["The sum of angles in a triangle is?","90°","180°","270°","360°",1],["A right angle measures?","45°","90°","120°","180°",1],["What is √169?","11","12","13","14",2],["If 3 notebooks cost ₹90, one notebook costs?","₹20","₹25","₹30","₹35",2],["What is 12.5% of 80?","5","8","10","12",2],["A number increased from 80 to 100. Percentage increase?","20%","25%","30%","40%",1],["What is the reciprocal of 5/7?","5/7","7/5","2/7","7/2",1],["What is 2³ + 3²?","13","15","17","19",2],["If 1 USD is treated as ₹80 for a calculation, 5 USD equals?","₹300","₹350","₹400","₹450",2],["A car covers 150 km in 3 hours. Its average speed is?","40 km/h","50 km/h","60 km/h","75 km/h",1],["What is 18% of 500?","80","90","100","110",1],["If x/4 = 6, x = ?","18","20","24","28",2],["The area of a triangle is 1/2 × base × height. For base 10 cm and height 8 cm, area is?","20 cm²","30 cm²","40 cm²","80 cm²",2],["What is 999 + 1?","100","1000","1001","9999",1],["A dozen contains how many items?","10","12","14","24",1],["What is the value of 5 × 5 + 5?","25","30","35","50",1],["If 40% of 250 is?","80","90","100","110",2],["What is 7/8 of 64?","48","54","56","60",2],["A clock shows 3:00. The angle between the hands is?","30°","60°","90°","120°",2]],"General Knowledge":[["What is the capital of India?","Mumbai","New Delhi","Kolkata","Chennai",1],["Who is known as the Father of the Indian Constitution?","Mahatma Gandhi","B. R. Ambedkar","Jawaharlal Nehru","Sardar Patel",1],["What is the national animal of India?","Lion","Tiger","Elephant","Leopard",1],["What is the national bird of India?","Peacock","Sparrow","Eagle","Swan",0],["Which is the largest Indian state by area?","Maharashtra","Rajasthan","Madhya Pradesh","Gujarat",1],["Which is the smallest Indian state by area?","Goa","Sikkim","Tripura","Manipur",0],["Which ocean lies to the south of India?","Atlantic","Indian","Pacific","Arctic",1],["Who wrote the Indian national anthem?","Rabindranath Tagore","Bankim Chandra Chattopadhyay","Sarojini Naidu","Premchand",0],["What is the currency of Japan?","Won","Yuan","Yen","Dollar",2],["Which planet is known as the Red Planet?","Venus","Mars","Jupiter","Mercury",1],["Which is the largest planet in the solar system?","Earth","Saturn","Jupiter","Neptune",2],["Which gas is most abundant in Earth's atmosphere?","Oxygen","Nitrogen","Carbon dioxide","Hydrogen",1],["How many continents are commonly recognised?","5","6","7","8",2],["How many oceans are commonly recognised?","3","4","5","6",2],["Which is the longest river in India?","Ganga","Yamuna","Godavari","Narmada",0],["Which is the highest mountain peak in the world?","K2","Kangchenjunga","Mount Everest","Nanda Devi",2],["Who was the first Prime Minister of independent India?","Sardar Patel","Jawaharlal Nehru","Rajendra Prasad","Lal Bahadur Shastri",1],["Who was the first President of India?","Dr Rajendra Prasad","Dr S. Radhakrishnan","Zakir Husain","V. V. Giri",0],["Which day is observed as India's Republic Day?","15 August","26 January","2 October","14 November",1],["Which day is India's Independence Day?","15 August","26 January","5 September","2 October",0],["Who wrote Vande Mataram?","Rabindranath Tagore","Bankim Chandra Chattopadhyay","Subhas Chandra Bose","Sarojini Naidu",1],["Which is the largest desert in India?","Thar Desert","Sahara Desert","Gobi Desert","Kalahari Desert",0],["Which Indian city is known as the Pink City?","Udaipur","Jaipur","Jodhpur","Bikaner",1],["Which city is known as the City of Lakes in Rajasthan?","Jaipur","Udaipur","Kota","Ajmer",1],["Which state is famous for the Kaziranga National Park?","Assam","Kerala","Gujarat","Odisha",0],["Gir National Park is famous for which animal?","Tiger","Asiatic lion","Elephant","Rhino",1],["Which is the largest public sector bank in India by assets?","SBI","PNB","Bank of Baroda","Canara Bank",0],["What does RBI stand for?","Reserve Bank of India","Regional Bank of India","Rural Bank of India","Reserve Banking Institution",0],["Where is the headquarters of the United Nations?","Geneva","New York","Paris","London",1],["Which country is known as the Land of the Rising Sun?","China","Japan","Thailand","South Korea",1],["Which instrument measures atmospheric pressure?","Thermometer","Barometer","Hygrometer","Ammeter",1],["Which instrument measures earthquakes?","Seismograph","Barometer","Altimeter","Calorimeter",0],["What is the SI unit of force?","Joule","Watt","Newton","Pascal",2],["What is the SI unit of power?","Joule","Watt","Newton","Volt",1],["Which metal is liquid at room temperature?","Iron","Mercury","Copper","Aluminium",1],["What is the chemical symbol for gold?","Ag","Au","Gd","Go",1],["What is the chemical symbol for silver?","Si","Ag","Au","Al",1],["Which vitamin is produced in skin in sunlight?","Vitamin A","Vitamin B12","Vitamin C","Vitamin D",3],["Which organ purifies blood by filtering wastes into urine?","Heart","Kidney","Lung","Stomach",1],["Which is the hardest natural substance?","Iron","Diamond","Quartz","Granite",1],["Who developed the theory of relativity?","Isaac Newton","Albert Einstein","Galileo Galilei","Niels Bohr",1],["Who discovered penicillin?","Alexander Fleming","Louis Pasteur","Robert Koch","Edward Jenner",0],["Which is the largest mammal?","Elephant","Blue whale","Giraffe","Hippopotamus",1],["Which bird is known for its ability to mimic human speech?","Parrot","Ostrich","Penguin","Swan",0],["Which Indian festival is known as the festival of lights?","Holi","Diwali","Eid","Baisakhi",1],["Which festival is known as the festival of colours?","Holi","Diwali","Pongal","Onam",0],["What is the full form of ISRO?","Indian Space Research Organisation","Indian Satellite Research Office","International Space Research Organisation","Indian Science Research Organisation",0],["What is the full form of DRDO?","Defence Research and Development Organisation","Department of Research and Defence Operations","Defence Research Department Office","Development Research and Defence Organisation",0],["Which Indian city is the capital of Maharashtra?","Nagpur","Pune","Mumbai","Nashik",2],["Which sea lies to the west of India?","Arabian Sea","Red Sea","Caspian Sea","Black Sea",0]],"Science":[["Which gas is released during photosynthesis?","Oxygen","Nitrogen","Carbon dioxide","Hydrogen",0],["The basic unit of life is called?","Tissue","Cell","Organ","Nucleus",1],["Which part of the cell controls its activities?","Cell wall","Cytoplasm","Nucleus","Vacuole",2],["What is the chemical formula of water?","CO2","H2O","O2","NaCl",1],["Which organ pumps blood through the human body?","Lungs","Kidney","Heart","Liver",2],["Plants prepare food mainly in the?","Roots","Leaves","Stem","Flower",1],["Which is a renewable source of energy?","Coal","Petrol","Solar energy","Natural gas",2],["The process by which plants lose water vapour is called?","Respiration","Transpiration","Digestion","Filtration",1],["Which blood cells help fight infections?","Red blood cells","White blood cells","Platelets","Plasma",1],["The SI unit of force is?","Joule","Watt","Newton","Pascal",2],["Which organ is mainly responsible for breathing?","Heart","Lungs","Kidney","Liver",1],["Which nutrient is mainly needed for body building?","Protein","Carbohydrate","Water","Mineral salt",0],["Which vitamin helps in blood clotting?","Vitamin A","Vitamin C","Vitamin K","Vitamin D",2],["Deficiency of vitamin C causes?","Rickets","Scurvy","Night blindness","Beriberi",1],["Deficiency of vitamin D can cause?","Scurvy","Rickets","Anaemia","Goitre",1],["Which acid is present in lemon?","Acetic acid","Citric acid","Sulphuric acid","Hydrochloric acid",1],["Which gas is necessary for human respiration?","Nitrogen","Oxygen","Carbon dioxide","Helium",1],["What is the boiling point of water at sea level?","50°C","75°C","100°C","120°C",2],["What is the freezing point of water?","0°C","10°C","32°C","100°C",0],["Which force pulls objects toward Earth?","Magnetic force","Gravitational force","Friction","Electric force",1],["A convex lens is thicker at the?","Edges","Centre","Both equally","None",1],["Which device converts electrical energy into mechanical energy?","Electric motor","Generator","Transformer","Battery",0],["Which device converts mechanical energy into electrical energy?","Motor","Generator","Bulb","Resistor",1],["What is the unit of electric current?","Volt","Ohm","Ampere","Watt",2],["What is the unit of resistance?","Ampere","Ohm","Volt","Joule",1],["Which material is generally a good conductor of electricity?","Rubber","Copper","Wood","Plastic",1],["Sound cannot travel through?","Solids","Liquids","Gases","Vacuum",3],["Which part of the ear helps maintain balance?","Cochlea","Semicircular canals","Eardrum","Pinna",1],["Which planet has the most prominent ring system?","Mars","Saturn","Earth","Mercury",1],["The Moon is a?","Star","Planet","Natural satellite","Comet",2],["Which layer protects Earth from much of the Sun's ultraviolet radiation?","Troposphere","Ozone layer","Mesosphere","Ionosphere",1],["Which phenomenon causes a rainbow?","Reflection only","Dispersion of light","Magnetism","Evaporation",1],["Which mirror is commonly used as a rear-view mirror in vehicles?","Plane","Convex","Concave","Parabolic",1],["Which blood group is commonly called the universal donor for red cells?","AB positive","O negative","A positive","B negative",1],["Which blood group is commonly called the universal recipient for red cells?","O negative","AB positive","A negative","B positive",1],["The human heart normally has how many chambers?","2","3","4","5",2],["Which part of the plant absorbs most water from soil?","Flower","Root hairs","Fruit","Stem",1],["Which process produces two genetically similar daughter cells?","Mitosis","Meiosis","Fertilisation","Mutation",0],["Which organelle is called the powerhouse of the cell?","Nucleus","Mitochondrion","Ribosome","Vacuole",1],["Which molecule carries genetic information in most organisms?","ATP","DNA","Glucose","Lipid",1],["Which disease is caused by a virus?","Malaria","Tuberculosis","Measles","Typhoid",2],["Malaria is transmitted mainly by?","Housefly","Female Anopheles mosquito","Male mosquito","Tick",1],["Which microorganism is used in bread making?","Yeast","Amoeba","Algae","Virus",0],["Which gas is a major greenhouse gas?","Oxygen","Carbon dioxide","Nitrogen","Argon",1],["What is the pH of a neutral solution at 25°C?","0","5","7","14",2],["Which metal reacts vigorously with water and is stored in kerosene?","Sodium","Copper","Iron","Silver",0],["Rusting of iron requires oxygen and?","Nitrogen","Water/moisture","Helium","Sunlight only",1],["Which simple machine is a ramp?","Lever","Inclined plane","Pulley","Wheel and axle",1],["Which form of energy is stored in food?","Chemical energy","Sound energy","Nuclear energy","Light energy",0],["Which renewable energy source uses moving air?","Solar","Wind","Geothermal","Tidal",1]],"Reasoning":[["Find the next number: 2, 4, 6, 8, ?","9","10","11","12",1],["Find the next number: 3, 6, 12, 24, ?","36","42","48","54",2],["Find the odd one out.","Apple","Mango","Carrot","Banana",2],["If CAT is coded as DBU, DOG is coded as?","EPH","EOG","DPH","FPH",0],["If A=1, B=2, C=3, what is the value of CAB?","5","6","7","8",1],["Which word cannot be formed from 'EDUCATION'?","ACTION","CAUTION","DANCE","COUNT",2],["A is taller than B and B is taller than C. Who is shortest?","A","B","C","Cannot say",2],["If today is Monday, what day will it be after 10 days?","Wednesday","Thursday","Friday","Saturday",1],["Which number is different from the others?","16","25","36","45",3],["Complete: AZ, BY, CX, ?","DW","EV","DU","EW",0],["If SOUTH is written as HTUOS, NORTH is written as?","HTRON","HTORN","NROTH","HRTON",0],["Pointing to a man, Ravi says, 'He is the son of my mother's only son.' The man is Ravi's?","Brother","Son","Father","Uncle",1],["A clock shows 6:00. The angle between the hands is?","90°","120°","180°","270°",2],["Which shape has exactly three sides?","Square","Triangle","Pentagon","Circle",1],["If 5 + 3 = 28 and 4 + 2 = 18 under a rule a²+b², what is 6+1?","35","37","39","41",1],["Find the missing number: 5, 10, 20, 40, ?","60","70","80","90",2],["Which comes next: Monday, Wednesday, Friday, ?","Saturday","Sunday","Tuesday","Thursday",1],["If PEN is coded as 35 using letter values, CAT equals?","22","24","26","28",1],["Which is the mirror image pair?","b/d","p/q","Both b/d and p/q","None",2],["Find the next number: 1, 4, 9, 16, ?","20","24","25","36",2],["If all roses are flowers and some flowers are red, which statement is definitely true?","All roses are red","All flowers are roses","Roses are flowers","No rose is red",2],["Which month is the odd one out?","January","March","May","June",3],["If 7 people sit in a row, how many people are at the two ends?","1","2","3","7",1],["A man walks 5 km north then 5 km south. His final distance from start is?","0 km","5 km","10 km","25 km",0],["Find the next letter: A, C, E, G, ?","H","I","J","K",1],["If BOOK is coded as CPPL, LOOK is coded as?","MPPL","M P P L","NQPL","MPQ L",0],["Which number is both even and prime?","1","2","3","5",1],["If 3 cats catch 3 mice in 3 minutes, under the same rate 1 cat catches 1 mouse in?","1 minute","3 minutes","6 minutes","9 minutes",1],["Complete the analogy: Bird : Nest :: Bee : ?","Hive","Den","Burrow","Stable",0],["Complete: Hand : Glove :: Foot : ?","Sock","Cap","Belt","Shirt",0],["Which word is opposite of 'ancient'?","Old","Modern","Historic","Past",1],["If all squares are rectangles, which is true?","Every rectangle is a square","Some rectangles may be squares","No square is a rectangle","Squares are circles",1],["Find the next number: 100, 90, 81, 73, ?","66","65","64","63",0],["If 12 is related to 144, 15 is related to?","200","215","225","250",2],["Which number should replace ?: 2, 5, 10, 17, 26, ?","35","36","37","38",2],["A is brother of B. B is sister of C. How is A related to C?","Brother","Sister","Father","Uncle",0],["Which geometric figure is the odd one out?","Square","Rectangle","Triangle","Cube",3],["If yesterday was Sunday, today is?","Saturday","Monday","Tuesday","Friday",1],["Find the next term: AB, CD, EF, ?","GH","GI","FG","HI",0],["A person facing east turns right. Which direction is he facing?","North","South","West","East",1],["Which word has letters in alphabetical order?","ACE","CAB","BCA","DAB",0],["If 8 workers are arranged in 2 equal rows, how many workers per row?","2","3","4","5",2],["Find the missing number: 4, 9, 16, 25, ?","30","36","40","49",1],["Which pair has the same relationship as 3:9?","4:12","5:20","6:12","7:14",0],["If a code changes each letter to the next letter, INDIA becomes?","JOEJB","JPEJB","HMCJZ","JOEIA",0],["Which material is the odd one out?","Copper","Iron","Gold","Plastic",3],["A family has two parents and three children. Total members?","4","5","6","7",1],["Find the next number: 7, 14, 28, 56, ?","84","98","112","120",2],["If 2 January is Monday, 9 January is?","Sunday","Monday","Tuesday","Wednesday",1],["Which number completes 3, 8, 15, 24, ?","33","35","36","39",1]],"English":[["Choose the correct article: He is ___ honest man.","a","an","the","no article",1],["Choose the synonym of 'rapid'.","slow","quick","weak","late",1],["Choose the antonym of 'ancient'.","old","modern","historic","former",1],["Identify the noun: 'The boy runs fast.'","the","boy","runs","fast",1],["Identify the verb: 'Birds fly in the sky.'","Birds","fly","in","sky",1],["Choose the correct plural of 'child'.","childs","childes","children","childrens",2],["Choose the past tense of 'go'.","goed","gone","went","going",2],["Choose the correct spelling for the word meaning 'get'.","Recieve","Receive","Receeve","Receve",1],["Choose the grammatically correct sentence about tea.","She don't like tea.","She doesn't like tea.","She doesn't likes tea.","She not like tea.",1],["Fill in: I have lived here ___ 2015.","for","since","from","at",1],["Fill in: He is good ___ mathematics.","in","on","at","for",2],["Choose the comparative form of 'good'.","gooder","best","better","more good",2],["Choose the superlative form of 'bad'.","badder","worst","worse","more bad",1],["What is the opposite of 'expand'?","increase","contract","extend","enlarge",1],["What does 'rapidly' mean?","slowly","quickly","quietly","carefully",1],["Choose the correct preposition: The book is ___ the table.","in","on","at","to",1],["Choose the correct pronoun: Riya and I went to the market. ___ bought fruit.","They","We","He","She",1],["Identify the adjective: 'It is a beautiful flower.'","It","is","beautiful","flower",2],["Identify the adverb: 'He runs quickly.'","He","runs","quickly","none",2],["Choose the passive voice: 'Ravi wrote the letter.'","The letter was written by Ravi.","The letter is writing Ravi.","Ravi was written the letter.","The letter wrote Ravi.",0],["Choose the indirect speech: He said, 'I am tired.'","He said that I am tired.","He said that he was tired.","He says he tired.","He said he is tired.",1],["Choose the correct conjunction: Work hard ___ you will fail.","and","or","but","because",1],["A person who cannot read or write is called?","literate","illiterate","editor","author",1],["One who writes poems is a?","poet","pilot","painter","player",0],["Choose the correct meaning of 'assist'.","help","avoid","attack","delay",0],["Choose the correct meaning of 'purchase'.","sell","buy","borrow","lend",1],["Choose the correct tense: 'She has finished her work.'","Simple past","Present perfect","Past perfect","Future",1],["Choose the correct form: 'They ___ playing.'","is","am","are","be",2],["Choose the correct form: 'I ___ a student.'","is","am","are","be",1],["Choose the correct question tag: 'You are coming, ___?'","are you","aren't you","isn't you","don't you",1],["Choose the correct spelling for the word meaning 'required'.","Necessary","Neccessary","Necesary","Nessesary",0],["Choose the synonym of 'brave'.","cowardly","courageous","weak","shy",1],["Choose the antonym of 'victory'.","success","defeat","win","triumph",1],["Fill in: She is afraid ___ dogs.","of","from","with","at",0],["Fill in: He depends ___ his parents.","at","on","for","to",1],["Choose the grammatically correct sentence about books.","There is many books.","There are many books.","There are much books.","There be many books.",1],["Choose the correct word: 'I ___ my homework yesterday.'","do","did","done","doing",1],["Choose the correct word: 'He ___ to school every day.'","go","goes","going","gone",1],["What is the plural of 'mouse'?","mouses","mice","mousees","meese",1],["What is the plural of 'tooth'?","tooths","teeth","toothes","tooth",1],["Choose the correct article: ___ sun rises in the east.","A","An","The","No article",2],["Choose the correct word: 'Neither Ram nor Shyam ___ present.'","are","were","is","be",2],["Choose the correct word: 'Each of the boys ___ a book.'","have","has","are having","were",1],["Choose the synonym of 'begin'.","start","end","stop","close",0],["Choose the antonym of 'accept'.","receive","reject","allow","agree",1],["Choose the correct punctuation: What a beautiful day","What a beautiful day!","What a beautiful day?","What a beautiful day.","What, a beautiful day",0],["Choose the correct spelling for the word meaning 'surroundings'.","Environment","Enviroment","Envirnment","Environmant",0],["A place where books are kept for reading is a?","laboratory","library","bakery","factory",1],["Choose the correct word: 'The news ___ true.'","are","were","is","be",2],["Choose the grammatically correct sentence using 'senior'.","He is senior than me.","He is senior to me.","He is senior from me.","He is senior with me.",1]],"History":[["Who founded the Maurya Empire?","Ashoka","Chandragupta Maurya","Bindusara","Harsha",1],["Who was the teacher of Chandragupta Maurya?","Kalidasa","Chanakya","Tulsidas","Banabhatta",1],["Ashoka belonged to which dynasty?","Gupta","Maurya","Chola","Mughal",1],["The Gupta period is often called the?","Dark Age","Golden Age","Stone Age","Modern Age",1],["Who founded the Mughal Empire in India?","Akbar","Babur","Humayun","Aurangzeb",1],["Who was the son of Babur?","Akbar","Humayun","Shah Jahan","Jahangir",1],["Who built the Taj Mahal?","Akbar","Shah Jahan","Aurangzeb","Babur",1],["Who was known as the 'Lion of Punjab'?","Lala Lajpat Rai","Bal Gangadhar Tilak","Bipin Chandra Pal","Gopal Krishna Gokhale",0],["Who gave the slogan 'Swaraj is my birthright and I shall have it'?","Gandhi","Tilak","Nehru","Bose",1],["The Indian National Congress was founded in?","1885","1890","1905","1919",0],["Who founded the Indian National Congress?","A. O. Hume","M. K. Gandhi","Dadabhai Naoroji","Lord Curzon",0],["The Partition of Bengal took place in?","1905","1911","1919","1935",0],["The Jallianwala Bagh massacre occurred in?","1905","1919","1922","1930",1],["The Non-Cooperation Movement was launched in?","1919","1920","1922","1930",1],["The Civil Disobedience Movement began with the?","Quit India Movement","Dandi March","Khilafat Movement","Swadeshi Movement",1],["The Dandi March was led by?","Subhas Chandra Bose","Mahatma Gandhi","Jawaharlal Nehru","Sardar Patel",1],["The Quit India Movement was launched in?","1930","1935","1942","1947",2],["The slogan 'Do or Die' is associated with?","Quit India Movement","Swadeshi Movement","Non-Cooperation","Home Rule",0],["Who was the last Viceroy of British India?","Lord Curzon","Lord Mountbatten","Lord Wellesley","Lord Dalhousie",1],["India became independent on?","26 January 1950","15 August 1947","26 November 1949","2 October 1947",1],["The Constitution of India was adopted on?","15 August 1947","26 November 1949","26 January 1950","2 October 1950",1],["The Constitution came into force on?","15 August 1947","26 November 1949","26 January 1950","2 October 1950",2],["Who was the first Governor-General of independent India?","Lord Mountbatten","C. Rajagopalachari","Rajendra Prasad","Nehru",0],["Who was the first Indian Governor-General of India?","C. Rajagopalachari","Rajendra Prasad","Sardar Patel","B. R. Ambedkar",0],["Who started the Home Rule League in India with Annie Besant?","Bal Gangadhar Tilak","Gandhi","Bose","Gokhale",0],["Who founded the Brahmo Samaj?","Raja Ram Mohan Roy","Swami Dayanand Saraswati","Vivekananda","Jyotiba Phule",0],["Arya Samaj was founded by?","Swami Vivekananda","Swami Dayanand Saraswati","Raja Ram Mohan Roy","Ishwar Chandra Vidyasagar",1],["Who founded the Ramakrishna Mission?","Swami Vivekananda","Ramakrishna","Dayanand Saraswati","Aurobindo",0],["Who founded the Satyashodhak Samaj?","Jyotiba Phule","B. R. Ambedkar","Gopal Hari Deshmukh","Savitribai Phule",0],["Who was the first woman ruler of the Delhi Sultanate?","Razia Sultan","Nur Jahan","Jahanara","Rani Durgavati",0],["Qutub Minar was begun by?","Iltutmish","Qutb-ud-din Aibak","Alauddin Khalji","Balban",1],["Who introduced the Mansabdari system?","Babur","Akbar","Shah Jahan","Aurangzeb",1],["Who wrote Akbarnama?","Abul Fazl","Faizi","Birbal","Tansen",0],["The Battle of Plassey was fought in?","1757","1764","1857","1773",0],["The Battle of Buxar was fought in?","1757","1764","1772","1857",1],["The Revolt of 1857 began at?","Delhi","Meerut","Kanpur","Lucknow",1],["Who led the revolt of 1857 in Jhansi?","Begum Hazrat Mahal","Rani Lakshmibai","Sarojini Naidu","Annie Besant",1],["Who led the revolt in Kanpur in 1857?","Nana Sahib","Kunwar Singh","Tantia Tope","Bahadur Shah Zafar",0],["Who was declared emperor during the Revolt of 1857?","Bahadur Shah Zafar","Akbar II","Shah Alam II","Wajid Ali Shah",0],["The first session of the Indian National Congress was held at?","Bombay","Calcutta","Madras","Delhi",0],["Who was the first woman president of the Indian National Congress?","Sarojini Naidu","Annie Besant","Vijaya Lakshmi Pandit","Aruna Asaf Ali",1],["Who was the first Indian woman president of the INC?","Annie Besant","Sarojini Naidu","Indira Gandhi","Kamala Nehru",1],["The Simon Commission came to India in?","1927","1928","1930","1932",1],["The slogan 'Simon Go Back' was raised against?","Cripps Mission","Simon Commission","Cabinet Mission","Rowlatt Act",1],["The Poona Pact was signed in?","1930","1932","1935","1942",1],["Who signed the Poona Pact on behalf of the depressed classes?","Mahatma Gandhi","B. R. Ambedkar","Nehru","Rajendra Prasad",1],["The Cabinet Mission came to India in?","1942","1945","1946","1947",2],["Who was the first President of the Constituent Assembly?","B. R. Ambedkar","Dr Rajendra Prasad","Sachchidananda Sinha","Nehru",2],["Who chaired the Drafting Committee of the Constitution?","Rajendra Prasad","B. R. Ambedkar","Nehru","Sardar Patel",1],["Who is known as the Iron Man of India?","Jawaharlal Nehru","Sardar Vallabhbhai Patel","Subhas Chandra Bose","Rajendra Prasad",1]],"Geography":[["Which is the largest continent?","Africa","Asia","Europe","North America",1],["Which is the smallest continent?","Europe","Australia","Antarctica","South America",1],["Which is the largest ocean?","Atlantic","Indian","Pacific","Arctic",2],["Which line divides Earth into Northern and Southern Hemispheres?","Tropic of Cancer","Equator","Prime Meridian","Tropic of Capricorn",1],["The Prime Meridian passes through?","Paris","Greenwich","Delhi","Rome",1],["Which latitude is at 23.5° north?","Equator","Tropic of Cancer","Tropic of Capricorn","Arctic Circle",1],["Which latitude is at 23.5° south?","Tropic of Cancer","Tropic of Capricorn","Equator","Antarctic Circle",1],["Which is the highest plateau in the world?","Deccan Plateau","Tibetan Plateau","Colorado Plateau","Iranian Plateau",1],["Which is the longest mountain range on land?","Rockies","Andes","Alps","Himalayas",1],["The Himalayas are mainly located in which direction of India?","South","North","East","West",1],["Which river is known as the 'Sorrow of Bihar'?","Ganga","Kosi","Yamuna","Godavari",1],["Which river is known as Dakshin Ganga?","Krishna","Godavari","Narmada","Mahanadi",1],["Which river flows through a rift valley?","Ganga","Narmada","Yamuna","Brahmaputra",1],["The Sundarbans are famous for?","Coral reefs","Mangrove forests","Desert vegetation","Coniferous forests",1],["Which state has the longest coastline in India?","Tamil Nadu","Gujarat","Maharashtra","Andhra Pradesh",1],["Which Indian state is called the 'Land of Five Rivers'?","Punjab","Haryana","Bihar","Rajasthan",0],["Which is the largest freshwater lake in India?","Wular Lake","Dal Lake","Chilika Lake","Sambhar Lake",0],["Chilika Lake is located in?","Odisha","Kerala","Gujarat","West Bengal",0],["Sambhar Lake is famous as India's largest?","Freshwater lake","Inland salt lake","Glacial lake","Crater lake",1],["Black soil is especially suitable for growing?","Rice","Cotton","Tea","Jute",1],["Alluvial soil is mainly found in?","Northern plains","Western Ghats","Deccan lava region","Desert only",0],["Laterite soil develops under conditions of?","High rainfall and leaching","Low rainfall only","Snowfall","Desert winds",0],["Which crop is known as a kharif crop?","Wheat","Gram","Rice","Mustard",2],["Which crop is mainly a rabi crop?","Rice","Wheat","Cotton","Jute",1],["Tea grows well in?","Hot dry deserts","Cool, wet highlands","Polar regions","Dry plateaus only",1],["Which state is a major producer of tea in India?","Assam","Punjab","Rajasthan","Haryana",0],["Which state is famous for coffee production?","Karnataka","Punjab","Bihar","Haryana",0],["Which mineral is a major source of aluminium?","Bauxite","Mica","Limestone","Gypsum",0],["Which mineral is the main ore of iron?","Hematite","Bauxite","Galena","Mica",0],["Which Indian state is rich in mica deposits?","Jharkhand","Goa","Punjab","Kerala",0],["The Deccan Plateau is mainly made of?","Basaltic lava rocks","Coral","Sandstone only","Limestone only",0],["Which desert lies in northwestern India?","Gobi","Thar","Kalahari","Atacama",1],["Which winds bring most of India's rainfall?","Trade winds","Monsoon winds","Polar winds","Westerlies only",1],["The southwest monsoon normally reaches Kerala around?","May","June","August","October",1],["Which region receives very high rainfall in India?","Thar","Mawsynram","Ladakh","Kutch",1],["Which place is in Meghalaya?","Mawsynram","Leh","Jaisalmer","Kochi",0],["Which is a cold desert of India?","Thar","Ladakh","Rann of Kutch","Chambal",1],["Which river originates near Amarkantak?","Narmada","Yamuna","Ganga","Kosi",0],["Which river originates from Gangotri glacier?","Yamuna","Bhagirathi","Godavari","Krishna",1],["Which river is formed by the confluence of Alaknanda and Bhagirathi at Devprayag?","Ganga","Yamuna","Narmada","Brahmaputra",0],["Which is India's largest river island?","Majuli","Diu","Elephanta","Salsette",0],["Which state contains the Rann of Kutch?","Gujarat","Rajasthan","Maharashtra","Odisha",0],["Which sea is to the east of India?","Arabian Sea","Bay of Bengal","Red Sea","Caspian Sea",1],["Which sea is to the west of India?","Bay of Bengal","Arabian Sea","Black Sea","Mediterranean Sea",1],["The Andaman and Nicobar Islands lie in the?","Arabian Sea","Bay of Bengal","Lakshadweep Sea","Red Sea",1],["Lakshadweep islands are mainly?","Volcanic","Coral islands","River islands","Continental mountains",1],["Which Indian state is crossed by the Tropic of Cancer?","Kerala","Madhya Pradesh","Tamil Nadu","Punjab",1],["Which city lies on the banks of the Sabarmati River?","Ahmedabad","Pune","Jaipur","Patna",0],["Which river flows through Delhi?","Yamuna","Narmada","Tapti","Godavari",0],["Which is a major port on India's western coast?","Mumbai","Kolkata","Chennai","Paradip",0]],"Civics":[["India is described in the Constitution as a?","Monarchy","Sovereign Socialist Secular Democratic Republic","Dictatorship","Theocracy",1],["The Constitution of India is the?","Highest law of the land","Law of one state","Party document","Court order",0],["Fundamental Rights are mainly contained in which Part?","Part I","Part II","Part III","Part IV",2],["Directive Principles of State Policy are in?","Part II","Part III","Part IV","Part V",2],["Fundamental Duties are in?","Part III","Part IV-A","Part V","Part VI",1],["Who is the constitutional head of the Union?","Prime Minister","President","Chief Justice","Speaker",1],["Who is the real executive head of the Union government?","President","Prime Minister","Governor","Speaker",1],["The Parliament of India consists of?","Lok Sabha only","Rajya Sabha only","President and two Houses","Supreme Court and Houses",2],["The lower house of Parliament is?","Rajya Sabha","Lok Sabha","Vidhan Parishad","Gram Sabha",1],["The upper house of Parliament is?","Lok Sabha","Rajya Sabha","Vidhan Sabha","Zila Parishad",1],["The maximum constitutional strength of Lok Sabha is?","545","550","552","560",2],["Members of Rajya Sabha are elected mainly by?","People directly in all cases","Elected members of State Legislative Assemblies","Judges","Governors",1],["The normal term of Lok Sabha is?","3 years","4 years","5 years","6 years",2],["Rajya Sabha is a?","Temporary house","Permanent house","Local body","Judicial body",1],["The President of India is elected by?","All citizens directly","An electoral college","Supreme Court","Lok Sabha alone",1],["The Vice-President is the ex-officio Chairman of?","Lok Sabha","Rajya Sabha","Supreme Court","NITI Aayog",1],["Who appoints the Prime Minister?","Chief Justice","President","Speaker","Election Commission",1],["Who appoints the Governor of a state?","Prime Minister","President","Chief Minister","Chief Justice",1],["The highest court in India is?","High Court","Supreme Court","District Court","Tribunal",1],["Who is the head of a state government?","Governor","Chief Minister","President","Speaker",1],["The constitutional head of a state is?","Chief Minister","Governor","President","Speaker",1],["Which body conducts elections in India?","UPSC","Election Commission of India","Finance Commission","NITI Aayog",1],["The minimum voting age in India is?","16","18","21","25",1],["The 73rd Constitutional Amendment relates to?","Urban local bodies","Panchayati Raj","Fundamental Rights","Emergency",1],["The 74th Constitutional Amendment relates to?","Panchayats","Urban local bodies","Judiciary","Parliament",1],["Gram Sabha consists of?","Only elected members","All registered voters in a village/panchayat area","Only officials","Only women",1],["The head of a Municipal Corporation is generally called?","Sarpanch","Mayor","Governor","Collector",1],["Who audits government accounts at the Union and state levels?","CAG","RBI","ECI","UPSC",0],["CAG stands for?","Controller and Auditor General","Central Accounts Governor","Chief Audit General","Controller of Administrative Governance",0],["UPSC stands for?","Union Public Service Commission","United Public Service Council","Union Political Service Commission","Universal Public Service Commission",0],["The Finance Commission is constituted by?","Prime Minister","President","Parliament Speaker","RBI",1],["Which body replaced the Planning Commission?","NITI Aayog","Finance Commission","UPSC","GST Council",0],["The Supreme Court can issue writs mainly for protection of?","Fundamental Rights","Taxes","Budgets","Elections only",0],["Which writ commands a public authority to perform a public duty?","Habeas corpus","Mandamus","Certiorari","Quo warranto",1],["Which writ protects a person from unlawful detention?","Habeas corpus","Mandamus","Prohibition","Certiorari",0],["The President can be impeached for?","Poor popularity","Violation of the Constitution","Losing an election","Not passing a bill",1],["A Money Bill can be introduced only in?","Rajya Sabha","Lok Sabha","Supreme Court","State Assembly",1],["Who certifies whether a bill is a Money Bill in Lok Sabha?","President","Speaker of Lok Sabha","Prime Minister","Finance Minister",1],["The Council of Ministers is collectively responsible to?","Rajya Sabha","Lok Sabha","President only","Supreme Court",1],["A constitutional amendment bill requires?","Only President's order","Parliamentary procedure under Article 368","Supreme Court approval first","Election Commission approval",1],["Which is a Fundamental Right?","Right to Equality","Right to Property as a Fundamental Right","Right to Vote as a Fundamental Right","Right to Work as a Fundamental Right",0],["Right to Education is for children generally in the age group?","3–6","6–14","14–18","18–21",1],["The President's Rule in a state is associated with?","Article 356","Article 32","Article 21","Article 370",0],["National Emergency is provided under?","Article 352","Article 356","Article 360","Article 368",0],["Financial Emergency is provided under?","Article 352","Article 356","Article 360","Article 365",2],["The Indian Constitution was drafted by a committee chaired by?","B. R. Ambedkar","Nehru","Rajendra Prasad","Sardar Patel",0],["The Preamble begins with?","We the People of India","India is a Republic","In the name of God","Justice for all",0],["Which word was added to the Preamble by the 42nd Amendment?","Federal","Socialist","Republic","Justice",1],["Which institution is called the guardian of the Constitution?","Parliament","Supreme Court","President","Election Commission",1],["The voting system in India is based on?","Universal adult suffrage","Property qualification","Literacy qualification","Income qualification",0]],"Economics":[["GDP stands for?","Gross Domestic Product","General Domestic Price","Gross Development Product","Government Domestic Product",0],["Inflation means a sustained rise in the?","General price level","Employment only","Exports only","Population only",0],["Deflation generally means a sustained fall in the?","General price level","Population","Exports","Tax rates only",0],["RBI is India's?","Central bank","Commercial bank","Development bank only","Insurance regulator",0],["Which institution issues most currency notes in India?","RBI","SBI","SEBI","NABARD",0],["Repo rate is the rate at which RBI lends to?","Commercial banks","Households directly","Foreign governments","Stock exchanges",0],["Reverse repo rate is associated with RBI borrowing from?","Commercial banks","Farmers","Households","Foreign tourists",0],["SEBI regulates the?","Securities market","Insurance market","Banking currency","Railways",0],["IRDAI regulates the?","Insurance sector","Stock market","Banking sector","Telecom sector",0],["GST is a?","Indirect tax","Direct tax","Wealth tax only","Corporate dividend",0],["Income tax is generally a?","Direct tax","Indirect tax","Customs duty","Excise only",0],["A budget is mainly a statement of expected?","Government receipts and expenditure","Population","Rainfall","Imports only",0],["Fiscal deficit occurs when government expenditure exceeds?","Government receipts excluding borrowings","Exports","Imports","Money supply",0],["Per capita income is calculated as national income divided by?","Population","Area","Exports","Labour force only",0],["Which sector includes agriculture?","Primary","Secondary","Tertiary","Quaternary only",0],["Manufacturing belongs mainly to which sector?","Primary","Secondary","Tertiary","Informal only",1],["Banking is part of which sector?","Primary","Secondary","Tertiary","Agricultural",2],["NABARD is mainly associated with?","Agriculture and rural development","Space research","Stock trading","Railways",0],["MSME stands for?","Micro, Small and Medium Enterprises","Medium State Market Enterprises","Micro State Manufacturing Economy","Major Small Market Enterprises",0],["Which is a capital good?","Machine used in a factory","Bread for consumption","School notebook","Fruit",0],["Demand generally falls when price rises, other things being equal. This is the?","Law of demand","Law of supply","Gresham's law","Say's law",0],["Supply generally rises when price rises, other things being equal. This is the?","Law of supply","Law of demand","Law of utility","Law of population",0],["Opportunity cost means?","Value of the next best alternative forgone","Total money spent","Tax paid","Profit earned",0],["A market with a single seller is called?","Monopoly","Oligopoly","Perfect competition","Monopsony",0],["A market dominated by a few sellers is called?","Oligopoly","Monopoly","Perfect competition","Barter",0],["The official currency of India is?","Rupee","Dollar","Pound","Yen",0],["Balance of trade compares?","Exports and imports of goods","Income and expenditure","Tax and subsidy","Savings and investment",0],["Exports are goods and services?","Sold to other countries","Bought from other countries","Produced only for self-use","Destroyed abroad",0],["Imports are goods and services?","Bought from other countries","Sold to other countries","Produced by government only","Taxed by RBI only",0],["A bank deposit that can be withdrawn on demand is generally a?","Demand deposit","Fixed capital","Debenture","Equity share",0],["A fixed deposit usually offers?","A fixed tenure","No tenure","Ownership in RBI","Voting rights in government",0],["Which is a renewable economic resource?","Solar energy","Coal","Petroleum","Natural gas",0],["Human capital refers to?","Skills and knowledge of people","Machines only","Land only","Money only",0],["Poverty line is used to identify?","People below a specified minimum level of consumption/income","Only taxpayers","Only exporters","Only government employees",0],["Unemployment means a person is willing and able to work but?","Cannot find suitable work","Does not want to work","Is retired","Is a student only",0],["Seasonal unemployment is common in?","Agriculture","Banking only","Software only","Courts only",0],["The Public Distribution System mainly provides?","Essential commodities at subsidised prices","Luxury cars","Foreign currency","Stock shares",0],["Which body presents the Union Budget in Parliament?","Union Finance Minister","RBI Governor","President alone","CAG",0],["National income measures the income generated by?","An economy during a period","One company only","One family only","One village only",0],["The full form of CPI is?","Consumer Price Index","Central Production Index","Consumer Production Indicator","Capital Price Index",0],["The full form of WPI is?","Wholesale Price Index","World Price Indicator","Wholesale Production Index","World Production Index",0],["A subsidy is generally a form of?","Financial support","Penalty","Loan repayment only","Tax increase",0],["Privatisation means transfer of ownership/control from?","Public sector to private sector","Private to public only","Foreign to domestic only","Banks to RBI",0],["Liberalisation generally means?","Reducing unnecessary government restrictions","Increasing all restrictions","Ending all trade","Banning imports",0],["Globalisation refers to increasing integration of?","Economies and markets across countries","Only villages","Only banks","Only schools",0],["Which is an example of a public good?","Street lighting","A private car","A restaurant meal","A personal phone",0],["A tax on imported goods is called?","Customs duty","Income tax","Property tax","GST compensation",0],["The primary aim of monetary policy is commonly related to managing?","Money, credit and inflation","School exams","Road construction only","Population census",0],["Economic growth is commonly measured by increase in?","Real output/income over time","Only prices","Only population","Only imports",0],["The stock market is a market for?","Securities such as shares and bonds","Vegetables","Foreign tourists","Farm tools only",0]],"Computer Science":[["What does CPU stand for?","Central Processing Unit","Computer Primary Unit","Central Program Utility","Central Power Unit",0],["Which is known as the brain of the computer?","Monitor","CPU","Keyboard","Printer",1],["RAM is primarily?","Volatile memory","Permanent storage","Input device","Output device",0],["ROM is primarily?","Non-volatile memory","Temporary memory","Input device","Network cable",0],["Which device is used to enter text?","Keyboard","Monitor","Speaker","Projector",0],["Which device displays visual output?","Keyboard","Monitor","Mouse","Scanner",1],["Which device is used to print documents?","Printer","Router","Scanner","Microphone",0],["Which device converts paper documents into digital images?","Scanner","Printer","Speaker","Keyboard",0],["Which is an operating system?","Windows","Google","Intel","Python",0],["Which is an open-source operating system kernel?","Linux","Excel","Chrome","PowerPoint",0],["What does URL stand for?","Uniform Resource Locator","Universal Record Link","User Resource Line","Uniform Routing Link",0],["What does HTTP stand for?","HyperText Transfer Protocol","HighText Transfer Program","Hyperlink Text Transfer Process","Host Transfer Text Protocol",0],["What does HTTPS add to HTTP?","Encryption/security","More storage","A printer","A database only",0],["What is a web browser?","Software used to access web pages","A type of CPU","A database server only","An operating system only",0],["Which is a web browser?","Chrome","Linux","Python","Oracle",0],["HTML is used mainly to?","Structure web pages","Style only","Store passwords","Manage hardware",0],["CSS is used mainly to?","Style web pages","Create databases only","Control electricity","Compress files",0],["JavaScript is commonly used to?","Add interactivity to web pages","Replace the CPU","Format hard drives only","Print books",0],["Which language is primarily used for styling web pages?","CSS","HTML","SQL","C",0],["Which language is commonly used to query relational databases?","SQL","HTML","CSS","JPEG",0],["What does SQL stand for?","Structured Query Language","Simple Query Link","System Quality Language","Structured Question List",0],["What is a database?","Organised collection of data","A monitor","A keyboard","A power supply",0],["What is a primary key?","A field that uniquely identifies records","A password only","A duplicate field","A graphics file",0],["What is a computer network?","Connected devices sharing data/resources","A single calculator","A printer cartridge","A software licence",0],["LAN stands for?","Local Area Network","Large Access Network","Long Area Node","Local Access Node",0],["WAN stands for?","Wide Area Network","Wireless Access Node","Web Area Network","World Application Network",0],["Which device forwards data between networks?","Router","Keyboard","Monitor","Printer",0],["Which device connects devices within a LAN?","Switch","Scanner","Speaker","Webcam",0],["What is an IP address used for?","Identifying a device/interface on a network","Printing documents","Storing music only","Formatting text",0],["What does Wi-Fi provide?","Wireless network connectivity","A wired printer","A CPU upgrade","A battery",0],["What is malware?","Malicious software","A backup","A browser","A programming language",0],["What is phishing?","A fraudulent attempt to obtain sensitive information","A backup method","A file format","A coding language",0],["What is a strong password generally characterised by?","Length and a mix of character types","Only a first name","Only numbers 1234","A public password",0],["Two-factor authentication adds?","A second verification factor","A second monitor","A second CPU","A second browser",0],["Cloud computing means using?","Computing resources over a network/internet","Only local paper files","A physical cloud","A printer",0],["What is a backup?","A copy of data for recovery","A virus","A browser","A password",0],["Which file extension is commonly used for a PDF?","pdf","docx","jpg","exe",0],["Which is an image file format?","JPEG","HTML","SQL","EXE",0],["Which is a spreadsheet application?","Microsoft Excel","Notepad","Paint","Calculator",0],["Which is a presentation application?","Microsoft PowerPoint","Excel","Notepad","Calculator",0],["What does Ctrl+C usually do?","Copy","Cut","Paste","Close",0],["What does Ctrl+V usually do?","Paste","Copy","Undo","Save",0],["What does Ctrl+Z usually do?","Undo","Redo","Save","Print",0],["What does Ctrl+S usually do?","Save","Search","Select all","Share",0],["Binary number system uses which digits?","0 and 1","1 and 2","0 to 9","A and B",0],["One byte contains how many bits?","4","8","16","32",1],["1024 bytes is commonly called?","1 KB","1 MB","1 GB","1 TB",0],["A compiler translates?","Source code into machine/object code","Images into sound","Paper into text only","Emails into letters",0],["An algorithm is?","A step-by-step procedure to solve a problem","A computer virus","A storage device","A monitor type",0],["What is an AI model used for?","Learning patterns from data to perform tasks","Only printing","Only charging phones","Only storing files",0]]};
+const SUBJECT_ALIASES={
+  "General Science":"Science",
+  "Current Affairs / General Awareness":"General Knowledge",
+  "Physics":"Science",
+  "Chemistry":"Science",
+  "Biology":"Science"
 };
-
-const genericQuestions=[
- ["Which one is a natural resource?","Sunlight","Plastic","Glass","Steel",0],
- ["Which number comes after 99?","98","100","101","90",1],
- ["Which is used to measure temperature?","Barometer","Thermometer","Ammeter","Compass",1],
- ["Which is the largest planet in our solar system?","Earth","Mars","Jupiter","Venus",2],
- ["Which direction does the Sun appear to rise from?","West","North","East","South",2],
- ["How many days are there in a leap year?","365","366","364","360",1],
- ["Which is a mammal?","Frog","Snake","Whale","Crocodile",2],
- ["Which language is primarily used to structure web pages?","HTML","SQL","Python","C",0],
- ["Which device is used to enter text into a computer?","Monitor","Keyboard","Speaker","Printer",1],
- ["Water freezes at what temperature on the Celsius scale?","0°C","10°C","50°C","100°C",0]
-];
-
+const EDUCATION_SUBJECTS=["Mathematics","Science","English","History","Geography","Civics","Economics","Computer Science"];
 const competitiveData={
  Army:["Agniveer","GD","Technical","Clerk"],
  Railway:["RRB Group D","RRB NTPC","ALP","Technician"],
@@ -208,309 +203,224 @@ const competitiveData={
  Banking:["IBPS Clerk","IBPS PO","SBI Clerk","SBI PO"],
  ITI:["Electrician","Fitter","Welder","COPA"]
 };
+let currentUser=null;
+let testState={questions:[],index:0,answers:[],meta:null,submitted:false};
 
+function $(id){return document.getElementById(id)}
+function escapeHtml(value){return String(value).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function shuffleCopy(arr,seedText="") {
+  const a=arr.map(x=>x.slice());
+  let seed=0;
+  for(let i=0;i<seedText.length;i++) seed=((seed*31)+seedText.charCodeAt(i))>>>0;
+  if(!seed) seed=123456789;
+  function rnd(){seed=(1664525*seed+1013904223)>>>0;return seed/4294967296}
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
+  return a;
+}
+function unique50(subject,seedText) {
+  const key=SUBJECT_ALIASES[subject]||subject;
+  const pool=QUESTION_BANK[key];
+  if(!Array.isArray(pool)) return null;
+  const unique=[]; const seen=new Set();
+  for(const q of pool) {
+    if(!Array.isArray(q)||q.length<6) continue;
+    const text=String(q[0]).trim();
+    if(!text||seen.has(text)) continue;
+    if(!Number.isInteger(q[5])||q[5]<0||q[5]>3) continue;
+    unique.push(q);seen.add(text);
+  }
+  if(unique.length<50) return null;
+  return shuffleCopy(unique.slice(0,50),seedText);
+}
 function historyKey(){return "mcq_master_history_"+(currentUser?.id||"guest")}
-function getHistory(){try{return JSON.parse(localStorage.getItem(historyKey())||"[]")}catch(e){return[]}}
+function getHistory(){try{return JSON.parse(localStorage.getItem(historyKey())||"[]")||[]}catch(e){return[]}}
 function saveHistory(item){const h=getHistory();h.unshift(item);localStorage.setItem(historyKey(),JSON.stringify(h.slice(0,100)))}
 
-async function checkStudentLogin(){
- const {data,error}=await db.auth.getSession();
- if(error||!data.session){window.location.replace("login.html");return}
- currentUser=data.session.user;
- await loadStudentProfile();
- renderHistory();
+async function initAuth(){
+  if(!db){ $("status").innerText="Supabase library load nahi hui. Internet connection check karo."; return; }
+  try {
+    const {data,error}=await db.auth.getSession();
+    if(error||!data.session){window.location.replace("login.html");return}
+    currentUser=data.session.user;
+    await loadStudentProfile();
+    renderHistory();
+  } catch(e) {
+    console.error(e); $("status").innerText="Account load nahi hua. Page refresh karke try karo.";
+  }
+  db.auth.onAuthStateChange((event,session)=>{
+    if(event==="SIGNED_OUT"){currentUser=null;window.location.replace("login.html")}
+  });
 }
-
 async function loadStudentProfile(){
- document.getElementById("studentEmail").innerText=currentUser.email||"";
- const {data:profile}=await db.from("profiles").select("full_name,email,app_language,question_language,state,board,class_name").eq("id",currentUser.id).maybeSingle();
- if(profile){
-  document.getElementById("studentName").innerText=profile.full_name||currentUser.user_metadata?.full_name||"Student";
-  if(profile.app_language)document.getElementById("appLanguage").value=profile.app_language;
-  if(profile.question_language)document.getElementById("questionLanguage").value=profile.question_language;
-  if(profile.state){document.getElementById("state").value=profile.state;loadBoards(profile.board,profile.class_name)}
- }else document.getElementById("studentName").innerText=currentUser.user_metadata?.full_name||"Student";
- document.getElementById("status").innerText="✅ Student account active";
+  $("studentEmail").innerText=currentUser?.email||"";
+  $("studentName").innerText=currentUser?.user_metadata?.full_name||"Student";
+  if(!db||!currentUser) return;
+  try {
+    const {data}=await db.from("profiles").select("full_name,email,app_language,question_language,state,board,class_name").eq("id",currentUser.id).maybeSingle();
+    if(data){
+      $("studentName").innerText=data.full_name||currentUser?.user_metadata?.full_name||"Student";
+      if(data.app_language) $("appLanguage").value=data.app_language;
+      if(data.question_language) $("questionLanguage").value=data.question_language;
+      if(data.state){ $("state").value=data.state; loadBoards(data.board||"",data.class_name||""); }
+    }
+    $("status").innerText="✅ Student account active";
+  } catch(e) {
+    $("status").innerText="✅ Student account active (profile table unavailable)";
+  }
 }
-
 async function saveSettings(){
- if(!currentUser)return;
- await db.from("profiles").update({
-  app_language:document.getElementById("appLanguage").value,
-  question_language:document.getElementById("questionLanguage").value
- }).eq("id",currentUser.id);
+  if(!db||!currentUser) return;
+  try{await db.from("profiles").update({
+    app_language:$("appLanguage").value,
+    question_language:$("questionLanguage").value
+  }).eq("id",currentUser.id)}catch(e){console.warn("Profile settings not saved",e)}
 }
-
 function loadBoards(savedBoard="",savedClass=""){
- const state=document.getElementById("state").value,board=document.getElementById("board");
- board.innerHTML='<option value="">Select Board</option>';
- if(!state)return;
- if(state==="Maharashtra")board.innerHTML+='<option>MSBSHSE</option><option>CBSE</option><option>ICSE</option>';
- else board.innerHTML+='<option>State Board</option><option>CBSE</option><option>ICSE</option>';
- if(savedBoard)board.value=savedBoard;
- loadClasses(savedClass);
+  const state=$("state").value, board=$("board");
+  board.innerHTML='<option value="">Select Board</option>';
+  if(!state){loadClasses("");return}
+  if(state==="Maharashtra") board.innerHTML+='<option>MSBSHSE</option><option>CBSE</option><option>ICSE</option>';
+  else board.innerHTML+='<option>State Board</option><option>CBSE</option><option>ICSE</option>';
+  if(savedBoard) board.value=savedBoard;
+  loadClasses(savedClass);
 }
 function loadClasses(savedClass=""){
- const c=document.getElementById("className");c.innerHTML='<option value="">Select Class</option>';
- for(let i=1;i<=12;i++)c.innerHTML+=`<option>Class ${i}</option>`;
- c.innerHTML+='<option>ITI</option>';
- if(savedClass){c.value=savedClass;loadSubjects()}
+  const c=$("className"); c.innerHTML='<option value="">Select Class</option>';
+  for(let i=1;i<=12;i++) c.innerHTML+=`<option>Class ${i}</option>`;
+  if(savedClass){c.value=savedClass;loadSubjects()}
 }
 function loadSubjects(){
- const s=document.getElementById("subject"),c=document.getElementById("className").value;
- s.innerHTML='<option value="">Select Subject</option>';
- const list=["Mathematics","Science","Physics","Chemistry","Biology","Marathi","Hindi","English","History","Geography","Civics","Economics","Computer Science"];
- list.forEach(x=>s.innerHTML+=`<option>${x}</option>`);
- loadTopics();
+  const s=$("subject"); s.innerHTML='<option value="">Select Subject</option>';
+  EDUCATION_SUBJECTS.forEach(x=>s.innerHTML+=`<option>${escapeHtml(x)}</option>`);
+  loadTopics();
 }
 function loadTopics(){
- const t=document.getElementById("topic");t.innerHTML="";
- ["All Chapters / Topics","Chapter 1","Chapter 2","Chapter 3","Chapter 4","Chapter 5"].forEach(x=>t.innerHTML+=`<option>${x}</option>`);
+  const t=$("topic"); t.innerHTML="";
+  ["All Chapters / Topics","Chapter 1","Chapter 2","Chapter 3","Chapter 4","Chapter 5"].forEach(x=>t.innerHTML+=`<option>${escapeHtml(x)}</option>`);
 }
-
-
-function shuffleQuestions(arr){
- const copy=Array.isArray(arr)?arr.slice():[];
- for(let i=copy.length-1;i>0;i--){
-  const j=Math.floor(Math.random()*(i+1));
-  [copy[i],copy[j]]=[copy[j],copy[i]];
- }
- return copy;
-}
-
-function makePool(prefix, count, factory){
- const out=[];
- for(let i=1;i<=count;i++) out.push(factory(i));
- return out;
-}
-
-const subjectQuestionPools={
- "General Knowledge": makePool("GK",50,i=>[
-  "Which statement is a standard general-knowledge fact?","Option A","Option B","Option C","Option D",i%4
- ]),
- "General Science": makePool("GS",50,i=>[
-  "Which of the following is related to general science?","Physics","Chemistry","Biology","All of these",3
- ]),
- "Mathematics": makePool("MATH",50,i=>[
-  `What is ${i}+${i}?`,String(i*2),String(i+1),String(i*3),String(i),0
- ]),
- "Reasoning": makePool("REASON",50,i=>[
-  `What comes next in this simple sequence: ${i}, ${i+1}, ?`,
-  String(i+2),String(i+3),String(i+4),String(i+5),0
- ]),
- "English": makePool("ENG",50,i=>[
-  "Choose the correct option for this English practice question.","Option A","Option B","Option C","Option D",i%4
- ]),
- "Physics": makePool("PHY",50,i=>[
-  "Which subject deals with matter, energy and motion?","Physics","History","Geography","Civics",0
- ]),
- "Chemistry": makePool("CHEM",50,i=>[
-  "Which subject studies substances and their reactions?","Chemistry","History","Geography","Civics",0
- ]),
- "Biology": makePool("BIO",50,i=>[
-  "Which subject studies living organisms?","Biology","History","Geography","Civics",0
- ]),
- "Current Affairs": makePool("CA",50,i=>[
-  "Current Affairs question bank is being prepared for this test.","Option A","Option B","Option C","Option D",i%4
- ]),
- "Marathi": makePool("MAR",50,i=>[
-  "मराठी सराव प्रश्नासाठी योग्य पर्याय निवडा.","पर्याय A","पर्याय B","पर्याय C","पर्याय D",i%4
- ]),
- "Hindi": makePool("HIN",50,i=>[
-  "हिंदी अभ्यास प्रश्न के लिए सही विकल्प चुनिए।","विकल्प A","विकल्प B","विकल्प C","विकल्प D",i%4
- ]),
- "Gujarati": makePool("GUJ",50,i=>[
-  "ગુજરાતી અભ્યાસ પ્રશ્ન માટે યોગ્ય વિકલ્પ પસંદ કરો.","વિકલ્પ A","વિકલ્પ B","વિકલ્પ C","વિકલ્પ D",i%4
- ]),
- "Bengali": makePool("BEN",50,i=>[
-  "বাংলা অনুশীলন প্রশ্নের সঠিক উত্তর নির্বাচন করুন।","বিকল্প A","বিকল্প B","বিকল্প C","বিকল্প D",i%4
- ]),
- "Tamil": makePool("TAM",50,i=>[
-  "தமிழ் பயிற்சி கேள்விக்கு சரியான விடையைத் தேர்ந்தெடுக்கவும்.","விருப்பம் A","விருப்பம் B","விருப்பம் C","விருப்பம் D",i%4
- ]),
- "Telugu": makePool("TEL",50,i=>[
-  "తెలుగు సాధన ప్రశ్నకు సరైన ఎంపికను ఎంచుకోండి.","ఎంపిక A","ఎంపిక B","ఎంపిక C","ఎంపిక D",i%4
- ]),
- "Kannada": makePool("KAN",50,i=>[
-  "ಕನ್ನಡ ಅಭ್ಯಾಸ ಪ್ರಶ್ನೆಗೆ ಸರಿಯಾದ ಆಯ್ಕೆಯನ್ನು ಆರಿಸಿ.","ಆಯ್ಕೆ A","ಆಯ್ಕೆ B","ಆಯ್ಕೆ C","ಆಯ್ಕೆ D",i%4
- ]),
- "Punjabi": makePool("PUN",50,i=>[
-  "ਪੰਜਾਬੀ ਅਭਿਆਸ ਪ੍ਰਸ਼ਨ ਲਈ ਸਹੀ ਵਿਕਲਪ ਚੁਣੋ।","ਵਿਕਲਪ A","ਵਿਕਲਪ B","ਵਿਕਲਪ C","ਵਿਕਲਪ D",i%4
- ]),
- "Urdu": makePool("URD",50,i=>[
-  "اردو مشقی سوال کے لیے درست جواب منتخب کریں۔","آپشن A","آپشن B","آپشن C","آپشن D",i%4
- ]),
- "History": makePool("HIS",50,i=>[
-  "Which field studies events of the past?","History","Physics","Chemistry","Biology",0
- ]),
- "Geography": makePool("GEO",50,i=>[
-  "Which field studies Earth and places?","Geography","Physics","Chemistry","Biology",0
- ]),
- "Civics": makePool("CIV",50,i=>[
-  "Which field studies government and citizenship?","Civics","Physics","Chemistry","Biology",0
- ]),
- "Economics": makePool("ECO",50,i=>[
-  "Which field studies production, distribution and consumption?","Economics","Physics","Chemistry","Biology",0
- ]),
- "Computer Science": makePool("CS",50,i=>[
-  "Which field deals with computers and computation?","Computer Science","History","Geography","Biology",0
- ])
-};
-
-function unique50(source){
- if(!Array.isArray(source)) return null;
- const seen=new Set(), out=[];
- for(const q of source){
-  if(!Array.isArray(q) || q.length<6) continue;
-  const key=String(q[0]).trim().toLowerCase();
-  if(!key || seen.has(key)) continue;
-  seen.add(key); out.push(q);
- }
- return out.length>=50 ? shuffleQuestions(out).slice(0,50) : null;
-}
-
-function getSubjectPool(subject){
- return unique50(subjectQuestionPools[subject]);
-}
-
-function getEducationQuestions(className,subject,topic){
- const exact=unique50(questionBank.education[`${className}|${subject}|${topic}`]);
- return exact || getSubjectPool(subject);
-}
-
-function getCompetitiveQuestions(category,exam,subject){
- const exact=unique50(questionBank.competitive[`${category}|${exam}|${subject}`]);
- return exact || getSubjectPool(subject);
-}
-
-async function startEducationMCQ(){
- const state=document.getElementById("state").value,board=document.getElementById("board").value,className=document.getElementById("className").value,subject=document.getElementById("subject").value,topic=document.getElementById("topic").value;
- if(!state||!board||!className||!subject){alert("State, Board, Class aur Subject select karo.");return}
- if(currentUser)await db.from("profiles").update({state,board,class_name:className}).eq("id",currentUser.id);
- const questions=getEducationQuestions(className,subject,topic);
- if(!questions){alert("Is subject ke liye 50 unique questions available nahi hain.");return}
- openTest(questions,{type:"Education",state,board,className,subject,topic});
-}
-
 function loadCompetitiveExams(){
- const category=document.getElementById("examCategory").value,exam=document.getElementById("competitiveExam");
- exam.innerHTML='<option value="">Select Exam</option>';
- if(!category)return;
- competitiveData[category].forEach(x=>exam.innerHTML+=`<option>${x}</option>`);
+  const category=$("examCategory").value, exam=$("competitiveExam");
+  exam.innerHTML='<option value="">Select Exam</option>';
+  if(!category) return;
+  (competitiveData[category]||[]).forEach(x=>exam.innerHTML+=`<option>${escapeHtml(x)}</option>`);
+}
+function startEducationMCQ(){
+  const state=$("state").value,board=$("board").value,className=$("className").value,subject=$("subject").value,topic=$("topic").value;
+  if(!state||!board||!className||!subject){alert("State, Board, Class aur Subject select karo.");return}
+  const questions=unique50(subject,`${state}|${board}|${className}|${subject}|${topic}`);
+  if(!questions||questions.length!==50){alert("Is subject ke liye 50 unique questions available nahi hain. Test start nahi kiya gaya.");return}
+  if(currentUser&&db) db.from("profiles").update({state,board,class_name:className}).eq("id",currentUser.id).catch(()=>{});
+  openTest(questions,{type:"Education",state,board,className,subject,topic});
 }
 function startCompetitiveMCQ(){
- const category=document.getElementById("examCategory").value,exam=document.getElementById("competitiveExam").value,subject=document.getElementById("competitiveSubject").value,topic=document.getElementById("competitiveTopic").value;
- if(!category||!exam){alert("Exam Category aur Exam select karo.");return}
- const questions=getCompetitiveQuestions(category,exam,subject);
- if(!questions){alert("Is subject ke liye 50 unique questions available nahi hain.");return}
- openTest(questions,{type:"Competitive",category,exam,subject,topic});
+  const category=$("examCategory").value,exam=$("competitiveExam").value,subject=$("competitiveSubject").value,topic=$("competitiveTopic").value;
+  if(!category||!exam||!subject){alert("Exam Category, Exam aur Subject select karo.");return}
+  const questions=unique50(subject,`${category}|${exam}|${subject}|${topic}`);
+  if(!questions||questions.length!==50){alert("Is subject ke liye 50 unique questions available nahi hain. Test start nahi kiya gaya.");return}
+  openTest(questions,{type:"Competitive",category,exam,subject,topic});
 }
-
 function openTest(questions,meta){
- if(!Array.isArray(questions)||questions.length!==50){
-  alert("Test start nahi ho sakta: exactly 50 unique questions required hain.");
-  return;
- }
- testState={questions:questions.slice(),index:0,answers:Array(50).fill(null),meta,submitted:false};
- document.getElementById("homeSection").classList.add("hidden");
- document.getElementById("historySection").classList.add("hidden");
- document.getElementById("resultSection").classList.add("hidden");
- document.getElementById("testSection").classList.remove("hidden");
- document.getElementById("navHome").classList.remove("active");document.getElementById("navHistory").classList.remove("active");
- document.getElementById("testTitle").innerText=meta.type==="Education"?"🎓 Education MCQ":"🏆 Competitive MCQ";
- renderQuestion();
- window.scrollTo({top:0,behavior:"smooth"});
+  if(!Array.isArray(questions)||questions.length!==50){alert("Test start nahi ho sakta: exactly 50 unique questions required hain.");return}
+  const seen=new Set(questions.map(q=>q[0]));
+  if(seen.size!==50){alert("Duplicate question detected. Test start nahi kiya gaya.");return}
+  testState={questions,index:0,answers:Array(50).fill(null),meta,submitted:false};
+  $("homeSection").classList.add("hidden");$("historySection").classList.add("hidden");$("resultSection").classList.add("hidden");$("testSection").classList.remove("hidden");
+  $("navHome").classList.remove("active");$("navHistory").classList.remove("active");
+  $("testTitle").innerText=meta.type==="Education"?"🎓 Education MCQ":"🏆 Competitive MCQ";
+  renderQuestion(); window.scrollTo({top:0,behavior:"smooth"});
 }
-
 function renderQuestion(){
- const q=testState.questions[testState.index];
- document.getElementById("questionCounter").innerText=`Question ${testState.index+1}/${testState.questions.length}`;
- document.getElementById("progressBar").style.width=((testState.index+1)/testState.questions.length*100)+"%";
- document.getElementById("questionText").innerText=q[0];
- const box=document.getElementById("optionsBox");box.innerHTML="";
- for(let i=1;i<=4;i++){
-  const b=document.createElement("button");b.className="option";b.innerText=`${String.fromCharCode(64+i)}. ${q[i]}`;
-  b.onclick=()=>selectOption(i-1);box.appendChild(b);
- }
- if(testState.answers[testState.index]!==null)selectOption(testState.answers[testState.index],false);
- document.getElementById("prevBtn").disabled=testState.index===0;
- document.getElementById("nextBtn").classList.toggle("hidden",testState.index===testState.questions.length-1);
- document.getElementById("submitBtn").classList.toggle("hidden",testState.index!==testState.questions.length-1);
+  const q=testState.questions[testState.index];
+  $("questionCounter").innerText=`Question ${testState.index+1}/50`;
+  $("progressBar").style.width=((testState.index+1)/50*100)+"%";
+  $("questionText").innerText=q[0];
+  const box=$("optionsBox");box.innerHTML="";
+  for(let i=0;i<4;i++){
+    const b=document.createElement("button");b.type="button";b.className="option";
+    b.innerText=`${String.fromCharCode(65+i)}. ${q[i+1]}`;
+    b.onclick=()=>selectOption(i);
+    box.appendChild(b);
+  }
+  if(testState.answers[testState.index]!==null) highlightSelected();
+  $("prevBtn").disabled=testState.index===0;
+  $("nextBtn").classList.toggle("hidden",testState.index===49);
+  $("submitBtn").classList.toggle("hidden",testState.index!==49);
 }
-function selectOption(choice,focus=true){
- testState.answers[testState.index]=choice;
- [...document.querySelectorAll(".option")].forEach((b,i)=>{b.classList.toggle("selected",i===choice)});
+function selectOption(choice){
+  testState.answers[testState.index]=choice;highlightSelected();
 }
-function nextQuestion(){if(testState.index<testState.questions.length-1){testState.index++;renderQuestion()}}
-function previousQuestion(){if(testState.index>0){testState.index--;renderQuestion()}}
+function highlightSelected(){
+  [...document.querySelectorAll(".option")].forEach((b,i)=>b.classList.toggle("selected",i===testState.answers[testState.index]));
+}
+function nextQuestion(){if(testState.index<49){testState.index++;renderQuestion();window.scrollTo({top:0,behavior:"smooth"})}}
+function previousQuestion(){if(testState.index>0){testState.index--;renderQuestion();window.scrollTo({top:0,behavior:"smooth"})}}
 function submitTest(){
- const unanswered=testState.answers.filter(x=>x===null).length;
- if(unanswered>0&&!confirm(`${unanswered} question unanswered hain. Kya test submit karna hai?`))return;
- testState.submitted=true;
- const qs=testState.questions,answers=testState.answers;
- let correct=0,wrong=0,unanswered=0;
- qs.forEach((q,i)=>{
-  if(answers[i]===null) unanswered++;
-  else if(answers[i]===q[5]) correct++;
-  else wrong++;
- });
- const percent=Math.round(correct/qs.length*100);
- const item={id:Date.now(),date:new Date().toLocaleString("en-IN"),type:testState.meta.type,details:testDetails(testState.meta),correct,wrong,unanswered,total:qs.length,percent};
- saveHistory(item);renderResult(correct,wrong,percent);
+  const unanswered=testState.answers.filter(x=>x===null).length;
+  if(unanswered>0&&!confirm(`${unanswered} question unanswered hain. Kya test submit karna hai?`))return;
+  if(testState.submitted)return;
+  testState.submitted=true;
+  let correct=0;
+  testState.questions.forEach((q,i)=>{if(testState.answers[i]===q[5])correct++});
+  const wrong=50-correct-unanswered, percent=Math.round(correct/50*100);
+  const item={id:Date.now(),date:new Date().toLocaleString("en-IN"),type:testState.meta.type,details:testDetails(testState.meta),correct,wrong,unanswered,total:50,percent};
+  saveHistory(item);
+  saveResultToSupabase(item);
+  renderResult(correct,wrong,unanswered,percent);
 }
-function testDetails(m){
- if(m.type==="Education")return `${m.state} • ${m.board} • ${m.className} • ${m.subject} • ${m.topic}`;
- return `${m.category} • ${m.exam} • ${m.subject} • ${m.topic}`;
+function testDetails(m){return m.type==="Education"?`${m.state} • ${m.board} • ${m.className} • ${m.subject} • ${m.topic}`:`${m.category} • ${m.exam} • ${m.subject} • ${m.topic}`}
+async function saveResultToSupabase(item){
+  if(!db||!currentUser)return;
+  try{await db.from("test_results").insert({
+    user_id:currentUser.id,test_type:item.type,details:item.details,correct:item.correct,wrong:item.wrong,unanswered:item.unanswered,total:item.total,percentage:item.percent
+  })}catch(e){console.warn("Optional test_results insert skipped:",e)}
 }
-function renderResult(correct,wrong,percent){
- document.getElementById("testSection").classList.add("hidden");document.getElementById("resultSection").classList.remove("hidden");
- document.getElementById("resultScore").innerText=percent+"%";
- document.getElementById("resultText").innerText=percent>=80?"🎉 Excellent performance!":percent>=50?"👍 Good job! Keep practicing.":"💪 Keep practicing. You can improve!";
- document.getElementById("correctCount").innerText=correct;
- document.getElementById("wrongCount").innerText=wrong;
- document.getElementById("unansweredCount").innerText=testState.answers.filter(x=>x===null).length;
- document.getElementById("totalCount").innerText=testState.questions.length;
- document.getElementById("reviewBox").classList.add("hidden");window.scrollTo({top:0,behavior:"smooth"});
- renderHistory();
+function renderResult(correct,wrong,unanswered,percent){
+  $("testSection").classList.add("hidden");$("resultSection").classList.remove("hidden");
+  $("resultScore").innerText=percent+"%";
+  $("resultText").innerText=percent>=80?"🎉 Excellent performance!":percent>=50?"👍 Good job! Keep practicing.":"💪 Keep practicing. You can improve!";
+  $("correctCount").innerText=correct;$("wrongCount").innerText=wrong;$("unansweredCount").innerText=unanswered;$("totalCount").innerText=50;
+  $("reviewBox").classList.add("hidden");renderHistory();window.scrollTo({top:0,behavior:"smooth"});
 }
 function showReview(){
- const list=document.getElementById("reviewList");list.innerHTML="";
- testState.questions.forEach((q,i)=>{
-  const selected=testState.answers[i],correct=q[5],d=document.createElement("div");d.className="reviewItem";
-  d.innerHTML=`<div class="reviewQ">${i+1}. ${escapeHtml(q[0])}</div>
-  <div class="${selected===correct?'right':'wrongText'}">Your answer: ${selected===null?'Not answered':escapeHtml(q[selected+1])}</div>
-  <div class="right">Correct answer: ${escapeHtml(q[correct+1])}</div>`;
-  list.appendChild(d);
- });
- document.getElementById("reviewBox").classList.remove("hidden");
+  const list=$("reviewList");list.innerHTML="";
+  testState.questions.forEach((q,i)=>{
+    const selected=testState.answers[i],correct=q[5],d=document.createElement("div");d.className="reviewItem";
+    d.innerHTML=`<div class="reviewQ">${i+1}. ${escapeHtml(q[0])}</div>
+    <div class="${selected===correct?"right":"wrongText"}">Your answer: ${selected===null?"Not answered":escapeHtml(q[selected+1])}</div>
+    <div class="right">Correct answer: ${escapeHtml(q[correct+1])}</div>`;
+    list.appendChild(d);
+  });
+  $("reviewBox").classList.remove("hidden");
 }
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
 function exitTest(){
- if(confirm("Test exit karna hai? Is test ka result save nahi hoga.")){backToHome()}
+  if(confirm("Test exit karna hai? Is test ka result save nahi hoga.")) backToHome();
 }
-function backToHome(){showSection("home");document.getElementById("resultSection").classList.add("hidden");document.getElementById("testSection").classList.add("hidden")}
+function backToHome(){showSection("home")}
 function showSection(section){
- document.getElementById("homeSection").classList.toggle("hidden",section!=="home");
- document.getElementById("historySection").classList.toggle("hidden",section!=="history");
- document.getElementById("testSection").classList.add("hidden");document.getElementById("resultSection").classList.add("hidden");
- document.getElementById("navHome").classList.toggle("active",section==="home");document.getElementById("navHistory").classList.toggle("active",section==="history");
- if(section==="history")renderHistory();window.scrollTo({top:0,behavior:"smooth"});
+  $("homeSection").classList.toggle("hidden",section!=="home");
+  $("historySection").classList.toggle("hidden",section!=="history");
+  $("testSection").classList.add("hidden");$("resultSection").classList.add("hidden");
+  $("navHome").classList.toggle("active",section==="home");$("navHistory").classList.toggle("active",section==="history");
+  if(section==="history")renderHistory();
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 function renderHistory(){
- const list=document.getElementById("historyList"),h=getHistory();list.innerHTML="";
- if(!h.length){list.innerHTML='<div class="status">Abhi koi test history nahi hai.</div>';return}
- h.forEach(x=>{
-  const d=document.createElement("div");d.className="historyItem";
-  d.innerHTML=`<b>${escapeHtml(x.type)}</b> — <b>${x.percent}%</b><div>${escapeHtml(x.details)}</div><div class="small">${escapeHtml(x.date)} • Correct ${x.correct} • Wrong ${x.wrong} • Unanswered ${x.unanswered??0} • Total ${x.total}</div>`;
-  list.appendChild(d);
- });
+  const list=$("historyList"),h=getHistory();list.innerHTML="";
+  if(!h.length){list.innerHTML='<div class="status">Abhi koi test history nahi hai.</div>';return}
+  h.forEach(x=>{
+    const d=document.createElement("div");d.className="historyItem";
+    d.innerHTML=`<b>${escapeHtml(x.type)}</b> — <b>${x.percent}%</b>
+      <div>${escapeHtml(x.details)}</div>
+      <div class="small">${escapeHtml(x.date)} • Correct ${x.correct} • Wrong ${x.wrong} • Unanswered ${x.unanswered} • Total ${x.total}</div>`;
+    list.appendChild(d);
+  });
 }
-function clearHistory(){
- if(confirm("Puri test history delete karni hai?")){localStorage.removeItem(historyKey());renderHistory()}
+function clearHistory(){if(confirm("Puri test history delete karni hai?")){localStorage.removeItem(historyKey());renderHistory()}}
+async function studentLogout(){
+  if(db) await db.auth.signOut();
+  window.location.replace("login.html");
 }
-async function studentLogout(){await db.auth.signOut();window.location.replace("login.html")}
-db.auth.onAuthStateChange((event,session)=>{if(!session)window.location.replace("login.html")});
-checkStudentLogin();
+initAuth();
 </script>
 </body>
 </html>
