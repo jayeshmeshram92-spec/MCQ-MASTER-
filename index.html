@@ -221,11 +221,7 @@ async function studentLogout() {
   location.reload();
 }
 
-db.auth.onAuthStateChange(function() {
-  initStudentLoginState();
-});
 
-initStudentLoginState();
 </script>
 <body>
 <div id="loginBox" style="
@@ -2106,4 +2102,7 @@ loadStudentProfile();
 </script>
 
 </body>
+<script>
+initStudentLoginState();
+</script>
 </html>
