@@ -28,7 +28,31 @@ const db = createClient(
 }
 
 body{
-  margin:0;
+<div id="studentProfile" style="
+display:none;
+margin:15px;
+padding:15px;
+background:#142f60;
+border:1px solid #3974c7;
+border-radius:15px;
+text-align:center;
+">
+  <div style="font-size:18px;font-weight:bold;">
+    👤 <span id="studentName">Student</span>
+  </div>
+
+  <div id="studentEmail" style="margin-top:6px;font-size:14px;opacity:.8;"></div>
+
+  <button onclick="studentLogout()" style="
+  margin-top:12px;
+  padding:10px 20px;
+  border:0;
+  border-radius:10px;
+  font-weight:bold;
+  ">
+    🚪 Logout
+  </button>
+</div>  margin:0;
   font-family:Arial,sans-serif;
   background:#07152f;
   color:white;
