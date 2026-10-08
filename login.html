@@ -1,460 +1,475 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MCQ MASTER - Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>MCQ MASTER - Student Login</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #071e17, #07111f);
-      color: white;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
+<style>
+*{
+  box-sizing:border-box;
+}
 
-    .box {
-      width: 100%;
-      max-width: 430px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 24px;
-      padding: 28px 22px;
-      backdrop-filter: blur(12px);
-    }
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  background:#07152e;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
 
-    .logo {
-      text-align: center;
-      font-size: 42px;
-      margin-bottom: 5px;
-    }
+.box{
+  width:100%;
+  max-width:430px;
+  background:#102750;
+  border:1px solid #3974c7;
+  border-radius:22px;
+  padding:25px;
+  box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
 
-    h1 {
-      text-align: center;
-      margin: 5px 0;
-      font-size: 30px;
-    }
+.logo{
+  text-align:center;
+  font-size:30px;
+  font-weight:bold;
+  margin-bottom:5px;
+}
 
-    .tagline {
-      text-align: center;
-      color: #aaa;
-      margin-bottom: 28px;
-    }
+.tagline{
+  text-align:center;
+  color:#a9c9f5;
+  margin-bottom:25px;
+}
 
-    input {
-      width: 100%;
-      padding: 15px;
-      margin: 8px 0;
-      border-radius: 12px;
-      border: 1px solid #444;
-      background: #111;
-      color: white;
-      font-size: 16px;
-      outline: none;
-    }
+h2{
+  text-align:center;
+  margin-bottom:20px;
+}
 
-    button {
-      width: 100%;
-      padding: 15px;
-      margin-top: 12px;
-      border: 0;
-      border-radius: 12px;
-      background: #00c878;
-      color: white;
-      font-size: 17px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+input{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #4d78ad;
+  background:#081a38;
+  color:white;
+  font-size:16px;
+}
 
-    button.secondary {
-      background: #263238;
-    }
+button{
+  width:100%;
+  padding:14px;
+  margin-top:12px;
+  border:0;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .message {
-      text-align: center;
-      margin-top: 18px;
-      min-height: 24px;
-      color: #00e6a0;
-    }
+.loginBtn{
+  background:#2f80ed;
+  color:white;
+}
 
-    .error {
-      color: #ff7070;
-    }
+.signupBtn{
+  background:#20a464;
+  color:white;
+}
 
-    .switch {
-      text-align: center;
-      margin-top: 22px;
-      color: #aaa;
-    }
+.forgotBtn{
+  background:#263b61;
+  color:white;
+}
 
-    .switch span {
-      color: #00e6a0;
-      cursor: pointer;
-      font-weight: bold;
-    }
+.switch{
+  text-align:center;
+  margin-top:20px;
+  color:#a9c9f5;
+}
 
-    #signupBox {
-      display: none;
-    }
-  </style>
+.link{
+  color:#58a6ff;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.message{
+  margin-top:15px;
+  padding:12px;
+  border-radius:10px;
+  text-align:center;
+  display:none;
+  background:#193b6b;
+}
+
+.back{
+  display:block;
+  text-align:center;
+  margin-top:18px;
+  color:#8fc4ff;
+}
+</style>
 </head>
 
 <body>
 
 <div class="box">
 
-  <div class="logo">📚🧠</div>
-  <h1>MCQ MASTER</h1>
-  <div class="tagline">LEARN • PRACTICE • SUCCEED</div>
+  <div class="logo">📚🧠 MCQ MASTER</div>
+
+  <div class="tagline">
+    All India Education & Competitive Exam Platform
+  </div>
 
   <!-- LOGIN -->
-  <div id="loginBox">
+  <div id="loginSection">
 
-    <h2>Student Login</h2>
+    <h2>🔐 Student Login</h2>
 
     <input
-      type="email"
       id="loginEmail"
-      placeholder="Email"
+      type="email"
+      placeholder="Email Address"
       autocomplete="email"
     >
 
     <input
-      type="password"
       id="loginPassword"
+      type="password"
       placeholder="Password"
       autocomplete="current-password"
     >
 
-    <button onclick="loginUser()">
-      Login
+    <button class="loginBtn" onclick="studentLogin()">
+      🔐 Login
     </button>
 
-    <button class="secondary" onclick="forgotPassword()">
-      Forgot Password?
+    <button class="forgotBtn" onclick="forgotPassword()">
+      🔑 Forgot Password
     </button>
 
     <div class="switch">
       New Student?
-      <span onclick="showSignup()">Create Account</span>
+      <span class="link" onclick="showSignup()">
+        Create Account
+      </span>
     </div>
 
   </div>
 
 
   <!-- SIGNUP -->
-  <div id="signupBox">
+  <div id="signupSection" style="display:none;">
 
-    <h2>Create Student Account</h2>
+    <h2>📝 Create Student Account</h2>
 
     <input
-      type="text"
       id="signupName"
+      type="text"
       placeholder="Full Name"
+      autocomplete="name"
     >
 
     <input
-      type="email"
       id="signupEmail"
-      placeholder="Email"
+      type="email"
+      placeholder="Email Address"
       autocomplete="email"
     >
 
     <input
-      type="password"
       id="signupPassword"
+      type="password"
       placeholder="Create Password"
       autocomplete="new-password"
     >
 
-    <button onclick="signupUser()">
-      Create Account
+    <button class="signupBtn" onclick="studentSignup()">
+      📝 Create Account
     </button>
 
     <div class="switch">
       Already have an account?
-      <span onclick="showLogin()">Login</span>
+      <span class="link" onclick="showLogin()">
+        Login
+      </span>
     </div>
 
   </div>
 
+
   <div id="message" class="message"></div>
+
+  <a class="back" href="index.html">
+    ← Back to MCQ MASTER
+  </a>
 
 </div>
 
 
 <script>
 
-  // ==============================
-  // SUPABASE CONNECTION
-  // ==============================
+const SUPABASE_URL =
+"https://sssuikjzkurnwntthflx.supabase.co";
 
-  const SUPABASE_URL =
-    "https://sssuikjzkurnwntthflx.supabase.co";
+const SUPABASE_KEY =
+"sb_publishable_pmLD97XYDiVBTxu5Ouedtw_r4uL4is9";
 
-  const SUPABASE_KEY =
-    "sb_publishable_pmLD97XYDiVBTxu5Ouedtw_r4uL4is9";
-
-
-  const { createClient } =
-    supabase;
-
-  const db =
-    createClient(SUPABASE_URL, SUPABASE_KEY);
+const db = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 
-  // ==============================
-  // MESSAGE
-  // ==============================
+// -------------------------
+// MESSAGE
+// -------------------------
 
-  function showMessage(text, error = false) {
+function showMessage(text){
 
-    const box =
-      document.getElementById("message");
+  const box = document.getElementById("message");
 
-    box.textContent = text;
+  box.innerText = text;
+  box.style.display = "block";
+}
 
-    box.className =
-      error ? "message error" : "message";
 
+// -------------------------
+// SHOW LOGIN
+// -------------------------
+
+function showLogin(){
+
+  document.getElementById("loginSection").style.display = "block";
+
+  document.getElementById("signupSection").style.display = "none";
+
+  document.getElementById("message").style.display = "none";
+}
+
+
+// -------------------------
+// SHOW SIGNUP
+// -------------------------
+
+function showSignup(){
+
+  document.getElementById("loginSection").style.display = "none";
+
+  document.getElementById("signupSection").style.display = "block";
+
+  document.getElementById("message").style.display = "none";
+}
+
+
+// -------------------------
+// LOGIN
+// -------------------------
+
+async function studentLogin(){
+
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  if(!email || !password){
+
+    showMessage("⚠️ Email aur password enter karo.");
+
+    return;
+  }
+
+  showMessage("⏳ Login ho raha hai...");
+
+  const { data, error } =
+    await db.auth.signInWithPassword({
+
+      email:email,
+
+      password:password
+
+    });
+
+
+  if(error){
+
+    showMessage("❌ " + error.message);
+
+    return;
   }
 
 
-  // ==============================
-  // SHOW LOGIN
-  // ==============================
+  if(data.session){
 
-  function showLogin() {
+    showMessage("✅ Login successful! MCQ MASTER open ho raha hai...");
 
-    document.getElementById("loginBox").style.display =
-      "block";
+    setTimeout(function(){
 
-    document.getElementById("signupBox").style.display =
-      "none";
+      window.location.href = "index.html";
 
-    showMessage("");
+    },700);
 
   }
 
+}
 
-  // ==============================
-  // SHOW SIGNUP
-  // ==============================
 
-  function showSignup() {
+// -------------------------
+// SIGNUP
+// -------------------------
 
-    document.getElementById("loginBox").style.display =
-      "none";
+async function studentSignup(){
 
-    document.getElementById("signupBox").style.display =
-      "block";
+  const name =
+    document.getElementById("signupName").value.trim();
 
-    showMessage("");
+  const email =
+    document.getElementById("signupEmail").value.trim();
 
+  const password =
+    document.getElementById("signupPassword").value;
+
+
+  if(!name || !email || !password){
+
+    showMessage("⚠️ Name, email aur password tino bharo.");
+
+    return;
   }
 
 
-  // ==============================
-  // SIGN UP
-  // ==============================
+  if(password.length < 6){
 
-  async function signupUser() {
+    showMessage("⚠️ Password kam se kam 6 characters ka hona chahiye.");
 
-    const name =
-      document.getElementById("signupName").value.trim();
-
-    const email =
-      document.getElementById("signupEmail").value.trim();
-
-    const password =
-      document.getElementById("signupPassword").value;
+    return;
+  }
 
 
-    if (!name || !email || !password) {
-
-      showMessage(
-        "Please fill all details.",
-        true
-      );
-
-      return;
-    }
+  showMessage("⏳ Account create ho raha hai...");
 
 
-    if (password.length < 6) {
+  const { data, error } =
+    await db.auth.signUp({
 
-      showMessage(
-        "Password must be at least 6 characters.",
-        true
-      );
+      email:email,
 
-      return;
-    }
+      password:password,
 
-
-    showMessage("Creating account...");
-
-
-    const { data, error } =
-      await db.auth.signUp({
-
-        email: email,
-
-        password: password,
-
-        options: {
-
-          data: {
-            full_name: name
-          }
-
+      options:{
+        data:{
+          full_name:name
         }
+      }
 
-      });
-
-
-    if (error) {
-
-      showMessage(
-        error.message,
-        true
-      );
-
-      return;
-    }
+    });
 
 
-    if (data.user) {
+  if(error){
 
-      showMessage(
-        "Account created successfully! Check your email for verification."
-      );
+    showMessage("❌ " + error.message);
 
-    }
-
+    return;
   }
 
 
-  // ==============================
-  // LOGIN
-  // ==============================
+  if(data.session){
 
-  async function loginUser() {
+    showMessage("✅ Account created! MCQ MASTER open ho raha hai...");
 
-    const email =
-      document.getElementById("loginEmail").value.trim();
+    setTimeout(function(){
 
-    const password =
-      document.getElementById("loginPassword").value;
+      window.location.href = "index.html";
 
+    },700);
 
-    if (!email || !password) {
-
-      showMessage(
-        "Please enter email and password.",
-        true
-      );
-
-      return;
-    }
-
-
-    showMessage("Logging in...");
-
-
-    const { data, error } =
-      await db.auth.signInWithPassword({
-
-        email: email,
-
-        password: password
-
-      });
-
-
-    if (error) {
-
-      showMessage(
-        error.message,
-        true
-      );
-
-      return;
-    }
-
-
-    showMessage("Login successful!");
-
-
-    setTimeout(() => {
-
-      window.location.href =
-        "index.html";
-
-    }, 800);
-
-  }
-
-
-  // ==============================
-  // FORGOT PASSWORD
-  // ==============================
-
-  async function forgotPassword() {
-
-    const email =
-      document.getElementById("loginEmail").value.trim();
-
-
-    if (!email) {
-
-      showMessage(
-        "Enter your email first.",
-        true
-      );
-
-      return;
-    }
-
-
-    const { error } =
-      await db.auth.resetPasswordForEmail(
-        email,
-        {
-          redirectTo:
-            window.location.origin +
-            window.location.pathname
-        }
-      );
-
-
-    if (error) {
-
-      showMessage(
-        error.message,
-        true
-      );
-
-      return;
-    }
-
+  }else{
 
     showMessage(
-      "Password reset email sent."
+      "✅ Account created! Email verify karo, phir Login karo."
     );
 
   }
+
+}
+
+
+// -------------------------
+// FORGOT PASSWORD
+// -------------------------
+
+async function forgotPassword(){
+
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+
+  if(!email){
+
+    showMessage("⚠️ Pehle apna email enter karo.");
+
+    return;
+  }
+
+
+  const { error } =
+    await db.auth.resetPasswordForEmail(
+
+      email,
+
+      {
+        redirectTo:
+        window.location.origin +
+        window.location.pathname
+      }
+
+    );
+
+
+  if(error){
+
+    showMessage("❌ " + error.message);
+
+  }else{
+
+    showMessage(
+      "✅ Password reset link email par bhej diya gaya hai."
+    );
+
+  }
+
+}
+
+
+// -------------------------
+// IF ALREADY LOGGED IN
+// -------------------------
+
+async function checkExistingLogin(){
+
+  const { data } =
+    await db.auth.getSession();
+
+  if(data.session){
+
+    window.location.href = "index.html";
+
+  }
+
+}
+
+checkExistingLogin();
 
 </script>
 
