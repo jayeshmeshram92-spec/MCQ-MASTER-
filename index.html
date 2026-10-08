@@ -1975,7 +1975,62 @@ appLang
 
 
 loadSettings();
+async function loadStudentProfile() {
 
+  const { data: { user } } = await db.auth.getUser();
+
+  const profileBox = document.getElementById("studentProfile");
+  const nameBox = document.getElementById("studentName");
+  const emailBox = document.getElementById("studentEmail");
+
+  if (!user) {
+    profileBox.style.display = "block";
+    nameBox.innerText = "Login Required";
+    emailBox.innerText = "";
+    return;
+  }
+
+  const { data: profile, error } = await db
+    .from("profiles")
+    .select("full_name,email")
+    .eq("id", user.id)
+    .single();
+
+  profileBox.style.display = "block";
+
+  if (error) {
+    nameBox.innerText =
+      user.user_metadata?.full_name || "Student";
+    emailBox.innerText = user.email || "";
+    return;
+  }
+
+  nameBox.innerText =
+    profile.full_name ||
+    user.user_metadata?.full_name ||
+    "Student";
+
+  emailBox.innerText =
+    profile.email ||
+    user.email ||
+    "";
+}
+
+
+async function studentLogout() {
+
+  const { error } = await db.auth.signOut();
+
+  if (error) {
+    alert("Logout failed: " + error.message);
+    return;
+  }
+
+  window.location.href = "login.html";
+}
+
+
+loadStudentProfile();
 
 </script>
 
