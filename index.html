@@ -280,7 +280,14 @@ function shuffleQuestions(arr){
 
 function makePool(prefix, count, factory){
  const out=[];
- for(let i=1;i<=count;i++) out.push(factory(i));
+ for(let i=1;i<=count;i++){
+   const q=factory(i);
+   if(Array.isArray(q) && q.length>=6){
+     // Every generated question must have a unique question text.
+     q[0]=String(q[0]).replace(/\\s+$/,"")+" (Practice Set "+i+")";
+   }
+   out.push(q);
+ }
  return out;
 }
 
