@@ -179,7 +179,54 @@ button:hover{
 </style>
 </head>
 
+<script>
+async function initStudentLoginState() {
 
+  const result = await db.auth.getSession();
+  const session = result.data.session;
+
+  if (session && session.user) {
+
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("studentProfile").style.display = "block";
+
+    const user = session.user;
+
+    document.getElementById("studentEmail").innerText =
+      user.email || "";
+
+    const profileResult = await db
+      .from("profiles")
+      .select("full_name,email")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    const profile = profileResult.data;
+
+    document.getElementById("studentName").innerText =
+      (profile && profile.full_name)
+      ? profile.full_name
+      : (user.user_metadata?.full_name || "Student");
+
+  } else {
+
+    document.getElementById("loginBox").style.display = "block";
+    document.getElementById("studentProfile").style.display = "none";
+
+  }
+}
+
+async function studentLogout() {
+  await db.auth.signOut();
+  location.reload();
+}
+
+db.auth.onAuthStateChange(function() {
+  initStudentLoginState();
+});
+
+initStudentLoginState();
+</script>
 <body>
 <div id="loginBox" style="
 text-align:center;
