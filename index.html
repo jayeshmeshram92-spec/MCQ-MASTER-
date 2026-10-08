@@ -268,12 +268,76 @@ function loadTopics(){
 }
 
 async function startEducationMCQ(){
- const state=document.getElementById("state").value,board=document.getElementById("board").value,className=document.getElementById("className").value,subject=document.getElementById("subject").value,topic=document.getElementById("topic").value;
- if(!state||!board||!className||!subject){alert("State, Board, Class aur Subject select karo.");return}
- if(currentUser)await db.from("profiles").update({state,board,class_name:className}).eq("id",currentUser.id);
- const key=`${className}|${subject}|${topic}`;
- const questions=questionBank.education[key]||genericQuestions;
- openTest(questions,{type:"Education",state,board,className,subject,topic});
+  const state = document.getElementById("state").value;
+  const board = document.getElementById("board").value;
+  const className = document.getElementById("className").value;
+  const subject = document.getElementById("subject").value;
+  const topic = document.getElementById("topic").value;
+
+  if(!state || !board || !className || !subject){
+    alert("State, Board, Class aur Subject select karo.");
+    return;
+  }
+
+  if(currentUser){
+    await db.from("profiles").update({
+      state,
+      board,
+      class_name: className
+    }).eq("id", currentUser.id);
+  }
+
+  const questionLanguage =
+    document.getElementById("questionLanguage").value;
+
+  let query = db
+    .from("questions")
+    .select("*")
+    .eq("question_type", "education")
+    .eq("state", state)
+    .eq("board", board)
+    .eq("class_name", className)
+    .eq("subject", subject)
+    .eq("language", questionLanguage);
+
+  if(topic && topic !== "All Chapters / Topics"){
+    query = query.eq("chapter", topic);
+  }
+
+  const { data, error } = await query;
+
+  if(error){
+    console.error(error);
+    alert("Questions load nahi ho paaye.\n\n" + error.message);
+    return;
+  }
+
+  if(!data || data.length === 0){
+    alert(
+      "Is selection ke liye abhi koi MCQ available nahi hai.\n\n" +
+      "Admin Panel se pehle questions add karo."
+    );
+    return;
+  }
+
+  const questions = data.map(q => [
+    q.question,
+    q.option_a,
+    q.option_b,
+    q.option_c,
+    q.option_d,
+    ["A","B","C","D"].indexOf(q.correct_answer),
+    q.explanation || ""
+  ]);
+
+  openTest(questions, {
+    type: "Education",
+    state,
+    board,
+    className,
+    subject,
+    topic
+  });
 }
 
 function loadCompetitiveExams(){
