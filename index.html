@@ -2,7 +2,22 @@
 <html lang="hi">
 <head>
 <!-- MCQ MASTER Pages deployment refresh --><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL =
+  "https://sssuikjzkurnwntthflx.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_pmLD97XYDiVBTxu5Ouedtw_r4uL4is9";
+
+const { createClient } = supabase;
+
+const db = createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+</script><meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>MCQ MASTER</title>
 
