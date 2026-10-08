@@ -3,1359 +3,392 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MCQ MASTER</title>
-
+<meta name="theme-color" content="#07152e"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>MCQ MASTER</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#06152f;
-  color:white;
-}
-
-header{
-  background:#102d64;
-  padding:20px;
-  text-align:center;
-  border-bottom:2px solid #2677ff;
-}
-
-header h1{
-  margin:0;
-  font-size:30px;
-}
-
-.container{
-  max-width:850px;
-  margin:auto;
-  padding:20px;
-}
-
-.card{
-  background:#112f68;
-  border:2px solid #2677ff;
-  border-radius:25px;
-  padding:25px;
-  margin-bottom:20px;
-}
-
-h2{
-  margin-top:0;
-}
-
-label{
-  display:block;
-  margin-top:15px;
-  margin-bottom:7px;
-  font-size:18px;
-  color:#c9dcff;
-}
-
-input,select,textarea{
-  width:100%;
-  padding:15px;
-  border-radius:14px;
-  border:2px solid #4c8bdc;
-  background:#071b3b;
-  color:white;
-  font-size:17px;
-}
-
-textarea{
-  min-height:120px;
-  resize:vertical;
-}
-
-button{
-  width:100%;
-  padding:16px;
-  margin-top:18px;
-  border:0;
-  border-radius:14px;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.primary{
-  background:#2d80ed;
-  color:white;
-}
-
-.green{
-  background:#18a84b;
-  color:white;
-}
-
-.red{
-  background:#e52b2b;
-  color:white;
-}
-
-.gray{
-  background:#687891;
-  color:white;
-}
-
-.option{
-  background:#fff;
-  color:#111;
-  text-align:left;
-  margin-top:12px;
-}
-
-.option.selected{
-  outline:4px solid #2d80ed;
-}
-
-.hidden{
-  display:none!important;
-}
-
-.small{
-  color:#bdd2f5;
-  font-size:14px;
-}
-
-.score{
-  font-size:24px;
-  text-align:center;
-  padding:20px;
-}
-
-.question{
-  font-size:22px;
-  line-height:1.5;
-}
-
-.correct{
-  background:#b7f5c7!important;
-  color:#073b16!important;
-}
-
-.wrong{
-  background:#ffc0c0!important;
-  color:#650000!important;
-}
-
-.topbar{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.topbar button{
-  width:auto;
-  flex:1;
-}
-
-hr{
-  border:0;
-  border-top:1px solid #4672ad;
-  margin:25px 0;
-}
-
-.review-item{
-  background:#092149;
-  padding:15px;
-  border-radius:15px;
-  margin-top:12px;
-}
-
-#loading{
-  text-align:center;
-  font-size:20px;
-  padding:30px;
-}
+body{margin:0;font-family:Arial,sans-serif;background:#07152e;color:#fff;min-width:0;-webkit-text-size-adjust:100%;overflow-x:hidden}
+.header{background:#102750;padding:22px 15px;text-align:center;border-bottom:1px solid #3974c7}
+.logo{font-size:30px;font-weight:bold}.tagline{color:#a9c9f5;margin-top:7px}
+.container{max-width:850px;margin:auto;padding:15px}
+.profile,.card{background:#102750;border:1px solid #3974c7;border-radius:18px;padding:18px;margin-bottom:15px}
+.profile{text-align:center;background:#142f60}.profileName{font-size:21px;font-weight:bold}
+.profileEmail{color:#a9c9f5;margin-top:5px}.logout{margin-top:12px;background:#d64545;color:white;border:0;padding:10px 20px;border-radius:9px;font-weight:bold}
+.card h2{margin-top:0}.sectionTitle{font-size:26px;margin:0 0 16px}
+label{display:block;margin-top:12px;margin-bottom:5px;color:#b9d5f7}
+select{width:100%;padding:13px;border-radius:10px;border:1px solid #4774aa;background:#081a38;color:white;font-size:16px}
+button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}.mainBtn{width:100%;padding:14px;margin-top:15px;background:#2f80ed;color:white;border:0;border-radius:10px;font-size:16px;font-weight:bold}
+.green{background:#20a464!important}.secondary{background:#315f9f!important}.danger{background:#d64545!important}
+.status{text-align:center;padding:15px;color:#9fc8f4}.hidden{display:none!important}
+.mcqTop{display:flex;justify-content:space-between;gap:10px;align-items:center;color:#b9d5f7;font-size:14px}
+.progress{height:9px;background:#081a38;border-radius:10px;overflow:hidden;margin:12px 0 18px}
+.progress>div{height:100%;background:#2f80ed;width:0}
+.question{font-size:22px;line-height:1.4;font-weight:bold;margin:18px 0}
+.option{display:block;width:100%;text-align:left;padding:14px;margin:10px 0;border-radius:11px;border:1px solid #4774aa;background:#081a38;color:white;font-size:16px}
+.option.selected{border-color:#fff;background:#214b88}.option.correct{background:#176b42;border-color:#45d890}
+.option.wrong{background:#8b2e35;border-color:#ff7b84}.option:disabled{cursor:default;opacity:.95}
+.testActions{display:flex;gap:10px}.testActions button{flex:1}
+.resultScore{text-align:center;font-size:54px;font-weight:bold;margin:10px 0}.resultText{text-align:center;color:#b9d5f7;font-size:18px}
+.statGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}
+.stat{background:#0b2044;border:1px solid #315f9f;border-radius:12px;padding:14px;text-align:center}.stat b{display:block;font-size:24px}
+.historyItem{background:#0b2044;border:1px solid #315f9f;border-radius:12px;padding:14px;margin:10px 0}
+.historyItem .small{color:#9fc8f4;font-size:13px;margin-top:5px}
+.reviewItem{background:#0b2044;border:1px solid #315f9f;border-radius:12px;padding:14px;margin:10px 0}
+.reviewQ{font-weight:bold;line-height:1.4}.right{color:#55df9a}.wrongText{color:#ff8a92}
+.nav{display:flex;gap:8px;margin-bottom:15px}.nav button{flex:1;padding:11px;border:1px solid #3974c7;border-radius:10px;background:#102750;color:#fff;font-weight:bold}
+.nav button.active{background:#2f80ed}
+footer{text-align:center;padding:25px;color:#7595bd}
+@media(max-width:520px){.logo{font-size:25px}.question{font-size:19px}.statGrid{grid-template-columns:1fr}.testActions{flex-direction:column}}
 </style>
 </head>
-
 <body>
-
-<header>
-  <h1>📚 MCQ MASTER</h1>
-</header>
 
 <div class="container">
 
-<!-- LOGIN -->
-<section id="loginSection" class="card hidden">
-  <h2>🔐 Login</h2>
-
-  <label>Email</label>
-  <input id="loginEmail" type="email" placeholder="Enter email">
-
-  <label>Password</label>
-  <input id="loginPassword" type="password" placeholder="Enter password">
-
-  <button class="primary" onclick="login()">Login</button>
-  <button class="gray" onclick="signup()">Create New Account</button>
-
-  <p id="loginMessage" class="small"></p>
-</section>
-
-
-<!-- PROFILE -->
-<section id="profileSection" class="card hidden">
-  <h2>👤 Profile</h2>
-
-  <p>Logged in as:</p>
-  <p id="profileEmail"></p>
-
-  <label>Full Name</label>
-  <input id="fullName" placeholder="Your name">
-
-  <label>App Language</label>
-  <select id="appLanguage">
-    <option>English</option>
-    <option>Hindi</option>
-    <option>Marathi</option>
-    <option>Gujarati</option>
-    <option>Bengali</option>
-    <option>Tamil</option>
-    <option>Telugu</option>
-    <option>Kannada</option>
-    <option>Malayalam</option>
-    <option>Punjabi</option>
-    <option>Urdu</option>
-  </select>
-
-  <label>MCQ Question Language</label>
-  <select id="questionLanguage">
-    <option>English</option>
-    <option>Hindi</option>
-    <option>Marathi</option>
-    <option>Gujarati</option>
-    <option>Bengali</option>
-    <option>Tamil</option>
-    <option>Telugu</option>
-    <option>Kannada</option>
-    <option>Malayalam</option>
-    <option>Punjabi</option>
-    <option>Urdu</option>
-  </select>
-
-  <button class="green" onclick="saveProfile()">Save Profile</button>
-  <button class="primary" onclick="openMain()">Continue</button>
-  <button class="red" onclick="logout()">Logout</button>
-
-  <p id="profileMessage" class="small"></p>
-</section>
-
-
-<!-- MAIN -->
-<section id="mainSection" class="hidden">
-
-  <div class="card">
-    <h2>🌐 Language Settings</h2>
-
-    <label>App Language</label>
-    <select id="mainAppLanguage">
-      <option>English</option>
-      <option>Hindi</option>
-      <option>Marathi</option>
-      <option>Gujarati</option>
-      <option>Bengali</option>
-      <option>Tamil</option>
-      <option>Telugu</option>
-      <option>Kannada</option>
-      <option>Malayalam</option>
-      <option>Punjabi</option>
-      <option>Urdu</option>
-    </select>
-
-    <label>MCQ Question Language</label>
-    <select id="mainQuestionLanguage">
-      <option>English</option>
-      <option>Hindi</option>
-      <option>Marathi</option>
-      <option>Gujarati</option>
-      <option>Bengali</option>
-      <option>Tamil</option>
-      <option>Telugu</option>
-      <option>Kannada</option>
-      <option>Malayalam</option>
-      <option>Punjabi</option>
-      <option>Urdu</option>
-    </select>
-  </div>
-
-
-  <!-- EDUCATION -->
-  <div class="card">
-    <h2>🎓 Education</h2>
-
-    <label>State</label>
-    <select id="state">
-      <option value="">Select State</option>
-      <option value="Maharashtra">Maharashtra</option>
-      <option value="Madhya Pradesh">Madhya Pradesh</option>
-      <option value="Gujarat">Gujarat</option>
-      <option value="Rajasthan">Rajasthan</option>
-      <option value="Delhi">Delhi</option>
-      <option value="Uttar Pradesh">Uttar Pradesh</option>
-      <option value="Bihar">Bihar</option>
-      <option value="West Bengal">West Bengal</option>
-      <option value="Tamil Nadu">Tamil Nadu</option>
-      <option value="Karnataka">Karnataka</option>
-      <option value="Telangana">Telangana</option>
-      <option value="Andhra Pradesh">Andhra Pradesh</option>
-      <option value="Kerala">Kerala</option>
-      <option value="Punjab">Punjab</option>
-      <option value="Haryana">Haryana</option>
-    </select>
-
-    <label>Board</label>
-    <select id="board">
-      <option value="">Select Board</option>
-      <option value="MSBSHSE">MSBSHSE</option>
-      <option value="CBSE">CBSE</option>
-      <option value="ICSE">ICSE</option>
-      <option value="MPBSE">MPBSE</option>
-      <option value="GSEB">GSEB</option>
-      <option value="RBSE">RBSE</option>
-      <option value="UPMSP">UP Board</option>
-      <option value="BSEB">BSEB</option>
-    </select>
-
-    <label>Class</label>
-    <select id="className">
-      <option value="">Select Class</option>
-      <option value="Class 5">Class 5</option>
-      <option value="Class 6">Class 6</option>
-      <option value="Class 7">Class 7</option>
-      <option value="Class 8">Class 8</option>
-      <option value="Class 9">Class 9</option>
-      <option value="Class 10">Class 10</option>
-      <option value="Class 11">Class 11</option>
-      <option value="Class 12">Class 12</option>
-    </select>
-
-    <label>Subject</label>
-    <select id="subject">
-      <option value="">Select Subject</option>
-      <option value="Science">Science</option>
-      <option value="Mathematics">Mathematics</option>
-      <option value="English">English</option>
-      <option value="Hindi">Hindi</option>
-      <option value="Marathi">Marathi</option>
-      <option value="Social Science">Social Science</option>
-    </select>
-
-    <label>Chapter / Topic</label>
-    <select id="topic">
-      <option value="">All Chapters / Topics</option>
-      <option value="Chapter 1">Chapter 1</option>
-      <option value="Chapter 2">Chapter 2</option>
-      <option value="Chapter 3">Chapter 3</option>
-      <option value="Chapter 4">Chapter 4</option>
-      <option value="Chapter 5">Chapter 5</option>
-    </select>
-
-    <button class="primary" onclick="startEducationMCQ()">
-      ▶️ Start Education MCQ
-    </button>
-  </div>
-
-
-  <!-- COMPETITIVE -->
-  <div class="card">
-    <h2>🏆 Competitive Exams</h2>
-
-    <label>Category</label>
-    <select id="examCategory">
-      <option value="">Select Category</option>
-      <option value="Army">Army</option>
-      <option value="Railway">Railway</option>
-      <option value="Police">Police</option>
-      <option value="Forest">Forest</option>
-      <option value="SSC">SSC / Government</option>
-      <option value="Banking">Banking</option>
-      <option value="ITI">ITI</option>
-    </select>
-
-    <label>Exam</label>
-    <select id="examName">
-      <option value="">Select Exam</option>
-      <option value="GD">GD</option>
-      <option value="Group D">Group D</option>
-      <option value="Police Constable">Police Constable</option>
-      <option value="SSC GD">SSC GD</option>
-      <option value="SSC CGL">SSC CGL</option>
-      <option value="Bank Clerk">Bank Clerk</option>
-      <option value="ITI">ITI</option>
-    </select>
-
-    <button class="primary" onclick="startCompetitiveMCQ()">
-      ▶️ Start Competitive MCQ
-    </button>
-  </div>
-
-
-  <!-- HISTORY -->
-  <div class="card">
-    <h2>📜 Test History</h2>
-    <div id="history"></div>
-    <button class="gray" onclick="loadHistory()">Refresh History</button>
-  </div>
-
-  <button class="red" onclick="logout()">Logout</button>
-
-</section>
-
-
-<!-- LOADING -->
-<div id="loading" class="hidden">
-  Loading...
+<div id="studentProfile" class="profile">
+  <div class="profileName">👤 <span id="studentName">Student</span></div>
+  <div class="profileEmail"><span id="studentEmail"></span></div>
+  <button class="logout" onclick="studentLogout()">🚪 Logout</button>
 </div>
 
-
-<!-- TEST -->
-<section id="testSection" class="card hidden">
-
-  <h2 id="testTitle">MCQ Test</h2>
-
-  <p id="progress"></p>
-
-  <div id="questionBox"></div>
-
-  <div class="topbar">
-    <button class="gray" onclick="previousQuestion()">⬅ Previous</button>
-    <button class="primary" onclick="nextQuestion()">Next ➡</button>
-  </div>
-
-  <button class="green" onclick="submitTest()">✅ Submit Test</button>
-</section>
-
-
-<!-- RESULT -->
-<section id="resultSection" class="card hidden">
-
-  <h2>🏆 Test Result</h2>
-
-  <div id="resultBox" class="score"></div>
-
-  <button class="primary" onclick="showReview()">📖 Review Answers</button>
-  <button class="gray" onclick="backToMain()">🏠 Back to Main</button>
-
-  <div id="reviewBox"></div>
-</section>
-
+<div class="header">
+  <div class="logo">📚🧠 MCQ MASTER</div>
+  <div class="tagline">All India Education & Competitive Exam Platform</div>
 </div>
 
+<div class="nav">
+  <button id="navHome" class="active" onclick="showSection('home')">🏠 Home</button>
+  <button id="navHistory" onclick="showSection('history')">📊 History</button>
+</div>
+
+<div id="homeSection">
+
+<div class="card">
+<h2>🌐 Language Settings</h2>
+<label>App Language</label>
+<select id="appLanguage" onchange="saveSettings()">
+<option>English</option><option>हिन्दी</option><option>मराठी</option><option>ગુજરાતી</option><option>বাংলা</option><option>தமிழ்</option><option>తెలుగు</option><option>ಕನ್ನಡ</option><option>ਪੰਜਾਬੀ</option><option>اردو</option>
+</select>
+<label>MCQ Question Language</label>
+<select id="questionLanguage" onchange="saveSettings()">
+<option>English</option><option>हिन्दी</option><option>मराठी</option><option>ગુજરાતી</option><option>বাংলা</option><option>தமிழ்</option><option>తెలుగు</option><option>ಕನ್ನಡ</option><option>ਪੰਜਾਬੀ</option><option>اردو</option>
+</select>
+</div>
+
+<div class="card">
+<h2>🎓 Education</h2>
+<label>State</label>
+<select id="state" onchange="loadBoards()">
+<option value="">Select State</option>
+<option>Maharashtra</option><option>Madhya Pradesh</option><option>Gujarat</option><option>Rajasthan</option><option>Uttar Pradesh</option><option>Bihar</option><option>Delhi</option><option>West Bengal</option><option>Tamil Nadu</option><option>Telangana</option><option>Andhra Pradesh</option><option>Karnataka</option><option>Punjab</option><option>Haryana</option><option>Odisha</option><option>Jharkhand</option><option>Chhattisgarh</option><option>Uttarakhand</option><option>Himachal Pradesh</option><option>Goa</option><option>Kerala</option><option>Assam</option><option>Jammu and Kashmir</option>
+</select>
+<label>Board</label><select id="board" onchange="loadClasses()"><option value="">Select Board</option></select>
+<label>Class</label><select id="className" onchange="loadSubjects()"><option value="">Select Class</option></select>
+<label>Subject</label><select id="subject" onchange="loadTopics()"><option value="">Select Subject</option></select>
+<label>Chapter / Topic</label><select id="topic"><option>All Chapters / Topics</option></select>
+<button class="mainBtn" onclick="startEducationMCQ()">▶️ Start Education MCQ</button>
+</div>
+
+<div class="card">
+<h2>🏆 Competitive Exams</h2>
+<label>Exam Category</label>
+<select id="examCategory" onchange="loadCompetitiveExams()">
+<option value="">Select Category</option><option>Army</option><option>Railway</option><option>Police</option><option>Forest</option><option>SSC / Government</option><option>Banking</option><option>ITI</option>
+</select>
+<label>Exam / Recruitment</label><select id="competitiveExam"><option value="">Select Exam</option></select>
+<label>Subject</label><select id="competitiveSubject"><option>General Knowledge</option><option>General Science</option><option>Mathematics</option><option>Reasoning</option><option>Current Affairs</option><option>English</option></select>
+<label>Topic</label><select id="competitiveTopic"><option>All Topics</option><option>Practice Set 1</option><option>Practice Set 2</option><option>Previous Year Questions</option></select>
+<button class="mainBtn green" onclick="startCompetitiveMCQ()">🏆 Start Competitive MCQ</button>
+</div>
+
+<div id="status" class="status">Loading student profile...</div>
+</div>
+
+<div id="testSection" class="hidden">
+<div class="card">
+<div class="mcqTop"><span id="testTitle">MCQ Test</span><span id="questionCounter">Question 1/10</span></div>
+<div class="progress"><div id="progressBar"></div></div>
+<div id="questionText" class="question"></div>
+<div id="optionsBox"></div>
+<div class="testActions">
+<button id="prevBtn" class="mainBtn secondary" onclick="previousQuestion()">⬅️ Previous</button>
+<button id="nextBtn" class="mainBtn" onclick="nextQuestion()">Next ➡️</button>
+</div>
+<button id="submitBtn" class="mainBtn green hidden" onclick="submitTest()">✅ Submit Test</button>
+<button class="mainBtn secondary" onclick="exitTest()">↩️ Exit Test</button>
+</div>
+</div>
+
+<div id="resultSection" class="hidden">
+<div class="card">
+<h2 class="sectionTitle">🏆 Test Result</h2>
+<div id="resultScore" class="resultScore">0%</div>
+<div id="resultText" class="resultText"></div>
+<div class="statGrid">
+<div class="stat">Correct<b id="correctCount">0</b></div>
+<div class="stat">Wrong<b id="wrongCount">0</b></div>
+<div class="stat">Total<b id="totalCount">0</b></div>
+</div>
+<button class="mainBtn" onclick="showReview()">📝 Review Answers</button>
+<button class="mainBtn green" onclick="backToHome()">🏠 Back to Home</button>
+</div>
+<div id="reviewBox" class="card hidden"><h2>📝 Answer Review</h2><div id="reviewList"></div></div>
+</div>
+
+<div id="historySection" class="hidden">
+<div class="card">
+<h2 class="sectionTitle">📊 Test History</h2>
+<div id="historyList"></div>
+<button class="mainBtn danger" onclick="clearHistory()">🗑️ Clear History</button>
+<button class="mainBtn secondary" onclick="showSection('home')">🏠 Back to Home</button>
+</div>
+</div>
+
+</div>
+<footer>© 2026 MCQ MASTER<br>Education • Practice • Competitive Exams</footer>
 
 <script>
+const SUPABASE_URL="https://sssuikjzkurnwntthflx.supabase.co";
+const SUPABASE_KEY="sb_publishable_pmLD97XYDiVBTxu5Ouedtw_r4uL4is9";
+const db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let saveSettingsTimer=null;
+let currentUser=null;
+let testState={questions:[],index:0,answers:[],meta:null,submitted:false};
 
-const SUPABASE_URL =
-"https://sssuikjzkurnwntthflx.supabase.co";
+const questionBank={
+ education:{
+  "Class 10|Science|Chapter 1":[
+   ["Which gas is released during photosynthesis?","Oxygen","Nitrogen","Carbon dioxide","Hydrogen",0],
+   ["The basic unit of life is called?","Tissue","Cell","Organ","Nucleus",1],
+   ["Which part of the cell controls its activities?","Cell wall","Cytoplasm","Nucleus","Vacuole",2],
+   ["What is the chemical formula of water?","CO2","H2O","O2","NaCl",1],
+   ["Which organ pumps blood through the human body?","Lungs","Kidney","Heart","Liver",2],
+   ["Plants prepare food mainly in the?","Roots","Leaves","Stem","Flower",1],
+   ["Which of these is a renewable source of energy?","Coal","Petrol","Solar energy","Natural gas",2],
+   ["The process of conversion of food into energy is called?","Respiration","Transpiration","Photosynthesis","Digestion",0],
+   ["Which blood cells help fight infections?","Red blood cells","White blood cells","Platelets","Plasma",1],
+   ["The SI unit of force is?","Joule","Watt","Newton","Pascal",2]
+  ]
+ },
+ competitive:{
+  "Army|GD|General Knowledge":[
+   ["What is the capital of India?","Mumbai","New Delhi","Kolkata","Chennai",1],
+   ["Who is known as the Father of the Indian Constitution?","Mahatma Gandhi","B. R. Ambedkar","Jawaharlal Nehru","Sardar Patel",1],
+   ["How many states are there in India?","26","27","28","29",2],
+   ["Which is the largest Indian state by area?","Maharashtra","Rajasthan","Madhya Pradesh","Gujarat",1],
+   ["What is the national animal of India?","Lion","Tiger","Elephant","Leopard",1],
+   ["Which planet is known as the Red Planet?","Venus","Mars","Jupiter","Mercury",1],
+   ["Who wrote the Indian national anthem?","Rabindranath Tagore","Bankim Chandra Chattopadhyay","Premchand","Sarojini Naidu",0],
+   ["What is the currency of India?","Dollar","Rupee","Pound","Yen",1],
+   ["Which ocean lies south of India?","Atlantic Ocean","Indian Ocean","Pacific Ocean","Arctic Ocean",1],
+   ["The highest civilian award of India is?","Padma Shri","Padma Bhushan","Bharat Ratna","Param Vir Chakra",2]
+  ]
+ }
+};
 
-const SUPABASE_KEY =
-"sb_publishable_pmLD97XYDiVBTxu5Ouedtw_r4uL4is9";
+const genericQuestions=[
+ ["Which one is a natural resource?","Sunlight","Plastic","Glass","Steel",0],
+ ["Which number comes after 99?","98","100","101","90",1],
+ ["Which is used to measure temperature?","Barometer","Thermometer","Ammeter","Compass",1],
+ ["Which is the largest planet in our solar system?","Earth","Mars","Jupiter","Venus",2],
+ ["Which direction does the Sun appear to rise from?","West","North","East","South",2],
+ ["How many days are there in a leap year?","365","366","364","360",1],
+ ["Which is a mammal?","Frog","Snake","Whale","Crocodile",2],
+ ["Which language is primarily used to structure web pages?","HTML","SQL","Python","C",0],
+ ["Which device is used to enter text into a computer?","Monitor","Keyboard","Speaker","Printer",1],
+ ["Water freezes at what temperature on the Celsius scale?","0°C","10°C","50°C","100°C",0]
+];
 
-const db = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const competitiveData={
+ Army:["Agniveer","GD","Technical","Clerk"],
+ Railway:["RRB Group D","RRB NTPC","ALP","Technician"],
+ Police:["Police Constable","Police Bharti","SI"],
+ Forest:["Forest Guard","Forest Ranger"],
+ "SSC / Government":["SSC GD","SSC CHSL","SSC CGL","MPSC","UPSC"],
+ Banking:["IBPS Clerk","IBPS PO","SBI Clerk","SBI PO"],
+ ITI:["Electrician","Fitter","Welder","COPA"]
+};
 
-let currentUser = null;
-let currentQuestions = [];
-let currentAnswers = [];
-let currentQuestionIndex = 0;
-let testInfo = {};
-let lastResult = null;
+function historyKey(){return "mcq_master_history_"+(currentUser?.id||"guest")}
+function getHistory(){try{return JSON.parse(localStorage.getItem(historyKey())||"[]")}catch(e){return[]}}
+function saveHistory(item){const h=getHistory();h.unshift(item);localStorage.setItem(historyKey(),JSON.stringify(h.slice(0,100)))}
 
-
-/* ---------------- AUTH ---------------- */
-
-async function checkSession(){
-
-  const {data:{session}} =
-    await db.auth.getSession();
-
-  if(session){
-
-    currentUser = session.user;
-
-    document.getElementById("loginSection")
-      .classList.add("hidden");
-
-    document.getElementById("profileSection")
-      .classList.remove("hidden");
-
-    document.getElementById("profileEmail")
-      .innerText = currentUser.email;
-
-    await loadProfile();
-
-  }else{
-
-    document.getElementById("loginSection")
-      .classList.remove("hidden");
-
-  }
+async function checkStudentLogin(){
+ const {data,error}=await db.auth.getSession();
+ if(error||!data.session){window.location.replace("login.html");return}
+ currentUser=data.session.user;
+ await loadStudentProfile();
+ renderHistory();
 }
 
-
-async function login(){
-
-  const email =
-    document.getElementById("loginEmail").value.trim();
-
-  const password =
-    document.getElementById("loginPassword").value;
-
-  if(!email || !password){
-
-    document.getElementById("loginMessage")
-      .innerText = "Email aur password bharo.";
-
-    return;
-  }
-
-  const {data,error} =
-    await db.auth.signInWithPassword({
-      email,
-      password
-    });
-
-  if(error){
-
-    document.getElementById("loginMessage")
-      .innerText = error.message;
-
-    return;
-  }
-
-  currentUser = data.user;
-
-  document.getElementById("loginSection")
-    .classList.add("hidden");
-
-  document.getElementById("profileSection")
-    .classList.remove("hidden");
-
-  document.getElementById("profileEmail")
-    .innerText = currentUser.email;
-
-  await loadProfile();
+async function loadStudentProfile(){
+ document.getElementById("studentEmail").innerText=currentUser.email||"";
+ const {data:profile}=await db.from("profiles").select("full_name,email,app_language,question_language,state,board,class_name").eq("id",currentUser.id).maybeSingle();
+ if(profile){
+  document.getElementById("studentName").innerText=profile.full_name||currentUser.user_metadata?.full_name||"Student";
+  if(profile.app_language)document.getElementById("appLanguage").value=profile.app_language;
+  if(profile.question_language)document.getElementById("questionLanguage").value=profile.question_language;
+  if(profile.state){document.getElementById("state").value=profile.state;loadBoards(profile.board,profile.class_name)}
+ }else document.getElementById("studentName").innerText=currentUser.user_metadata?.full_name||"Student";
+ document.getElementById("status").innerText="✅ Student account active";
 }
 
-
-async function signup(){
-
-  const email =
-    document.getElementById("loginEmail").value.trim();
-
-  const password =
-    document.getElementById("loginPassword").value;
-
-  if(!email || !password){
-
-    document.getElementById("loginMessage")
-      .innerText = "Email aur password bharo.";
-
-    return;
-  }
-
-  if(password.length < 6){
-
-    document.getElementById("loginMessage")
-      .innerText =
-      "Password kam se kam 6 characters ka hona chahiye.";
-
-    return;
-  }
-
-  const {error} =
-    await db.auth.signUp({
-      email,
-      password
-    });
-
-  if(error){
-
-    document.getElementById("loginMessage")
-      .innerText = error.message;
-
-    return;
-  }
-
-  document.getElementById("loginMessage")
-    .innerText =
-    "Account create ho gaya. Agar email confirmation maange to email verify karo.";
+async function saveSettings(){
+ if(!currentUser)return;
+ await db.from("profiles").update({
+  app_language:document.getElementById("appLanguage").value,
+  question_language:document.getElementById("questionLanguage").value
+ }).eq("id",currentUser.id);
 }
 
-
-async function logout(){
-
-  await db.auth.signOut();
-
-  location.reload();
+function loadBoards(savedBoard="",savedClass=""){
+ const state=document.getElementById("state").value,board=document.getElementById("board");
+ board.innerHTML='<option value="">Select Board</option>';
+ if(!state)return;
+ if(state==="Maharashtra")board.innerHTML+='<option>MSBSHSE</option><option>CBSE</option><option>ICSE</option>';
+ else board.innerHTML+='<option>State Board</option><option>CBSE</option><option>ICSE</option>';
+ if(savedBoard)board.value=savedBoard;
+ loadClasses(savedClass);
 }
-
-
-/* ---------------- PROFILE ---------------- */
-
-async function loadProfile(){
-
-  if(!currentUser) return;
-
-  const {data,error} =
-    await db
-      .from("profiles")
-      .select("*")
-      .eq("id",currentUser.id)
-      .maybeSingle();
-
-  if(error){
-
-    console.log(error);
-    return;
-  }
-
-  if(data){
-
-    document.getElementById("fullName").value =
-      data.full_name || "";
-
-    document.getElementById("appLanguage").value =
-      data.app_language || "English";
-
-    document.getElementById("questionLanguage").value =
-      data.question_language || "English";
-  }
+function loadClasses(savedClass=""){
+ const c=document.getElementById("className");c.innerHTML='<option value="">Select Class</option>';
+ for(let i=1;i<=12;i++)c.innerHTML+=`<option>Class ${i}</option>`;
+ c.innerHTML+='<option>ITI</option>';
+ if(savedClass){c.value=savedClass;loadSubjects()}
 }
-
-
-async function saveProfile(){
-
-  if(!currentUser) return;
-
-  const profile = {
-
-    id: currentUser.id,
-
-    email: currentUser.email,
-
-    full_name:
-      document.getElementById("fullName").value.trim(),
-
-    app_language:
-      document.getElementById("appLanguage").value,
-
-    question_language:
-      document.getElementById("questionLanguage").value
-  };
-
-  const {error} =
-    await db
-      .from("profiles")
-      .upsert(profile);
-
-  if(error){
-
-    document.getElementById("profileMessage")
-      .innerText = error.message;
-
-    return;
-  }
-
-  document.getElementById("profileMessage")
-    .innerText =
-    "Profile saved successfully.";
+function loadSubjects(){
+ const s=document.getElementById("subject"),c=document.getElementById("className").value;
+ s.innerHTML='<option value="">Select Subject</option>';
+ const list=["Mathematics","Science","Physics","Chemistry","Biology","Marathi","Hindi","English","History","Geography","Civics","Economics","Computer Science"];
+ list.forEach(x=>s.innerHTML+=`<option>${x}</option>`);
+ loadTopics();
 }
-
-
-function openMain(){
-
-  document.getElementById("profileSection")
-    .classList.add("hidden");
-
-  document.getElementById("mainSection")
-    .classList.remove("hidden");
-
-  document.getElementById("mainAppLanguage").value =
-    document.getElementById("appLanguage").value;
-
-  document.getElementById("mainQuestionLanguage").value =
-    document.getElementById("questionLanguage").value;
-
-  loadHistory();
+function loadTopics(){
+ const t=document.getElementById("topic");t.innerHTML="";
+ ["All Chapters / Topics","Chapter 1","Chapter 2","Chapter 3","Chapter 4","Chapter 5"].forEach(x=>t.innerHTML+=`<option>${x}</option>`);
 }
-
-
-/* ---------------- EDUCATION MCQ ---------------- */
 
 async function startEducationMCQ(){
-
-  const state =
-    document.getElementById("state").value;
-
-  const board =
-    document.getElementById("board").value;
-
-  const className =
-    document.getElementById("className").value;
-
-  const subject =
-    document.getElementById("subject").value;
-
-  const topic =
-    document.getElementById("topic").value;
-
-  const language =
-    document.getElementById("mainQuestionLanguage").value;
-
-  if(!state || !board || !className || !subject){
-
-    alert(
-      "State, Board, Class aur Subject select karo."
-    );
-
-    return;
-  }
-
-
-  /*
-    IMPORTANT FIX:
-
-    App mein "Class 10" hai.
-    Database mein agar "10" save hai,
-    dono values check hongi.
-  */
-
-  const possibleClassValues = [
-    className,
-    className.replace(/^Class\s+/i,"")
-  ];
-
-
-  showLoading(true);
-
-
-  let query =
-    db
-      .from("questions")
-      .select("*")
-      .eq("question_type","education")
-      .eq("state",state)
-      .eq("board",board)
-      .in("class_name",possibleClassValues)
-      .eq("subject",subject)
-      .eq("language",language);
-
-
-  if(topic && topic !== "All Chapters / Topics"){
-
-    query =
-      query.eq("chapter",topic);
-  }
-
-
-  const {data,error} = await query;
-
-
-  showLoading(false);
-
-
-  if(error){
-
-    console.error(error);
-
-    alert(
-      "Questions load nahi ho paaye.\n\n" +
-      error.message
-    );
-
-    return;
-  }
-
-
-  if(!data || data.length === 0){
-
-    alert(
-      "Is selection ke liye abhi koi MCQ available nahi hai.\n\n" +
-      "Admin Panel mein State, Board, Class, Subject, Chapter aur Language check karo."
-    );
-
-    return;
-  }
-
-
-  const questions =
-    data.map(q => ({
-
-      question:q.question,
-
-      options:[
-        q.option_a,
-        q.option_b,
-        q.option_c,
-        q.option_d
-      ],
-
-      correct:
-        ["A","B","C","D"]
-          .indexOf(q.correct_answer),
-
-      explanation:
-        q.explanation || ""
-    }));
-
-
-  openTest(
-
-    questions,
-
-    {
-      type:"Education",
-      state,
-      board,
-      className,
-      subject,
-      topic,
-      language
-    }
-
-  );
+ const state=document.getElementById("state").value,board=document.getElementById("board").value,className=document.getElementById("className").value,subject=document.getElementById("subject").value,topic=document.getElementById("topic").value;
+ if(!state||!board||!className||!subject){alert("State, Board, Class aur Subject select karo.");return}
+ if(currentUser)await db.from("profiles").update({state,board,class_name:className}).eq("id",currentUser.id);
+ const key=`${className}|${subject}|${topic}`;
+ const questions=questionBank.education[key]||genericQuestions;
+ openTest(questions,{type:"Education",state,board,className,subject,topic});
 }
 
-
-/* ---------------- COMPETITIVE ---------------- */
-
-async function startCompetitiveMCQ(){
-
-  const category =
-    document.getElementById("examCategory").value;
-
-  const exam =
-    document.getElementById("examName").value;
-
-  const language =
-    document.getElementById("mainQuestionLanguage").value;
-
-
-  if(!category || !exam){
-
-    alert(
-      "Competitive Category aur Exam select karo."
-    );
-
-    return;
-  }
-
-
-  showLoading(true);
-
-
-  const {data,error} =
-    await db
-      .from("questions")
-      .select("*")
-      .eq("question_type","competitive")
-      .eq("exam_category",category)
-      .eq("exam_name",exam)
-      .eq("language",language);
-
-
-  showLoading(false);
-
-
-  if(error){
-
-    alert(
-      "Questions load nahi ho paaye.\n\n" +
-      error.message
-    );
-
-    return;
-  }
-
-
-  if(!data || data.length === 0){
-
-    alert(
-      "Is competitive exam ke liye abhi MCQ available nahi hai."
-    );
-
-    return;
-  }
-
-
-  const questions =
-    data.map(q => ({
-
-      question:q.question,
-
-      options:[
-        q.option_a,
-        q.option_b,
-        q.option_c,
-        q.option_d
-      ],
-
-      correct:
-        ["A","B","C","D"]
-          .indexOf(q.correct_answer),
-
-      explanation:
-        q.explanation || ""
-    }));
-
-
-  openTest(
-
-    questions,
-
-    {
-      type:"Competitive",
-      category,
-      exam,
-      language
-    }
-
-  );
+function loadCompetitiveExams(){
+ const category=document.getElementById("examCategory").value,exam=document.getElementById("competitiveExam");
+ exam.innerHTML='<option value="">Select Exam</option>';
+ if(!category)return;
+ competitiveData[category].forEach(x=>exam.innerHTML+=`<option>${x}</option>`);
+}
+function startCompetitiveMCQ(){
+ const category=document.getElementById("examCategory").value,exam=document.getElementById("competitiveExam").value,subject=document.getElementById("competitiveSubject").value,topic=document.getElementById("competitiveTopic").value;
+ if(!category||!exam){alert("Exam Category aur Exam select karo.");return}
+ const key=`${category}|${exam}|${subject}`;
+ const questions=questionBank.competitive[key]||genericQuestions;
+ openTest(questions,{type:"Competitive",category,exam,subject,topic});
 }
 
-
-/* ---------------- TEST ---------------- */
-
-function openTest(questions,info){
-
-  currentQuestions = questions;
-
-  currentAnswers =
-    new Array(questions.length).fill(null);
-
-  currentQuestionIndex = 0;
-
-  testInfo = info;
-
-  document.getElementById("mainSection")
-    .classList.add("hidden");
-
-  document.getElementById("resultSection")
-    .classList.add("hidden");
-
-  document.getElementById("testSection")
-    .classList.remove("hidden");
-
-  document.getElementById("testTitle")
-    .innerText =
-      info.type + " MCQ Test";
-
-  renderQuestion();
+function openTest(questions,meta){
+ testState={questions:questions.slice(),index:0,answers:Array(questions.length).fill(null),meta,submitted:false};
+ document.getElementById("homeSection").classList.add("hidden");
+ document.getElementById("historySection").classList.add("hidden");
+ document.getElementById("resultSection").classList.add("hidden");
+ document.getElementById("testSection").classList.remove("hidden");
+ document.getElementById("navHome").classList.remove("active");document.getElementById("navHistory").classList.remove("active");
+ document.getElementById("testTitle").innerText=meta.type==="Education"?"🎓 Education MCQ":"🏆 Competitive MCQ";
+ renderQuestion();
+ window.scrollTo(0,0);
 }
-
 
 function renderQuestion(){
-
-  if(!currentQuestions.length) return;
-
-  const q =
-    currentQuestions[currentQuestionIndex];
-
-  document.getElementById("progress")
-    .innerText =
-      "Question " +
-      (currentQuestionIndex + 1) +
-      " / " +
-      currentQuestions.length;
-
-
-  let html = "";
-
-  html +=
-    `<div class="question">
-      <strong>${escapeHTML(q.question)}</strong>
-    </div>`;
-
-
-  q.options.forEach((option,index)=>{
-
-    const selected =
-      currentAnswers[currentQuestionIndex] === index
-        ? "selected"
-        : "";
-
-    html += `
-      <button
-        class="option ${selected}"
-        onclick="selectAnswer(${index})">
-        ${String.fromCharCode(65+index)}. 
-        ${escapeHTML(option)}
-      </button>
-    `;
-  });
-
-
-  document.getElementById("questionBox")
-    .innerHTML = html;
+ const q=testState.questions[testState.index];
+ document.getElementById("questionCounter").innerText=`Question ${testState.index+1}/${testState.questions.length}`;
+ document.getElementById("progressBar").style.width=((testState.index+1)/testState.questions.length*100)+"%";
+ document.getElementById("questionText").innerText=q[0];
+ const box=document.getElementById("optionsBox");box.innerHTML="";
+ for(let i=1;i<=4;i++){
+  const b=document.createElement("button");b.className="option";b.innerText=`${String.fromCharCode(64+i)}. ${q[i]}`;
+  b.onclick=()=>selectOption(i-1);box.appendChild(b);
+ }
+ if(testState.answers[testState.index]!==null)selectOption(testState.answers[testState.index],false);
+ document.getElementById("prevBtn").disabled=testState.index===0;
+ document.getElementById("nextBtn").classList.toggle("hidden",testState.index===testState.questions.length-1);
+ document.getElementById("submitBtn").classList.toggle("hidden",testState.index!==testState.questions.length-1);
 }
-
-
-function selectAnswer(index){
-
-  currentAnswers[currentQuestionIndex] =
-    index;
-
-  renderQuestion();
+function selectOption(choice,focus=true){
+ testState.answers[testState.index]=choice;
+ [...document.querySelectorAll(".option")].forEach((b,i)=>{b.classList.toggle("selected",i===choice)});
 }
-
-
-function previousQuestion(){
-
-  if(currentQuestionIndex > 0){
-
-    currentQuestionIndex--;
-
-    renderQuestion();
-  }
+function nextQuestion(){if(testState.index<testState.questions.length-1){testState.index++;renderQuestion()}}
+function previousQuestion(){if(testState.index>0){testState.index--;renderQuestion()}}
+function submitTest(){
+ const unanswered=testState.answers.filter(x=>x===null).length;
+ if(unanswered>0&&!confirm(`${unanswered} question unanswered hain. Kya test submit karna hai?`))return;
+ testState.submitted=true;
+ const qs=testState.questions,answers=testState.answers;
+ let correct=0;qs.forEach((q,i)=>{if(answers[i]===q[5])correct++});
+ const wrong=qs.length-correct,percent=Math.round(correct/qs.length*100);
+ const item={id:Date.now(),date:new Date().toLocaleString("en-IN"),type:testState.meta.type,details:testDetails(testState.meta),correct,wrong,total:qs.length,percent};
+ saveHistory(item);renderResult(correct,wrong,percent);
 }
-
-
-function nextQuestion(){
-
-  if(
-    currentAnswers[currentQuestionIndex] === null
-  ){
-
-    alert("Pehle answer select karo.");
-
-    return;
-  }
-
-
-  if(
-    currentQuestionIndex <
-    currentQuestions.length - 1
-  ){
-
-    currentQuestionIndex++;
-
-    renderQuestion();
-
-  }else{
-
-    alert(
-      "Ye last question hai. Test submit kar sakte ho."
-    );
-  }
+function testDetails(m){
+ if(m.type==="Education")return `${m.state} • ${m.board} • ${m.className} • ${m.subject} • ${m.topic}`;
+ return `${m.category} • ${m.exam} • ${m.subject} • ${m.topic}`;
 }
-
-
-async function submitTest(){
-
-  const unanswered =
-    currentAnswers.filter(
-      a => a === null
-    ).length;
-
-
-  if(unanswered > 0){
-
-    const confirmSubmit =
-      confirm(
-        unanswered +
-        " questions unanswered hain.\n\n" +
-        "Kya test submit karna hai?"
-      );
-
-    if(!confirmSubmit) return;
-  }
-
-
-  let correct = 0;
-
-  currentQuestions.forEach((q,index)=>{
-
-    if(
-      currentAnswers[index] === q.correct
-    ){
-
-      correct++;
-    }
-  });
-
-
-  const total =
-    currentQuestions.length;
-
-  const wrong =
-    total - correct;
-
-  const percentage =
-    Math.round(
-      (correct / total) * 100
-    );
-
-
-  lastResult = {
-
-    total,
-    correct,
-    wrong,
-    percentage,
-    answers:[...currentAnswers],
-    questions:[...currentQuestions],
-    info:{...testInfo}
-  };
-
-
-  saveHistory(lastResult);
-
-
-  document.getElementById("testSection")
-    .classList.add("hidden");
-
-  document.getElementById("resultSection")
-    .classList.remove("hidden");
-
-
-  document.getElementById("resultBox")
-    .innerHTML = `
-
-      <div>📊 Total Questions: <b>${total}</b></div>
-
-      <div>✅ Correct: <b>${correct}</b></div>
-
-      <div>❌ Wrong: <b>${wrong}</b></div>
-
-      <div>📈 Percentage: <b>${percentage}%</b></div>
-
-    `;
-
-
-  document.getElementById("reviewBox")
-    .innerHTML = "";
+function renderResult(correct,wrong,percent){
+ document.getElementById("testSection").classList.add("hidden");document.getElementById("resultSection").classList.remove("hidden");
+ document.getElementById("resultScore").innerText=percent+"%";
+ document.getElementById("resultText").innerText=percent>=80?"🎉 Excellent performance!":percent>=50?"👍 Good job! Keep practicing.":"💪 Keep practicing. You can improve!";
+ document.getElementById("correctCount").innerText=correct;document.getElementById("wrongCount").innerText=wrong;document.getElementById("totalCount").innerText=testState.questions.length;
+ document.getElementById("reviewBox").classList.add("hidden");window.scrollTo(0,0);
+ renderHistory();
 }
-
-
-/* ---------------- REVIEW ---------------- */
-
 function showReview(){
-
-  if(!lastResult) return;
-
-
-  let html =
-    "<h2>📖 Answer Review</h2>";
-
-
-  lastResult.questions.forEach(
-    (q,index)=>{
-
-      const user =
-        lastResult.answers[index];
-
-      const correct =
-        q.correct;
-
-
-      let status =
-        user === correct
-          ? "correct"
-          : "wrong";
-
-
-      html += `
-        <div class="review-item">
-
-          <p>
-            <b>${index+1}. 
-            ${escapeHTML(q.question)}</b>
-          </p>
-
-          <p>
-            Your Answer:
-            ${
-              user === null
-                ? "Not Answered"
-                : escapeHTML(q.options[user])
-            }
-          </p>
-
-          <p>
-            Correct Answer:
-            ${escapeHTML(q.options[correct])}
-          </p>
-
-          <p>
-            ${
-              status === "correct"
-                ? "✅ Correct"
-                : "❌ Wrong"
-            }
-          </p>
-
-          ${
-            q.explanation
-              ? `<p>💡 ${escapeHTML(q.explanation)}</p>`
-              : ""
-          }
-
-        </div>
-      `;
-    }
-  );
-
-
-  document.getElementById("reviewBox")
-    .innerHTML = html;
+ const list=document.getElementById("reviewList");list.innerHTML="";
+ testState.questions.forEach((q,i)=>{
+  const selected=testState.answers[i],correct=q[5],d=document.createElement("div");d.className="reviewItem";
+  d.innerHTML=`<div class="reviewQ">${i+1}. ${escapeHtml(q[0])}</div>
+  <div class="${selected===correct?'right':'wrongText'}">Your answer: ${selected===null?'Not answered':escapeHtml(q[selected+1])}</div>
+  <div class="right">Correct answer: ${escapeHtml(q[correct+1])}</div>`;
+  list.appendChild(d);
+ });
+ document.getElementById("reviewBox").classList.remove("hidden");
 }
-
-
-/* ---------------- HISTORY ---------------- */
-
-function saveHistory(result){
-
-  const history =
-    JSON.parse(
-      localStorage.getItem(
-        "mcq_master_history"
-      ) || "[]"
-    );
-
-
-  history.unshift({
-
-    date:new Date().toLocaleString(),
-
-    type:result.info.type,
-
-    title:
-      result.info.type === "Education"
-        ? `${result.info.className} - ${result.info.subject}`
-        : `${result.info.category} - ${result.info.exam}`,
-
-    score:
-      `${result.correct}/${result.total}`,
-
-    percentage:
-      result.percentage
-  });
-
-
-  localStorage.setItem(
-    "mcq_master_history",
-    JSON.stringify(
-      history.slice(0,50)
-    )
-  );
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function exitTest(){
+ if(confirm("Test exit karna hai? Is test ka result save nahi hoga.")){backToHome()}
 }
-
-
-function loadHistory(){
-
-  const box =
-    document.getElementById("history");
-
-
-  const history =
-    JSON.parse(
-      localStorage.getItem(
-        "mcq_master_history"
-      ) || "[]"
-    );
-
-
-  if(history.length === 0){
-
-    box.innerHTML =
-      "<p>No test history yet.</p>";
-
-    return;
+function backToHome(){showSection("home");document.getElementById("resultSection").classList.add("hidden");document.getElementById("testSection").classList.add("hidden")}
+function showSection(section){
+ document.getElementById("homeSection").classList.toggle("hidden",section!=="home");
+ document.getElementById("historySection").classList.toggle("hidden",section!=="history");
+ document.getElementById("testSection").classList.add("hidden");document.getElementById("resultSection").classList.add("hidden");
+ document.getElementById("navHome").classList.toggle("active",section==="home");document.getElementById("navHistory").classList.toggle("active",section==="history");
+ if(section==="history")renderHistory();window.scrollTo(0,0);
+}
+function renderHistory(){
+ const list=document.getElementById("historyList"),h=getHistory();list.innerHTML="";
+ if(!h.length){list.innerHTML='<div class="status">Abhi koi test history nahi hai.</div>';return}
+ h.forEach(x=>{
+  const d=document.createElement("div");d.className="historyItem";
+  d.innerHTML=`<b>${escapeHtml(x.type)}</b> — <b>${x.percent}%</b><div>${escapeHtml(x.details)}</div><div class="small">${escapeHtml(x.date)} • Correct ${x.correct}/${x.total}</div>`;
+  list.appendChild(d);
+ });
+}
+function clearHistory(){
+ if(confirm("Puri test history delete karni hai?")){localStorage.removeItem(historyKey());renderHistory()}
+}
+async function studentLogout(){await db.auth.signOut();window.location.replace("login.html")}
+db.auth.onAuthStateChange((event,session)=>{
+  if(event==="SIGNED_OUT" || !session){
+    currentUser=null;
+    window.location.replace("login.html");
   }
-
-
-  box.innerHTML =
-    history.map(h => `
-
-      <div class="review-item">
-
-        <b>${escapeHTML(h.title)}</b>
-
-        <br>
-
-        ${h.type}
-
-        <br>
-
-        Score:
-        ${h.score}
-
-        <br>
-
-        Percentage:
-        ${h.percentage}%
-
-        <br>
-
-        <span class="small">
-          ${escapeHTML(h.date)}
-        </span>
-
-      </div>
-
-    `).join("");
-}
-
-
-/* ---------------- HELPERS ---------------- */
-
-function showLoading(show){
-
-  if(show){
-
-    document.getElementById("loading")
-      .classList.remove("hidden");
-
-  }else{
-
-    document.getElementById("loading")
-      .classList.add("hidden");
-  }
-}
-
-
-function escapeHTML(value){
-
-  if(value === null ||
-     value === undefined){
-
-    return "";
-  }
-
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
-
-
-function backToMain(){
-
-  document.getElementById("resultSection")
-    .classList.add("hidden");
-
-  document.getElementById("mainSection")
-    .classList.remove("hidden");
-
-  loadHistory();
-}
-
-
-/* ---------------- START ---------------- */
-
-checkSession();
-
+});
+checkStudentLogin();
 </script>
-
 </body>
 </html>
