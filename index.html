@@ -370,7 +370,14 @@ function unique50(source){
 }
 
 function getSubjectPool(subject){
- return unique50(subjectQuestionPools[subject]);
+ const keyMap={
+  "Science":"General Science",
+  "GK":"General Knowledge",
+  "General Knowledge":"General Knowledge",
+  "General Science":"General Science"
+ };
+ const key=keyMap[subject]||subject;
+ return unique50(subjectQuestionPools[key]);
 }
 
 function getEducationQuestions(className,subject,topic){
