@@ -1,25 +1,16 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
+
 <head>
-<!-- MCQ MASTER Pages deployment refresh --><meta charset="UTF-8">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script>
-const SUPABASE_URL =
-  "https://sssuikjzkurnwntthflx.supabase.co";
+<meta charset="UTF-8">
 
-const SUPABASE_KEY =
-  "sb_publishable_pmLD97XYDiVBTxu5Ouedtw_r4uL4is9";
-
-const { createClient } = supabase;
-
-const db = createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-</script><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>MCQ MASTER</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -28,2081 +19,964 @@ const db = createClient(
 }
 
 body{
-<div id="studentProfile" style="
-display:none;
-margin:15px;
-padding:15px;
-background:#142f60;
-border:1px solid #3974c7;
-border-radius:15px;
-text-align:center;
-">
-  <div style="font-size:18px;font-weight:bold;">
-    👤 <span id="studentName">Student</span>
-  </div>
-
-  <div id="studentEmail" style="margin-top:6px;font-size:14px;opacity:.8;"></div>
-
-  <button onclick="studentLogout()" style="
-  margin-top:12px;
-  padding:10px 20px;
-  border:0;
-  border-radius:10px;
-  font-weight:bold;
-  ">
-    🚪 Logout
-  </button>
-</div>  margin:0;
+  margin:0;
   font-family:Arial,sans-serif;
-  background:#07152f;
+  background:#07152e;
   color:white;
 }
 
 .header{
-  padding:25px 18px;
+  background:#102750;
+  padding:22px 15px;
   text-align:center;
-  background:linear-gradient(135deg,#063b91,#07152f);
+  border-bottom:1px solid #3974c7;
 }
 
 .logo{
-  font-size:42px;
-}
-
-h1{
-  margin:5px 0;
   font-size:30px;
+  font-weight:bold;
 }
 
 .tagline{
-  color:#ffd21c;
-  font-size:14px;
+  color:#a9c9f5;
+  margin-top:7px;
 }
 
 .container{
-  padding:18px;
-  max-width:700px;
+  max-width:850px;
   margin:auto;
+  padding:15px;
 }
 
-.box{
-  background:#102750;
-  border:1px solid #244b85;
-  border-radius:16px;
+.profile{
+  background:#142f60;
+  border:1px solid #3974c7;
+  border-radius:18px;
   padding:18px;
-  margin-bottom:18px;
+  margin-bottom:15px;
+  text-align:center;
 }
 
-.title{
-  font-size:20px;
+.profileName{
+  font-size:21px;
   font-weight:bold;
-  margin-bottom:12px;
+}
+
+.profileEmail{
+  color:#a9c9f5;
+  margin-top:5px;
+}
+
+.logout{
+  margin-top:12px;
+  background:#d64545;
+  color:white;
+  border:0;
+  padding:10px 20px;
+  border-radius:9px;
+  font-weight:bold;
+}
+
+.card{
+  background:#102750;
+  border:1px solid #315f9f;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:15px;
+}
+
+.card h2{
+  margin-top:0;
 }
 
 label{
   display:block;
   margin-top:12px;
-  margin-bottom:7px;
-  color:#dce8ff;
+  margin-bottom:5px;
+  color:#b9d5f7;
 }
 
 select{
   width:100%;
-  padding:14px;
+  padding:13px;
   border-radius:10px;
-  border:1px solid #416aa5;
-  background:#07152f;
+  border:1px solid #4774aa;
+  background:#081a38;
   color:white;
   font-size:16px;
 }
 
-button{
+button.mainBtn{
   width:100%;
-  padding:15px;
-  border:0;
-  border-radius:12px;
-  background:#ffd21c;
-  color:#07152f;
-  font-size:18px;
-  font-weight:bold;
-  margin-top:15px;
-}
-
-button:hover{
-  opacity:.9;
-}
-
-.subject-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-top:15px;
-}
-
-.subject{
-  background:#173566;
-  border:1px solid #315c9a;
-  border-radius:14px;
-  padding:18px 8px;
-  text-align:center;
-  cursor:pointer;
-}
-
-.subject-icon{
-  font-size:30px;
-  display:block;
-  margin-bottom:7px;
-}
-
-.subject:hover{
-  background:#20508d;
-}
-
-.hidden{
-  display:none;
-}
-
-.selected-info{
-  background:#09214a;
-  border-left:4px solid #ffd21c;
   padding:14px;
-  border-radius:8px;
-  line-height:1.7;
+  margin-top:15px;
+  background:#2f80ed;
+  color:white;
+  border:0;
+  border-radius:10px;
+  font-size:16px;
+  font-weight:bold;
 }
 
-.footer{
+.green{
+  background:#20a464 !important;
+}
+
+.examBox{
+  padding:14px;
+  margin-top:10px;
+  border-radius:12px;
+  background:#0b2044;
+  border:1px solid #315f9f;
+}
+
+.status{
+  text-align:center;
+  padding:15px;
+  color:#9fc8f4;
+}
+
+footer{
   text-align:center;
   padding:25px;
-  color:#9eb1d0;
-  font-size:13px;
+  color:#7595bd;
 }
 
 </style>
+
 </head>
 
-<script>
-async function initStudentLoginState() {
 
-  const result = await db.auth.getSession();
-  const session = result.data.session;
-
-  if (session && session.user) {
-
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("studentProfile").style.display = "block";
-
-    const user = session.user;
-
-    document.getElementById("studentEmail").innerText =
-      user.email || "";
-
-    const profileResult = await db
-      .from("profiles")
-      .select("full_name,email")
-      .eq("id", user.id)
-      .maybeSingle();
-
-    const profile = profileResult.data;
-
-    document.getElementById("studentName").innerText =
-      (profile && profile.full_name)
-      ? profile.full_name
-      : (user.user_metadata?.full_name || "Student");
-
-  } else {
-
-    document.getElementById("loginBox").style.display = "block";
-    document.getElementById("studentProfile").style.display = "none";
-
-  }
-}
-
-async function studentLogout() {
-  await db.auth.signOut();
-  location.reload();
-}
-
-
-</script>
 <body>
-<div id="loginBox" style="
-text-align:center;
-padding:15px;
-background:#102750;
-margin:15px;
-border-radius:15px;
-">
-  <div id="loginText" style="font-size:18px;font-weight:bold;">
-    Student Login Required
+
+
+<!-- =====================================
+     STUDENT PROFILE
+===================================== -->
+
+<div class="container">
+
+<div id="studentProfile" class="profile">
+
+  <div class="profileName">
+    👤 <span id="studentName">Student</span>
   </div>
 
-  <button onclick="window.location.href='login.html'"
-  style="
-  margin-top:10px;
-  padding:12px 25px;
-  border:0;
-  border-radius:10px;
-  background:#ffd21c;
-  color:#07152f;
-  font-weight:bold;
-  font-size:16px;
-  ">
-  🔐 Login / Create Account
+  <div class="profileEmail">
+    <span id="studentEmail"></span>
+  </div>
+
+  <button class="logout"
+  onclick="studentLogout()">
+    🚪 Logout
   </button>
+
 </div>
 
-<!-- HEADER -->
+
+<!-- =====================================
+     HEADER
+===================================== -->
 
 <div class="header">
 
   <div class="logo">
-    📚🧠
+    📚🧠 MCQ MASTER
   </div>
 
-  <h1>
-    MCQ MASTER
-  </h1>
-
-  <div class="tagline" id="tagline">
-    सीखें • अभ्यास करें • सफलता पाएं
+  <div class="tagline">
+    All India Education & Competitive Exam Platform
   </div>
 
 </div>
 
 
-<div class="container">
+<!-- =====================================
+     LANGUAGE SETTINGS
+===================================== -->
+
+<div class="card">
+
+<h2>🌐 Language Settings</h2>
+
+<label>
+  App Language
+</label>
+
+<select id="appLanguage"
+onchange="saveSettings()">
+
+<option>English</option>
+<option>हिन्दी</option>
+<option>मराठी</option>
+<option>ગુજરાતી</option>
+<option>বাংলা</option>
+<option>தமிழ்</option>
+<option>తెలుగు</option>
+<option>ಕನ್ನಡ</option>
+<option>ਪੰਜਾਬੀ</option>
+<option>اردو</option>
+
+</select>
 
 
-<!-- LANGUAGE -->
+<label>
+  MCQ Question Language
+</label>
 
-<div class="box">
+<select id="questionLanguage"
+onchange="saveSettings()">
 
-  <div class="title">
-    🌐 Language Settings
-  </div>
+<option>English</option>
+<option>हिन्दी</option>
+<option>मराठी</option>
+<option>ગુજરાતી</option>
+<option>বাংলা</option>
+<option>தமிழ்</option>
+<option>తెలుగు</option>
+<option>ಕನ್ನಡ</option>
+<option>ਪੰਜਾਬੀ</option>
+<option>اردو</option>
 
-
-  <label>
-    App Language
-  </label>
-
-  <select
-    id="appLanguage"
-    onchange="changeAppLanguage()">
-
-    <option value="hi">हिंदी</option>
-    <option value="en">English</option>
-    <option value="mr">मराठी</option>
-    <option value="gu">ગુજરાતી</option>
-    <option value="bn">বাংলা</option>
-    <option value="ta">தமிழ்</option>
-    <option value="te">తెలుగు</option>
-    <option value="kn">ಕನ್ನಡ</option>
-    <option value="pa">ਪੰਜਾਬੀ</option>
-    <option value="ur">اردو</option>
-
-  </select>
-
-
-  <label>
-    MCQ Question Language
-  </label>
-
-  <select
-    id="questionLanguage"
-    onchange="saveQuestionLanguage()">
-
-    <option value="hi">हिंदी</option>
-    <option value="en">English</option>
-    <option value="mr">मराठी</option>
-    <option value="gu">ગુજરાતી</option>
-    <option value="bn">বাংলা</option>
-    <option value="ta">தமிழ்</option>
-    <option value="te">తెలుగు</option>
-    <option value="kn">ಕನ್ನಡ</option>
-    <option value="pa">ਪੰਜਾਬੀ</option>
-    <option value="ur">اردو</option>
-
-  </select>
+</select>
 
 </div>
 
 
+<!-- =====================================
+     EDUCATION
+===================================== -->
 
-<!-- EDUCATION -->
+<div class="card">
 
-<div class="box">
+<h2>🎓 Education</h2>
 
-  <div class="title">
-    🇮🇳 Education Selection
-  </div>
+<label>State</label>
 
+<select id="state"
+onchange="loadBoards()">
 
-  <label>
-    State
-  </label>
+<option value="">
+Select State
+</option>
 
-  <select
-    id="state"
-    onchange="stateChanged()">
+<option>Maharashtra</option>
+<option>Madhya Pradesh</option>
+<option>Gujarat</option>
+<option>Rajasthan</option>
+<option>Uttar Pradesh</option>
+<option>Bihar</option>
+<option>Delhi</option>
+<option>West Bengal</option>
+<option>Tamil Nadu</option>
+<option>Telangana</option>
+<option>Andhra Pradesh</option>
+<option>Karnataka</option>
+<option>Punjab</option>
+<option>Haryana</option>
+<option>Odisha</option>
+<option>Jharkhand</option>
+<option>Chhattisgarh</option>
+<option>Uttarakhand</option>
+<option>Himachal Pradesh</option>
+<option>Goa</option>
+<option>Kerala</option>
+<option>Assam</option>
+<option>Jammu and Kashmir</option>
 
-    <option value="">
-      Select State
-    </option>
-
-    <option value="maharashtra">
-      Maharashtra
-    </option>
-
-    <option value="madhya_pradesh">
-      Madhya Pradesh
-    </option>
-
-    <option value="uttar_pradesh">
-      Uttar Pradesh
-    </option>
-
-    <option value="rajasthan">
-      Rajasthan
-    </option>
-
-    <option value="gujarat">
-      Gujarat
-    </option>
-
-    <option value="bihar">
-      Bihar
-    </option>
-
-    <option value="west_bengal">
-      West Bengal
-    </option>
-
-    <option value="tamil_nadu">
-      Tamil Nadu
-    </option>
-
-    <option value="karnataka">
-      Karnataka
-    </option>
-
-    <option value="telangana">
-      Telangana
-    </option>
-
-    <option value="andhra_pradesh">
-      Andhra Pradesh
-    </option>
-
-    <option value="punjab">
-      Punjab
-    </option>
-
-    <option value="delhi">
-      Delhi
-    </option>
-
-  </select>
+</select>
 
 
-  <div
-    id="boardBox"
-    class="hidden">
+<label>Board</label>
 
-    <label>
-      Board
-    </label>
+<select id="board"
+onchange="loadClasses()">
 
-    <select
-      id="board"
-      onchange="boardChanged()">
+<option value="">
+Select Board
+</option>
 
-      <option value="">
-        Select Board
-      </option>
-
-    </select>
-
-  </div>
+</select>
 
 
-  <div
-    id="classBox"
-    class="hidden">
+<label>Class</label>
 
-    <label>
-      Class
-    </label>
+<select id="className"
+onchange="loadSubjects()">
 
-    <select
-      id="class"
-      onchange="classChanged()">
+<option value="">
+Select Class
+</option>
 
-      <option value="">
-        Select Class
-      </option>
+</select>
 
-    </select>
 
-  </div>
+<label>Subject</label>
+
+<select id="subject">
+
+<option value="">
+Select Subject
+</option>
+
+</select>
+
+
+<label>Chapter / Topic</label>
+
+<select id="topic">
+
+<option>
+All Chapters / Topics
+</option>
+
+<option>
+Chapter 1
+</option>
+
+<option>
+Chapter 2
+</option>
+
+<option>
+Chapter 3
+</option>
+
+</select>
+
+
+<button class="mainBtn"
+onclick="startEducationMCQ()">
+
+▶️ Start Education MCQ
+
+</button>
 
 </div>
 
 
+<!-- =====================================
+     COMPETITIVE EXAMS
+===================================== -->
 
-<!-- COMPETITIVE EXAMS -->
+<div class="card">
 
-<div class="box">
+<h2>🏆 Competitive Exams</h2>
 
-  <div class="title">
-    🎯 Competitive Exams
-  </div>
+<label>Exam Category</label>
 
+<select id="examCategory"
+onchange="loadCompetitiveExams()">
 
-  <label>
-    Select Competitive Exam
-  </label>
+<option value="">
+Select Category
+</option>
 
-  <select
-    id="competitiveExam"
-    onchange="competitiveExamChanged()">
+<option>Army</option>
+<option>Railway</option>
+<option>Police</option>
+<option>Forest</option>
+<option>SSC / Government</option>
+<option>Banking</option>
+<option>ITI</option>
 
-    <option value="">
-      Select Exam
-    </option>
-
-    <option value="army">
-      🪖 Army
-    </option>
-
-    <option value="forest">
-      🌲 Forest
-    </option>
-
-    <option value="railway">
-      🚆 Railway
-    </option>
-
-    <option value="police">
-      👮 Police
-    </option>
-
-    <option value="ssc">
-      🏛️ SSC / Government
-    </option>
-
-    <option value="iti">
-      🔧 ITI
-    </option>
-
-    <option value="banking">
-      🏦 Banking
-    </option>
-
-  </select>
+</select>
 
 
-  <div
-    id="competitiveLevelBox"
-    class="hidden">
+<label>Exam / Recruitment</label>
 
-    <label>
-      Select Exam / Level
-    </label>
+<select id="competitiveExam">
 
-    <select
-      id="competitiveLevel"
-      onchange="competitiveLevelChanged()">
+<option value="">
+Select Exam
+</option>
 
-      <option value="">
-        Select Exam / Level
-      </option>
-
-    </select>
-
-  </div>
+</select>
 
 
-  <div
-    id="competitiveInfo"
-    class="selected-info hidden">
-  </div>
+<label>Subject</label>
+
+<select id="competitiveSubject">
+
+<option>General Knowledge</option>
+<option>General Science</option>
+<option>Mathematics</option>
+<option>Reasoning</option>
+<option>Current Affairs</option>
+<option>English</option>
+
+</select>
 
 
-  <button
-    id="competitiveButton"
-    class="hidden"
-    onclick="continueCompetitive()">
+<label>Topic</label>
 
-    Continue → Subject & Topic
+<select id="competitiveTopic">
 
-  </button>
+<option>All Topics</option>
+<option>Practice Set 1</option>
+<option>Practice Set 2</option>
+<option>Previous Year Questions</option>
+
+</select>
+
+
+<button class="mainBtn green"
+onclick="startCompetitiveMCQ()">
+
+🏆 Start Competitive MCQ
+
+</button>
 
 </div>
 
 
-
-<!-- SUBJECTS -->
-
-<div
-  id="subjectsBox"
-  class="box hidden">
-
-  <div class="title">
-    📚 Subjects
-  </div>
-
-
-  <div
-    id="selectedInfo"
-    class="selected-info">
-  </div>
-
-
-  <div
-    id="subjects"
-    class="subject-grid">
-  </div>
+<div id="status" class="status">
+  Loading student profile...
+</div>
 
 </div>
 
 
+<footer>
 
-<!-- NEXT -->
+© 2026 MCQ MASTER<br>
+Education • Practice • Competitive Exams
 
-<div
-  id="nextBox"
-  class="box hidden">
-
-  <button onclick="continueToTopics()">
-
-    Continue → Chapter & Topic
-
-  </button>
-
-</div>
-
-
-</div>
-
-
-
-<!-- FOOTER -->
-
-<div class="footer">
-
-© 2026 MCQ MASTER
-
-<br>
-
-All-in-One Education & Competitive Exam App
-
-</div>
-
+</footer>
 
 
 <script>
 
-
-/* =====================================
-   LANGUAGE
-===================================== */
-
-const translations={
-
-hi:{
-tagline:"सीखें • अभ्यास करें • सफलता पाएं"
-},
-
-en:{
-tagline:"LEARN • PRACTICE • SUCCEED"
-},
-
-mr:{
-tagline:"शिका • सराव करा • यश मिळवा"
-},
-
-gu:{
-tagline:"શીખો • પ્રેક્ટિસ કરો • સફળ થાઓ"
-},
-
-bn:{
-tagline:"শিখুন • অনুশীলন করুন • সফল হন"
-},
-
-ta:{
-tagline:"கற்றுக்கொள் • பயிற்சி செய் • வெற்றி பெறு"
-},
-
-te:{
-tagline:"నేర్చుకోండి • సాధన చేయండి • విజయం సాధించండి"
-},
-
-kn:{
-tagline:"ಕಲಿಯಿರಿ • ಅಭ್ಯಾಸ ಮಾಡಿ • ಯಶಸ್ವಿಯಾಗಿರಿ"
-},
-
-pa:{
-tagline:"ਸਿੱਖੋ • ਅਭਿਆਸ ਕਰੋ • ਸਫਲ ਹੋਵੋ"
-},
-
-ur:{
-tagline:"سیکھیں • مشق کریں • کامیاب ہوں"
-}
-
-};
-
-
-
-function changeAppLanguage(){
-
-const lang=
-document.getElementById("appLanguage").value;
-
-localStorage.setItem(
-"appLanguage",
-lang
-);
-
-document.getElementById("tagline").innerText=
-translations[lang].tagline;
-
-}
-
-
-
-function saveQuestionLanguage(){
-
-const lang=
-document.getElementById("questionLanguage").value;
-
-localStorage.setItem(
-"questionLanguage",
-lang
-);
-
-}
-
-
-
-/* =====================================
-   EDUCATION DATABASE
-===================================== */
-
-const educationData={
-
-
-maharashtra:{
-
-boards:[
-"Maharashtra State Board"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Science",
-"Marathi",
-"Hindi",
-"English",
-"History",
-"Geography"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Marathi",
-"Hindi",
-"English"
-]
-
-},
-
-
-
-madhya_pradesh:{
-
-boards:[
-"MP Board"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Science",
-"Hindi",
-"English",
-"Social Science"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Hindi",
-"English"
-]
-
-},
-
-
-
-uttar_pradesh:{
-
-boards:[
-"UP Board"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Science",
-"Hindi",
-"English",
-"Social Science"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Hindi",
-"English"
-]
-
-},
-
-
-
-rajasthan:{
-
-boards:[
-"RBSE"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Science",
-"Hindi",
-"English",
-"Social Science"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Hindi",
-"English"
-]
-
-},
-
-
-
-gujarat:{
-
-boards:[
-"GSEB"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Science",
-"Gujarati",
-"Hindi",
-"English",
-"Social Science"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Gujarati",
-"English"
-]
-
-},
-
-
-
-bihar:{
-
-boards:[
-"Bihar Board"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Science",
-"Hindi",
-"English",
-"Social Science"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Hindi",
-"English"
-]
-
-},
-
-
-
-west_bengal:{
-
-boards:[
-"West Bengal Board"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Physical Science",
-"Life Science",
-"Bengali",
-"English",
-"History",
-"Geography"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Bengali",
-"English"
-]
-
-},
-
-
-
-tamil_nadu:{
-
-boards:[
-"Tamil Nadu State Board"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Science",
-"Tamil",
-"English",
-"Social Science"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Tamil",
-"English"
-]
-
-},
-
-
-
-karnataka:{
-
-boards:[
-"Karnataka State Board"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Science",
-"Kannada",
-"English",
-"Social Science"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Kannada",
-"English"
-]
-
-},
-
-
-
-telangana:{
-
-boards:[
-"Telangana State Board"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Science",
-"Telugu",
-"English",
-"Social Science"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Telugu",
-"English"
-]
-
-},
-
-
-
-andhra_pradesh:{
-
-boards:[
-"Andhra Pradesh Board"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Science",
-"Telugu",
-"English",
-"Social Science"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Telugu",
-"English"
-]
-
-},
-
-
-
-punjab:{
-
-boards:[
-"Punjab School Education Board"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Science",
-"Punjabi",
-"Hindi",
-"English",
-"Social Science"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Punjabi",
-"English"
-]
-
-},
-
-
-
-delhi:{
-
-boards:[
-"CBSE"
-],
-
-classes:[
-"10th",
-"12th"
-],
-
-subjects10:[
-"Mathematics",
-"Science",
-"Hindi",
-"English",
-"Social Science"
-],
-
-subjects12:[
-"Mathematics",
-"Physics",
-"Chemistry",
-"Biology",
-"Hindi",
-"English"
-]
-
-}
-
-};
-
-
-
-/* =====================================
-   STATE
-===================================== */
-
-function stateChanged(){
-
-const state=
-document.getElementById("state").value;
-
-const boardBox=
-document.getElementById("boardBox");
-
-const board=
-document.getElementById("board");
-
-const classBox=
-document.getElementById("classBox");
-
-const classSelect=
-document.getElementById("class");
-
-
-board.innerHTML=
-'<option value="">Select Board</option>';
-
-classSelect.innerHTML=
-'<option value="">Select Class</option>';
-
-document.getElementById("subjectsBox")
-.classList.add("hidden");
-
-document.getElementById("nextBox")
-.classList.add("hidden");
-
-
-if(!state){
-
-boardBox.classList.add("hidden");
-
-classBox.classList.add("hidden");
-
-return;
-
-}
-
-
-const data=
-educationData[state];
-
-
-data.boards.forEach(function(item){
-
-const option=
-document.createElement("option");
-
-option.value=item;
-
-option.textContent=item;
-
-board.appendChild(option);
-
-});
-
-
-boardBox.classList.remove("hidden");
-
-
-localStorage.setItem(
-"selectedState",
-state
-);
-
-}
-
-
-
-/* =====================================
-   BOARD
-===================================== */
-
-function boardChanged(){
-
-const state=
-document.getElementById("state").value;
-
-const board=
-document.getElementById("board").value;
-
-const classBox=
-document.getElementById("classBox");
-
-const classSelect=
-document.getElementById("class");
-
-
-classSelect.innerHTML=
-'<option value="">Select Class</option>';
-
-
-if(!board){
-
-classBox.classList.add("hidden");
-
-return;
-
-}
-
-
-educationData[state].classes.forEach(function(item){
-
-const option=
-document.createElement("option");
-
-option.value=item;
-
-option.textContent=item;
-
-classSelect.appendChild(option);
-
-});
-
-
-classBox.classList.remove("hidden");
-
-
-localStorage.setItem(
-"selectedBoard",
-board
-);
-
-}
-
-
-
-/* =====================================
-   CLASS
-===================================== */
-
-function classChanged(){
-
-const state=
-document.getElementById("state").value;
-
-const board=
-document.getElementById("board").value;
-
-const selectedClass=
-document.getElementById("class").value;
-
-const subjectsBox=
-document.getElementById("subjectsBox");
-
-const subjects=
-document.getElementById("subjects");
-
-const nextBox=
-document.getElementById("nextBox");
-
-const selectedInfo=
-document.getElementById("selectedInfo");
-
-
-subjects.innerHTML="";
-
-
-if(!selectedClass){
-
-subjectsBox.classList.add("hidden");
-
-nextBox.classList.add("hidden");
-
-return;
-
-}
-
-
-let subjectList=[];
-
-
-if(selectedClass==="10th"){
-
-subjectList=
-educationData[state].subjects10;
-
-}
-
-else if(selectedClass==="12th"){
-
-subjectList=
-educationData[state].subjects12;
-
-}
-
-
-subjectList.forEach(function(subject){
-
-const div=
-document.createElement("div");
-
-div.className="subject";
-
-
-div.innerHTML=`
-
-<span class="subject-icon">
-${getSubjectIcon(subject)}
-</span>
-
-${subject}
-
-`;
-
-
-div.onclick=function(){
-
-selectSubject(subject);
-
-};
-
-
-subjects.appendChild(div);
-
-});
-
-
-selectedInfo.innerHTML=
-
-"<b>Selected:</b><br>"+
-
-"🇮🇳 State: "+
-stateName(state)+
-"<br>"+
-
-"🏫 Board: "+
-board+
-"<br>"+
-
-"🎓 Class: "+
-selectedClass;
-
-
-subjectsBox.classList.remove("hidden");
-
-nextBox.classList.remove("hidden");
-
-
-localStorage.setItem(
-"selectedClass",
-selectedClass
-);
-
-}
-
-
-
-/* =====================================
-   SUBJECT
-===================================== */
-
-let selectedSubject="";
-
-
-function selectSubject(subject){
-
-selectedSubject=subject;
-
-
-localStorage.setItem(
-"selectedSubject",
-subject
+// =====================================
+// SUPABASE
+// =====================================
+
+const SUPABASE_URL =
+"https://sssuikjzkurnwntthflx.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_pmLD97XYDiVBTxu5Ouedtw_r4uL4is9";
+
+const db =
+supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
 
-const info=
-document.getElementById("selectedInfo");
+// =====================================
+// GLOBAL USER
+// =====================================
 
+let currentUser = null;
 
-info.innerHTML+=
 
-"<br>📚 Subject: <b>"+
-subject+
-"</b>";
+// =====================================
+// CHECK LOGIN
+// =====================================
 
-}
+async function checkStudentLogin(){
 
+  const { data, error } =
+    await db.auth.getSession();
 
 
-/* =====================================
-   SUBJECT ICON
-===================================== */
+  if(error || !data.session){
 
-function getSubjectIcon(subject){
+    window.location.replace("login.html");
 
-if(subject.includes("Math"))
-return "🔢";
-
-
-if(
-subject.includes("Science") ||
-subject.includes("Physics") ||
-subject.includes("Chemistry") ||
-subject.includes("Biology")
-)
-return "🔬";
-
-
-if(subject.includes("History"))
-return "🏛️";
-
-
-if(subject.includes("Geography"))
-return "🌍";
-
-
-if(subject.includes("English"))
-return "🇬🇧";
-
-
-if(subject.includes("Hindi"))
-return "🇮🇳";
-
-
-if(subject.includes("Marathi"))
-return "🟠";
-
-
-if(subject.includes("Gujarati"))
-return "🟡";
-
-
-return "📚";
-
-}
-
-
-
-/* =====================================
-   STATE NAME
-===================================== */
-
-function stateName(state){
-
-const names={
-
-maharashtra:"Maharashtra",
-
-madhya_pradesh:"Madhya Pradesh",
-
-uttar_pradesh:"Uttar Pradesh",
-
-rajasthan:"Rajasthan",
-
-gujarat:"Gujarat",
-
-bihar:"Bihar",
-
-west_bengal:"West Bengal",
-
-tamil_nadu:"Tamil Nadu",
-
-karnataka:"Karnataka",
-
-telangana:"Telangana",
-
-andhra_pradesh:"Andhra Pradesh",
-
-punjab:"Punjab",
-
-delhi:"Delhi"
-
-};
-
-
-return names[state] || state;
-
-}
-
-
-
-/* =====================================
-   COMPETITIVE EXAM DATABASE
-===================================== */
-
-const competitiveData={
-
-
-army:{
-
-name:"Army",
-
-levels:[
-
-"Agniveer GD",
-
-"Agniveer Technical",
-
-"Agniveer Clerk / SKT"
-
-],
-
-subjects:[
-
-"General Knowledge",
-
-"General Science",
-
-"Mathematics",
-
-"Reasoning",
-
-"English"
-
-]
-
-},
-
-
-
-forest:{
-
-name:"Forest",
-
-levels:[
-
-"Forest Guard / Vanrakshak",
-
-"Forest Officer"
-
-],
-
-subjects:[
-
-"General Knowledge",
-
-"General Science",
-
-"Environment",
-
-"Forest & Wildlife",
-
-"Reasoning",
-
-"Mathematics"
-
-]
-
-},
-
-
-
-railway:{
-
-name:"Railway",
-
-levels:[
-
-"RRB Group D",
-
-"RRB NTPC",
-
-"RRB ALP",
-
-"RRB Technician"
-
-],
-
-subjects:[
-
-"Mathematics",
-
-"General Intelligence & Reasoning",
-
-"General Science",
-
-"General Awareness",
-
-"Current Affairs"
-
-]
-
-},
-
-
-
-police:{
-
-name:"Police",
-
-levels:[
-
-"Police Constable",
-
-"Police Sub-Inspector",
-
-"State Police"
-
-],
-
-subjects:[
-
-"General Knowledge",
-
-"Current Affairs",
-
-"Reasoning",
-
-"Mathematics",
-
-"Indian Constitution",
-
-"General Science"
-
-]
-
-},
-
-
-
-ssc:{
-
-name:"SSC / Government",
-
-levels:[
-
-"SSC GD",
-
-"SSC CHSL",
-
-"SSC CGL",
-
-"SSC MTS"
-
-],
-
-subjects:[
-
-"General Intelligence",
-
-"Reasoning",
-
-"Quantitative Aptitude",
-
-"English",
-
-"General Awareness",
-
-"Current Affairs"
-
-]
-
-},
-
-
-
-iti:{
-
-name:"ITI",
-
-levels:[
-
-"Electrician",
-
-"Fitter",
-
-"Welder",
-
-"COPA",
-
-"Mechanic"
-
-],
-
-subjects:[
-
-"Trade Theory",
-
-"Trade Practical",
-
-"Engineering Drawing",
-
-"Workshop Calculation",
-
-"Employability Skills"
-
-]
-
-},
-
-
-
-banking:{
-
-name:"Banking",
-
-levels:[
-
-"IBPS",
-
-"SBI",
-
-"RBI"
-
-],
-
-subjects:[
-
-"Reasoning",
-
-"Quantitative Aptitude",
-
-"English",
-
-"General Awareness",
-
-"Banking Awareness",
-
-"Current Affairs"
-
-]
-
-}
-
-};
-
-
-
-let selectedCompetitiveExam="";
-
-let selectedCompetitiveLevel="";
-
-
-
-/* =====================================
-   COMPETITIVE EXAM CHANGE
-===================================== */
-
-function competitiveExamChanged(){
-
-selectedCompetitiveExam=
-document.getElementById(
-"competitiveExam"
-).value;
-
-
-const levelBox=
-document.getElementById(
-"competitiveLevelBox"
-);
-
-const level=
-document.getElementById(
-"competitiveLevel"
-);
-
-const info=
-document.getElementById(
-"competitiveInfo"
-);
-
-const button=
-document.getElementById(
-"competitiveButton"
-);
-
-
-level.innerHTML=
-'<option value="">Select Exam / Level</option>';
-
-info.classList.add("hidden");
-
-button.classList.add("hidden");
-
-
-if(!selectedCompetitiveExam){
-
-levelBox.classList.add("hidden");
-
-return;
-
-}
-
-
-const data=
-competitiveData[
-selectedCompetitiveExam
-];
-
-
-data.levels.forEach(function(item){
-
-const option=
-document.createElement("option");
-
-option.value=item;
-
-option.textContent=item;
-
-level.appendChild(option);
-
-});
-
-
-levelBox.classList.remove("hidden");
-
-
-localStorage.setItem(
-"competitiveExam",
-selectedCompetitiveExam
-);
-
-}
-
-
-
-/* =====================================
-   COMPETITIVE LEVEL
-===================================== */
-
-function competitiveLevelChanged(){
-
-selectedCompetitiveLevel=
-document.getElementById(
-"competitiveLevel"
-).value;
-
-
-const info=
-document.getElementById(
-"competitiveInfo"
-);
-
-const button=
-document.getElementById(
-"competitiveButton"
-);
-
-
-if(!selectedCompetitiveLevel){
-
-info.classList.add("hidden");
-
-button.classList.add("hidden");
-
-return;
-
-}
-
-
-const data=
-competitiveData[
-selectedCompetitiveExam
-];
-
-
-info.innerHTML=
-
-"<b>Selected:</b><br>"+
-
-"🎯 Exam: "+
-data.name+
-"<br>"+
-
-"📋 Level: "+
-selectedCompetitiveLevel+
-"<br>"+
-
-"📚 Subjects: "+
-data.subjects.join(", ");
-
-
-info.classList.remove("hidden");
-
-button.classList.remove("hidden");
-
-
-localStorage.setItem(
-"competitiveLevel",
-selectedCompetitiveLevel
-);
-
-}
-
-
-
-/* =====================================
-   COMPETITIVE CONTINUE
-===================================== */
-
-function continueCompetitive(){
-
-if(
-!selectedCompetitiveExam ||
-!selectedCompetitiveLevel
-){
-
-alert(
-"Please Competitive Exam और Level select करें।"
-);
-
-return;
-
-}
-
-
-const data=
-competitiveData[
-selectedCompetitiveExam
-];
-
-
-alert(
-
-"Competitive Exam Ready!\\n\\n"+
-
-"Exam: "+
-data.name+
-"\\n"+
-
-"Level: "+
-selectedCompetitiveLevel+
-"\\n\\n"+
-
-"अब Subject → Topic → MCQ बनाया जाएगा।"
-
-);
-
-}
-
-
-
-/* =====================================
-   EDUCATION CONTINUE
-===================================== */
-
-function continueToTopics(){
-
-const state=
-document.getElementById("state").value;
-
-const board=
-document.getElementById("board").value;
-
-const selectedClass=
-document.getElementById("class").value;
-
-
-if(!selectedSubject){
-
-alert(
-"Please select a Subject first."
-);
-
-return;
-
-}
-
-
-alert(
-
-"Next Step Ready!\\n\\n"+
-
-"State: "+
-stateName(state)+
-"\\n"+
-
-"Board: "+
-board+
-"\\n"+
-
-"Class: "+
-selectedClass+
-"\\n"+
-
-"Subject: "+
-selectedSubject+
-"\\n\\n"+
-
-"अब Chapter → Topic → MCQ बनाया जाएगा।"
-
-);
-
-}
-
-
-
-/* =====================================
-   LOAD SETTINGS
-===================================== */
-
-function loadSettings(){
-
-const appLang=
-localStorage.getItem(
-"appLanguage"
-) || "hi";
-
-
-const questionLang=
-localStorage.getItem(
-"questionLanguage"
-) || "hi";
-
-
-document.getElementById(
-"appLanguage"
-).value=
-appLang;
-
-
-document.getElementById(
-"questionLanguage"
-).value=
-questionLang;
-
-
-document.getElementById(
-"tagline"
-).innerText=
-translations[
-appLang
-].tagline;
-
-}
-
-
-loadSettings();
-async function loadStudentProfile() {
-
-  const { data: { user } } = await db.auth.getUser();
-
-  const profileBox = document.getElementById("studentProfile");
-  const nameBox = document.getElementById("studentName");
-  const emailBox = document.getElementById("studentEmail");
-
-  if (!user) {
-    profileBox.style.display = "block";
-    nameBox.innerText = "Login Required";
-    emailBox.innerText = "";
     return;
   }
 
-  const { data: profile, error } = await db
+
+  currentUser =
+    data.session.user;
+
+
+  await loadStudentProfile();
+
+}
+
+
+// =====================================
+// LOAD PROFILE
+// =====================================
+
+async function loadStudentProfile(){
+
+  const nameElement =
+    document.getElementById("studentName");
+
+  const emailElement =
+    document.getElementById("studentEmail");
+
+  const status =
+    document.getElementById("status");
+
+
+  emailElement.innerText =
+    currentUser.email || "";
+
+
+  const { data: profile } =
+    await db
+      .from("profiles")
+      .select(`
+        full_name,
+        email,
+        app_language,
+        question_language,
+        state,
+        board,
+        class_name
+      `)
+      .eq("id", currentUser.id)
+      .maybeSingle();
+
+
+  if(profile){
+
+    nameElement.innerText =
+      profile.full_name ||
+      currentUser.user_metadata?.full_name ||
+      "Student";
+
+
+    if(profile.app_language){
+
+      document.getElementById("appLanguage").value =
+        profile.app_language;
+
+    }
+
+
+    if(profile.question_language){
+
+      document.getElementById("questionLanguage").value =
+        profile.question_language;
+
+    }
+
+
+    if(profile.state){
+
+      document.getElementById("state").value =
+        profile.state;
+
+      loadBoards(profile.board, profile.class_name);
+
+    }
+
+  }else{
+
+    nameElement.innerText =
+      currentUser.user_metadata?.full_name ||
+      "Student";
+
+  }
+
+
+  status.innerText =
+    "✅ Student account active";
+
+}
+
+
+// =====================================
+// SAVE SETTINGS
+// =====================================
+
+async function saveSettings(){
+
+  if(!currentUser) return;
+
+
+  const appLanguage =
+    document.getElementById("appLanguage").value;
+
+
+  const questionLanguage =
+    document.getElementById("questionLanguage").value;
+
+
+  await db
     .from("profiles")
-    .select("full_name,email")
-    .eq("id", user.id)
-    .single();
+    .update({
 
-  profileBox.style.display = "block";
+      app_language:appLanguage,
 
-  if (error) {
-    nameBox.innerText =
-      user.user_metadata?.full_name || "Student";
-    emailBox.innerText = user.email || "";
-    return;
-  }
+      question_language:questionLanguage
 
-  nameBox.innerText =
-    profile.full_name ||
-    user.user_metadata?.full_name ||
-    "Student";
+    })
+    .eq("id",currentUser.id);
 
-  emailBox.innerText =
-    profile.email ||
-    user.email ||
-    "";
 }
 
 
-async function studentLogout() {
+// =====================================
+// LOAD BOARDS
+// =====================================
 
-  const { error } = await db.auth.signOut();
+function loadBoards(savedBoard="", savedClass=""){
 
-  if (error) {
-    alert("Logout failed: " + error.message);
-    return;
+  const state =
+    document.getElementById("state").value;
+
+  const board =
+    document.getElementById("board");
+
+
+  board.innerHTML =
+    '<option value="">Select Board</option>';
+
+
+  if(!state) return;
+
+
+  if(state === "Maharashtra"){
+
+    board.innerHTML +=
+      '<option>MSBSHSE</option>';
+
+    board.innerHTML +=
+      '<option>CBSE</option>';
+
+    board.innerHTML +=
+      '<option>ICSE</option>';
+
+  }else{
+
+    board.innerHTML +=
+      '<option>State Board</option>';
+
+    board.innerHTML +=
+      '<option>CBSE</option>';
+
+    board.innerHTML +=
+      '<option>ICSE</option>';
+
   }
 
-  window.location.href = "login.html";
+
+  if(savedBoard){
+
+    board.value = savedBoard;
+
+  }
+
+
+  loadClasses(savedClass);
+
 }
 
 
-loadStudentProfile();
+// =====================================
+// LOAD CLASSES
+// =====================================
+
+function loadClasses(savedClass=""){
+
+  const classSelect =
+    document.getElementById("className");
+
+
+  classSelect.innerHTML =
+    '<option value="">Select Class</option>';
+
+
+  for(let i=1;i<=12;i++){
+
+    classSelect.innerHTML +=
+      '<option>Class ' + i + '</option>';
+
+  }
+
+
+  classSelect.innerHTML +=
+    '<option>ITI</option>';
+
+
+  if(savedClass){
+
+    classSelect.value = savedClass;
+
+    loadSubjects();
+
+  }
+
+}
+
+
+// =====================================
+// LOAD SUBJECTS
+// =====================================
+
+function loadSubjects(){
+
+  const className =
+    document.getElementById("className").value;
+
+  const subject =
+    document.getElementById("subject");
+
+
+  subject.innerHTML =
+    '<option value="">Select Subject</option>';
+
+
+  const subjects = [
+
+    "Mathematics",
+    "Science",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Marathi",
+    "Hindi",
+    "English",
+    "History",
+    "Geography",
+    "Civics",
+    "Economics",
+    "Computer Science"
+
+  ];
+
+
+  subjects.forEach(function(item){
+
+    subject.innerHTML +=
+      "<option>" + item + "</option>";
+
+  });
+
+}
+
+
+// =====================================
+// START EDUCATION MCQ
+// =====================================
+
+async function startEducationMCQ(){
+
+  const state =
+    document.getElementById("state").value;
+
+  const board =
+    document.getElementById("board").value;
+
+  const className =
+    document.getElementById("className").value;
+
+  const subject =
+    document.getElementById("subject").value;
+
+
+  if(!state ||
+     !board ||
+     !className ||
+     !subject){
+
+    alert(
+      "State, Board, Class aur Subject select karo."
+    );
+
+    return;
+  }
+
+
+  if(currentUser){
+
+    await db
+      .from("profiles")
+      .update({
+
+        state:state,
+
+        board:board,
+
+        class_name:className
+
+      })
+      .eq("id",currentUser.id);
+
+  }
+
+
+  alert(
+    "MCQ section next step me connect hoga.\n\n" +
+    state + " → " +
+    board + " → " +
+    className + " → " +
+    subject
+  );
+
+}
+
+
+// =====================================
+// COMPETITIVE EXAMS
+// =====================================
+
+const competitiveData = {
+
+  "Army":[
+    "Agniveer",
+    "GD",
+    "Technical",
+    "Clerk"
+  ],
+
+  "Railway":[
+    "RRB Group D",
+    "RRB NTPC",
+    "ALP",
+    "Technician"
+  ],
+
+  "Police":[
+    "Police Constable",
+    "Police Bharti",
+    "SI"
+  ],
+
+  "Forest":[
+    "Forest Guard",
+    "Forest Ranger"
+  ],
+
+  "SSC / Government":[
+    "SSC GD",
+    "SSC CHSL",
+    "SSC CGL",
+    "MPSC",
+    "UPSC"
+  ],
+
+  "Banking":[
+    "IBPS Clerk",
+    "IBPS PO",
+    "SBI Clerk",
+    "SBI PO"
+  ],
+
+  "ITI":[
+    "Electrician",
+    "Fitter",
+    "Welder",
+    "COPA"
+  ]
+
+};
+
+
+// =====================================
+// LOAD COMPETITIVE EXAMS
+// =====================================
+
+function loadCompetitiveExams(){
+
+  const category =
+    document.getElementById("examCategory").value;
+
+  const exam =
+    document.getElementById("competitiveExam");
+
+
+  exam.innerHTML =
+    '<option value="">Select Exam</option>';
+
+
+  if(!category) return;
+
+
+  competitiveData[category]
+    .forEach(function(item){
+
+      exam.innerHTML +=
+        "<option>" +
+        item +
+        "</option>";
+
+    });
+
+}
+
+
+// =====================================
+// START COMPETITIVE MCQ
+// =====================================
+
+function startCompetitiveMCQ(){
+
+  const category =
+    document.getElementById("examCategory").value;
+
+  const exam =
+    document.getElementById("competitiveExam").value;
+
+  const subject =
+    document.getElementById("competitiveSubject").value;
+
+
+  if(!category || !exam){
+
+    alert(
+      "Exam Category aur Exam select karo."
+    );
+
+    return;
+  }
+
+
+  alert(
+    "Competitive MCQ section next step me connect hoga.\n\n" +
+    category + " → " +
+    exam + " → " +
+    subject
+  );
+
+}
+
+
+// =====================================
+// LOGOUT
+// =====================================
+
+async function studentLogout(){
+
+  await db.auth.signOut();
+
+  window.location.replace("login.html");
+
+}
+
+
+// =====================================
+// AUTH STATE
+// =====================================
+
+db.auth.onAuthStateChange(
+  function(event, session){
+
+    if(!session){
+
+      window.location.replace("login.html");
+
+    }
+
+  }
+);
+
+
+// =====================================
+// START
+// =====================================
+
+checkStudentLogin();
 
 </script>
+
 
 </body>
-<script>
-initStudentLoginState();
-</script>
 </html>
